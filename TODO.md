@@ -1,8 +1,9 @@
 - ~~Make private routes for generator, profile, history, dashboard~~
-- Make cards use shadcn components in /generator page
+- ~~Make cards use shadcn components in /generator page~~
 - ~~Make contact form functional~~
 - ~~Make blog dynamic~~
-- Add sentry
+- ~~Add sentry~~
+- ~~Add sentry `report a bug`~~
 - Connect Stripe
 - Create logo
 - Remove Commented Code
@@ -42,3 +43,17 @@ PAGES:
 - ~~Contact~~
 - ~~About~~
 - ~~Blog~~
+
+BACKEND:
+
+- ~~auth~~
+  - ~~login~~
+  - ~~register~~
+  - ~~forgot password~~
+  - verify user <- TODO!!!!
+
+NOTE:
+
+- email verification - mailjet
+- reset password - mailtrap
+- contact form - mailgun

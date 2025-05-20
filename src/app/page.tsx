@@ -12,7 +12,7 @@ import React, { useEffect } from "react";
 const HomePage = () => {
   useEffect(() => {
     // Update page title
-    document.title = "CoverSume - We Write. You Rise.";
+    document.title = "CoverSumé - We Write. You Rise.";
 
     // Scroll to top on page load
     window.scrollTo(0, 0);

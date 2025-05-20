@@ -45,7 +45,7 @@ const blogPosts = [
 
 const Blog: React.FC = () => {
   useEffect(() => {
-    document.title = "Blog - CoverGen";
+    document.title = "Blog - CoverSumé";
     window.scrollTo(0, 0);
   }, []);
 

@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -14,7 +15,10 @@ const PreviewGenerator: React.FC = () => {
   //     // In a real app, this would call an API
   //     // setPreviewGenerated(true);
   //   };
-
+  const [activeTab, setActiveTab] = useState<string>("inputs");
+  const onTabChange = (value: string) => {
+    setActiveTab(value);
+  };
   return (
     <section className="py-16 sm:py-24">
       <div className="container-custom">
@@ -113,7 +117,12 @@ const PreviewGenerator: React.FC = () => {
             )}
           </div> */}
           <div className="card-shadow max-w-4xl mx-auto p-6 md:p-8">
-            <Tabs defaultValue="preview" className="w-full">
+            <Tabs
+              value={activeTab}
+              onValueChange={onTabChange}
+              defaultValue={"inputs"}
+              className="w-full"
+            >
               <TabsList className="mb-6">
                 <TabsTrigger value="inputs">Inputs</TabsTrigger>
                 <TabsTrigger value="preview">Preview</TabsTrigger>
@@ -145,7 +154,10 @@ const PreviewGenerator: React.FC = () => {
                   </div>
                 </div>
                 <div className="mt-6 text-center">
-                  <button className="btn btn-primary px-8 py-3 text-base">
+                  <button
+                    className="btn btn-primary px-8 py-3 text-base"
+                    onClick={() => onTabChange("preview")}
+                  >
                     {/* <button className="btn btn-outline px-8 py-3 text-base group"> */}
                     Generate Preview
                   </button>
@@ -154,7 +166,7 @@ const PreviewGenerator: React.FC = () => {
               <TabsContent value="preview">
                 <div className="bg-white rounded-lg border border-gray-200 p-6">
                   <h4 className="font-medium mb-3">
-                    Generated Paragraph Preview
+                    Generated Cover Letter Preview
                   </h4>
                   <p className="text-gray-700 leading-relaxed">
                     During my five-year tenure as a Marketing Specialist at XYZ
@@ -170,14 +182,14 @@ const PreviewGenerator: React.FC = () => {
                     collaborative aspects you&apos;re seeking in your ideal
                     candidate.
                   </p>
-                  <div className="mt-6 text-center">
-                    <Link href="/generator">
-                      <button className="btn btn-primary px-8 py-3 text-base gap-2">
-                        <span>See Full Cover Letter</span>
-                        <ArrowRight size={16} />
-                      </button>
-                    </Link>
-                  </div>
+                </div>
+                <div className="mt-6 text-center">
+                  <Link href="/generator">
+                    <button className="btn btn-primary px-8 py-3 text-base gap-2">
+                      <span>See Full Cover Letter</span>
+                      <ArrowRight size={16} />
+                    </button>
+                  </Link>
                 </div>
               </TabsContent>
             </Tabs>

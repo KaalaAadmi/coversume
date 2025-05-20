@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const NotFoundPage: React.FC = () => {
   useEffect(() => {
-    document.title = "Page Not Found - CoverGen";
+    document.title = "Page Not Found - CoverSumé";
   }, []);
 
   return (

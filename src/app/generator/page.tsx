@@ -13,6 +13,16 @@ import {
   ThumbsDown,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 const GeneratorPage: React.FC = () => {
   const [step, setStep] = useState<number>(1);
@@ -28,7 +38,7 @@ const GeneratorPage: React.FC = () => {
   const [letterFeedback, setLetterFeedback] = useState<string | null>(null);
 
   useEffect(() => {
-    document.title = "Generate Cover Letter - CoverGen";
+    document.title = "Generate Cover Letter - CoverSumé";
     window.scrollTo(0, 0);
   }, []);
 
@@ -148,14 +158,14 @@ John Doe`;
                 <p className="text-sm text-gray-500 mt-2">
                   Or paste your resume text below:
                 </p>
-                <textarea
+                <Textarea
                   id="resume-text"
                   rows={5}
                   className="mt-1 w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                   placeholder="Paste your resume content here..."
                   value={resumeText}
                   onChange={(e) => setResumeText(e.target.value)}
-                ></textarea>
+                ></Textarea>
               </div>
 
               {/* Job Description */}
@@ -166,25 +176,37 @@ John Doe`;
                 >
                   Job Description
                 </label>
-                <textarea
+                <Textarea
                   id="job-description"
                   rows={5}
                   className="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                   placeholder="Paste the job description here..."
                   value={jobDescription}
                   onChange={(e) => setJobDescription(e.target.value)}
-                ></textarea>
+                ></Textarea>
               </div>
 
               {/* Language Selection */}
               <div className="mb-6">
-                <label
+                <Label
                   htmlFor="language"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
                   Language
-                </label>
-                <select
+                </Label>
+                <Select>
+                  <SelectTrigger className="w-full rounded border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
+                    <SelectValue placeholder="Select Language" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded border-gray-300 shadow-sm">
+                    <SelectItem value="English">English</SelectItem>
+                    <SelectItem value="Spanish">Spanish</SelectItem>
+                    <SelectItem value="French">French</SelectItem>
+                    <SelectItem value="German">German</SelectItem>
+                    <SelectItem value="Chinese">Chinese</SelectItem>
+                  </SelectContent>
+                </Select>
+                {/* <select
                   id="language"
                   className="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                   value={selectedLanguage}
@@ -195,7 +217,7 @@ John Doe`;
                   <option value="French">French</option>
                   <option value="German">German</option>
                   <option value="Chinese">Chinese</option>
-                </select>
+                </select> */}
               </div>
 
               {/* Contact Information */}
@@ -207,37 +229,44 @@ John Doe`;
                 </div>
                 <div className="space-y-4">
                   <div>
-                    <input
+                    <Input
+                      type="text"
+                      placeholder="Your Name"
+                      className="w-full rounded border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                    {/* <input
                       type="text"
                       placeholder="Your Name"
                       className="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                    />
+                    /> */}
                   </div>
                   <div>
-                    <input
+                    <Input
                       type="email"
                       placeholder="Email Address"
-                      className="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                      className="w-full rounded border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                   <div>
-                    <input
+                    <Input
                       type="tel"
                       placeholder="Phone Number"
-                      className="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                      className="w-full rounded border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                     />
                   </div>
                   <div>
-                    <input
+                    <Input
                       type="url"
                       placeholder="Portfolio URL (optional)"
-                      className="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                      className="w-full rounded border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                       value={portfolioUrl}
                       onChange={(e) => setPortfolioUrl(e.target.value)}
                     />

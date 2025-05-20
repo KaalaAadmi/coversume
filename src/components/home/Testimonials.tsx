@@ -7,7 +7,7 @@ const testimonials = [
   {
     id: 1,
     content:
-      "I got interviews from 3 out of 5 applications in a single week after using CoverGen. The AI perfectly matched my experience to the job requirements.",
+      "I got interviews from 3 out of 5 applications in a single week after using CoverSumé. The AI perfectly matched my experience to the job requirements.",
     author: "Sarah Johnson",
     title: "Software Engineer",
     avatar:
@@ -16,7 +16,7 @@ const testimonials = [
   {
     id: 2,
     content:
-      "As a recent graduate, I was struggling to make my limited experience sound relevant. CoverGen helped me highlight my transferable skills perfectly.",
+      "As a recent graduate, I was struggling to make my limited experience sound relevant. CoverSumé helped me highlight my transferable skills perfectly.",
     author: "Michael Chen",
     title: "Marketing Analyst",
     avatar:
@@ -34,7 +34,7 @@ const testimonials = [
   {
     id: 4,
     content:
-      "I got interviews from 3 out of 5 applications using CoverGenius letters. The personalization was exactly what I needed.",
+      "I got interviews from 3 out of 5 applications using CoverSumé cover letters. The personalization was exactly what I needed.",
     author: "Sarah T.",
     title: "Marketing Professional",
     rating: 5,

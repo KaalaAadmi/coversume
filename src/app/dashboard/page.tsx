@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect } from "react";
+// "use server";
+import React, { useEffect, useState } from "react";
 // import { Link } from 'react-router-dom';
 // import { useAuth } from '../context/AuthContext';
 import { motion } from "framer-motion";
@@ -10,17 +11,28 @@ import {
   ChevronRight,
   Briefcase,
 } from "lucide-react";
-import { useAuth } from "@/context/AuthContext";
+// import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
+import { useSession } from "@/lib/auth/auth-client";
+// import { headers } from "next/headers";
+// import { auth } from "@/lib/auth/auth";
+// import { redirect } from "next/navigation";
+// import { getSession } from "@/lib/session";
 
 const DashboardPage: React.FC = () => {
-  const { user } = useAuth();
-
-  useEffect(() => {
-    document.title = "Dashboard - CoverGen";
-    window.scrollTo(0, 0);
-  }, []);
-
+  // const { user } = useAuth();
+  // console.log("SESSION:", session);
+  // useEffect(() => {
+  //   document.title = "Dashboard - CoverSumé";
+  //   window.scrollTo(0, 0);
+  // }, []);
+  const {
+    data: session,
+    isPending, //loading state
+    error, //error object
+    refetch, //refetch the session
+  } = useSession();
+  console.log(session, "dashboard session");
   // Mock data for recent letters
   const recentLetters = [
     {
@@ -43,7 +55,7 @@ const DashboardPage: React.FC = () => {
       <div className="container-custom">
         <div className="bg-gradient-to-tr from-brand-50 to-blue-50 mb-12">
           <h1 className="text-3xl font-bold tracking-tight mb-2">
-            Welcome back, {user?.name}
+            Welcome back, {session?.user?.name.split(" ")[0]}!
           </h1>
           <p className="text-gray-600">
             Create personalized cover letters and track your job applications
@@ -62,14 +74,14 @@ const DashboardPage: React.FC = () => {
               <div>
                 <p className="text-gray-500 text-sm">Available Letters</p>
                 <p className="text-3xl font-bold mt-1">
-                  {user?.isPro ? "Unlimited" : "5 / month"}
+                  {session?.user?.isPro ? "Unlimited" : "5 / month"}{" "}
                 </p>
               </div>
               <div className="p-3 bg-blue-100 rounded-full">
                 <FileText className="h-6 w-6 text-blue-600" />
               </div>
             </div>
-            {!user?.isPro && (
+            {!session?.user?.isPro && (
               <div className="mt-4 pt-4 border-t border-gray-200">
                 <Link
                   href="/pricing"
@@ -203,7 +215,7 @@ const DashboardPage: React.FC = () => {
           <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
             <div className="flex items-center">
               <h2 className="text-xl font-semibold">Application Tracker</h2>
-              {!user?.isPro && (
+              {!session?.user?.isPro && (
                 <span className="ml-3 px-2.5 py-0.5 bg-purple-100 text-purple-800 text-xs font-medium rounded-full">
                   Pro
                 </span>
@@ -211,7 +223,7 @@ const DashboardPage: React.FC = () => {
             </div>
           </div>
 
-          {user?.isPro ? (
+          {session?.user?.isPro ? (
             <div className="divide-y divide-gray-200">
               <div className="px-6 py-4 flex items-center justify-between hover:bg-gray-50">
                 <div className="flex items-center">

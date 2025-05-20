@@ -3,25 +3,44 @@ import React, { useState, useEffect } from "react";
 // import {  useLocation } from "react-dom";
 import { usePathname } from "next/navigation";
 
-import { useAuth } from "../../context/AuthContext";
+// import { useAuth } from "../../context/AuthContext";
 import { Menu, X, FileText, ChevronDown } from "lucide-react";
 import Link from "next/link";
+import SignOutButton from "../sign-out-button";
+import { useSession } from "@/lib/auth/auth-client";
 
 const Navbar: React.FC = () => {
+  // console.log(data, "session in navbar");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { isAuthenticated, user, logout } = useAuth();
+  const [user, setUser] = useState(null);
+  // const [session, setSession] = useState(null);
+  // const { isAuthenticated, user, logout } = useAuth();
   const location = usePathname();
 
+  const { data: session } = useSession();
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
-
+    // const getSessionData = async () => {
+    //   const data = await fetch(
+    //     `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/get-session`
+    //   );
+    //   if (data.ok) {
+    //     const sessionData = await data.json();
+    //     if (sessionData) {
+    //       setSession(sessionData.session);
+    //       setUser(sessionData.user);
+    //     }
+    //     // console.log(sessionData.user, "data in navbar");
+    //   }
+    // };
+    // getSessionData();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
+  // console.log(session, "session in navbar");
   useEffect(() => {
     // Close mobile menu when route changes
     setIsMenuOpen(false);
@@ -103,10 +122,10 @@ const Navbar: React.FC = () => {
 
           {/* Auth Buttons or User Menu */}
           <div className="hidden md:flex items-center space-x-4">
-            {isAuthenticated ? (
+            {session !== null ? (
               <div className="relative group">
                 <button className="btn btn-outline flex items-center space-x-1 pr-8">
-                  <span>{user?.name}</span>
+                  <span>{session.user?.name}</span>
                   <ChevronDown className="h-4 w-4 ml-1" />
                 </button>
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
@@ -134,12 +153,13 @@ const Navbar: React.FC = () => {
                   >
                     Profile
                   </Link>
-                  <button
+                  {/* <button
                     onClick={logout}
                     className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     Sign out
-                  </button>
+                  </button> */}
+                  <SignOutButton />
                 </div>
               </div>
             ) : (
@@ -193,10 +213,10 @@ const Navbar: React.FC = () => {
               Pricing
             </Link>
             <div className="pt-4 border-t border-gray-200">
-              {isAuthenticated ? (
+              {session !== null ? (
                 <>
                   <div className="px-3 py-2 text-sm font-medium text-gray-500">
-                    Signed in as {user?.email}
+                    Signed in as {session.user?.email}
                   </div>
                   <Link
                     href="/dashboard"
@@ -216,12 +236,13 @@ const Navbar: React.FC = () => {
                   >
                     Profile
                   </Link>
-                  <button
+                  {/* <button
                     onClick={logout}
                     className="block w-full text-left py-2 px-3 rounded-lg text-base font-medium text-gray-700 hover:bg-gray-50"
                   >
                     Sign out
-                  </button>
+                  </button> */}
+                  <SignOutButton />
                 </>
               ) : (
                 <div className="space-y-2">

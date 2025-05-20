@@ -61,7 +61,7 @@ const SavedLettersPage: React.FC = () => {
     useState<SavedLetter[]>(letters);
 
   useEffect(() => {
-    document.title = "Saved Letters - CoverGen";
+    document.title = "Saved Letters - CoverSumé";
     window.scrollTo(0, 0);
   }, []);
 

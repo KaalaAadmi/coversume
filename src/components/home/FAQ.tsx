@@ -6,12 +6,12 @@ import Link from "next/link";
 
 const faqs = [
   {
-    question: "How does CoverGen create personalized cover letters?",
+    question: "How does CoverSumé create personalized cover letters?",
     answer:
-      "CoverGen uses advanced AI algorithms to analyze your resume and the job description. It identifies the most relevant skills and experiences, then creates a professional cover letter that highlights your qualifications for the specific position. Each letter is tailored to match the company's needs and showcase your strengths.",
+      "CoverSumé uses advanced AI algorithms to analyze your resume and the job description. It identifies the most relevant skills and experiences, then creates a professional cover letter that highlights your qualifications for the specific position. Each letter is tailored to match the company's needs and showcase your strengths.",
   },
   {
-    question: "Is my data secure with CoverGen?",
+    question: "Is my data secure with CoverSumé?",
     answer:
       "Absolutely. We take data security very seriously. All your personal information, including your resume and generated cover letters, is encrypted and never shared with third parties. We only use your data to provide you with our services, and you can request deletion of your information at any time.",
   },

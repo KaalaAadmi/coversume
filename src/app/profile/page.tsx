@@ -47,7 +47,7 @@ const ProfilePage: React.FC = () => {
   const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
 
   useEffect(() => {
-    document.title = "Profile - CoverGen";
+    document.title = "Profile - CoverSumé";
     window.scrollTo(0, 0);
   }, []);
 
