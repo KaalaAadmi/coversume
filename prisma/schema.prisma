@@ -74,3 +74,25 @@ model Verification {
 
   @@map("verification")
 }
+
+model CoverLetter {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt      DateTime @default(now())
+
+  resumeText     String
+  resumeFileUrl  String?   // only for file uploads
+
+  jobDescription String
+  coverLetter    String
+
+  name           String?
+  email          String?
+  phoneNumber    String?
+  portfolioUrl   String?
+  language       String?
+
+  jobRole        String?   // AI extracted
+  company        String?   // AI extracted
+
+  userId         String?   // optional for now
+}

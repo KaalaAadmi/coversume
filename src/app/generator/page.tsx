@@ -23,31 +23,99 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useSession } from "@/lib/auth/auth-client";
+import { SubmitHandler, useForm, Controller } from "react-hook-form";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import remarkGfm from "remark-gfm"; // Import remark-gfm
+import rehypeRaw from "rehype-raw"; // Import rehype-raw
+
+type Inputs = {
+  // resumeText: string;
+  jobDescription: string;
+  name: string;
+  email: string;
+  phone: string;
+  portfolioUrl: string;
+  language: string;
+};
+
+interface CoverLetterResponse {
+  jobRole: string | null;
+  company: string | null;
+  coverLetter: string;
+}
+
+type Token = string;
+
+const TYPING_ANIMATION_DELAY_MS = 25; // Adjust for typing speed (milliseconds per token)
 
 const GeneratorPage: React.FC = () => {
+  const { data: session } = useSession();
   const [step, setStep] = useState<number>(1);
   const [resumeText, setResumeText] = useState<string>("");
-  const [jobDescription, setJobDescription] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
-  const [portfolioUrl, setPortfolioUrl] = useState<string>("");
+  // const [jobDescription, setJobDescription] = useState<string>("");
+  // const [name, setName] = useState<string>("");
+  // const [email, setEmail] = useState<string>("");
+  // const [phone, setPhone] = useState<string>("");
+  // const [portfolioUrl, setPortfolioUrl] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isTyping, setIsTyping] = useState<boolean>(false); // New state for cursor
   const [generatedLetter, setGeneratedLetter] = useState<string>("");
-  const [selectedLanguage, setSelectedLanguage] = useState<string>("English");
+  // const [selectedLanguage, setSelectedLanguage] = useState<string>("English");
   const [letterFeedback, setLetterFeedback] = useState<string | null>(null);
+  const [jobRole, setJobRole] = useState<string | null>(null);
+  const [company, setCompany] = useState<string | null>(null);
+  const [localDate, setLocalDate] = useState<string>("");
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    formState: { errors },
+    setValue,
+  } = useForm<Inputs>({
+    defaultValues: {
+      // resumeText: "",
+      jobDescription: "",
+      name: "",
+      email: "",
+      phone: "",
+      portfolioUrl: "",
+      language: "English",
+    },
+  });
+  const watchedJobDescription = watch("jobDescription");
 
   useEffect(() => {
     document.title = "Generate Cover Letter - CoverSumé";
     window.scrollTo(0, 0);
-  }, []);
+    // Pre-fill form with session data if available
+    if (session?.user) {
+      setValue("name", session.user.name || "");
+      setValue("email", session.user.email || "");
+    }
+    const locale = navigator.language || "en-US"; // fallback to en-US
+    // console.log("LOCALE:", locale);s
+    const date = new Date();
+    const formattedDate = date.toLocaleDateString(locale, {
+      // weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+    console.log(date);
+    setLocalDate(formattedDate);
+    // setLocalTime(timeString);
+    console.log("Formatted Date:", formattedDate);
+  }, [session, setValue]);
 
   const handleResumeUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        const text = e.target?.result;
+      reader.onload = (event) => {
+        const text = event.target?.result;
         if (typeof text === "string") {
           setResumeText(text);
         }
@@ -56,39 +124,250 @@ const GeneratorPage: React.FC = () => {
     }
   };
 
-  const handleSubmit = () => {
+  // const jobDescription = (value: string) => {
+  //   if (getValues("jobDescription")) {
+  //     // read the checkbox value
+  //     return !!value;
+  //   }
+  // };
+
+  // const onSubmit: SubmitHandler<Inputs> = async (data) => {
+  //   // event?.preventDefault();
+  //   console.log("Ready to generate cover letter with data:", data);
+  //   setIsLoading(true);
+  //   setGeneratedLetter("");
+  //   try {
+  //     const { jobDescription, name, email, phone, portfolioUrl, language } =
+  //       data;
+  //     const response = await fetch("/api/cover-letter/generate", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         resumeText,
+  //         jobDescription,
+  //         name: name === "" ? session?.user.name : name,
+  //         email: email === "" ? session?.user.email : email,
+  //         phone,
+  //         portfolioUrl,
+  //         language: language === "" ? "English" : language,
+  //         userId: session?.user.id,
+  //       }),
+  //     });
+
+  //     if (!response.ok) {
+  //       toast.error("Failed to generate cover letter. Please try again.");
+  //       console.log(`API ERROR: ${response.status} ${response.statusText}`);
+  //     }
+  //     if (!response.body) {
+  //       toast.error("Failed to generate cover letter. Please try again.");
+  //       console.log(`Response body is empty`);
+  //     }
+  //     // const reader = response.body?.getReader();
+  //     // const decoder = new TextDecoder("utf-8");
+  //     // let buffer = "";
+  //     // let metadataParsed = false;
+
+  //     // while (true) {
+  //     //   const result = await reader?.read();
+  //     //   if (!result) break;
+  //     //   const { done, value } = result;
+  //     //   if (done) break;
+
+  //     //   buffer += decoder.decode(value, { stream: true });
+
+  //     //   if (!metadataParsed) {
+  //     //     const separatorIndex = buffer.indexOf("\n-----\n");
+  //     //     if (separatorIndex !== -1) {
+  //     //       const jsonPart = buffer.substring(0, separatorIndex);
+  //     //       const markdownPart = buffer.substring(
+  //     //         separatorIndex + "\n-----\n".length
+  //     //       );
+  //     //       try {
+  //     //         const metadata = JSON.parse(jsonPart);
+  //     //         setJobRole(metadata.jobRole);
+  //     //         setCompany(metadata.company);
+  //     //         console.log("Metadata:", metadata); // For debugging
+  //     //       } catch (error) {
+  //     //         console.log("Failed to parse metadata JSONL ", error);
+  //     //         // Handle cases where JSON might be malformed or not present as expected
+  //     //       }
+  //     //       setGeneratedLetter(markdownPart);
+  //     //       buffer = "";
+  //     //       metadataParsed = true; // Set flag to true after parsing metadata
+  //     //     }
+  //     //   }
+  //     //   // Final decode for any remaining data in buffer if stream ended mid-character
+  //     //   if (buffer.length > 0 && metadataParsed) {
+  //     //     setGeneratedLetter(
+  //     //       (prev) => prev + decoder.decode(new Uint8Array(), { stream: false })
+  //     //     );
+  //     //   }
+  //     // }
+  //     setStep(2);
+  //   } catch (error) {
+  //     console.error("Failed to generate cover letter:", error);
+  //     setGeneratedLetter("Error generating cover letter. Please try again.");
+  //     // Optionally, set an error state to display a more user-friendly message
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  //   // Simulate API call to generate cover letter
+  //   setTimeout(() => {
+  //     //       const mockGeneratedLetter = `# John Doe
+  //     // 123 Main Street | City, State | (123) 456-7890 | john.doe@email.com | portfoliosite.com
+
+  //     // ${new Date().toLocaleDateString()}
+
+  //     // Hiring Manager
+  //     // Company Name
+  //     // Company Address
+  //     // City, State ZIP
+
+  //     // Dear Hiring Manager,
+
+  //     // I am writing to express my strong interest in the Software Engineer position at TechCorp as advertised on your company website. With my background in full-stack development and proven track record of delivering scalable software solutions, I am confident in my ability to make significant contributions to your team.
+
+  //     // Throughout my career, I have developed expertise in JavaScript, React, and Node.js, which aligns perfectly with the technical requirements outlined in your job description. In my current role as a Senior Developer at CurrentCompany, I successfully led the development of a customer-facing portal that improved user engagement by 35% and reduced support tickets by 50%. This achievement demonstrates my ability to create effective solutions that positively impact both users and business metrics.
+
+  //     // I am particularly drawn to TechCorp's mission to make technology accessible to underserved communities. Your recent initiative to provide coding education to rural schools resonates with my personal commitment to expanding opportunities in the tech sector. I believe my experience mentoring junior developers and contributing to open-source projects would allow me to further your company's goals.
+
+  //     // I am excited about the possibility of bringing my technical expertise, leadership experience, and passion for innovation to TechCorp. I would welcome the opportunity to discuss how my background and skills would be an asset to your team. Thank you for considering my application, and I look forward to speaking with you soon.
+
+  //     // Sincerely,
+
+  //     // John Doe`;
+
+  //     // setGeneratedLetter(mockGeneratedLetter);
+  //     setIsLoading(false);
+  //     setStep(2);
+  //   }, 2000);
+  // };
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    console.log("Ready to generate cover letter with data:", data);
     setIsLoading(true);
+    setIsTyping(false); // Reset typing state
+    setGeneratedLetter(""); // Clear previous letter
+    setJobRole(null);
+    setCompany(null);
+    // setStep(2); // Move to step 2 to show loading/preview area
 
-    // Simulate API call to generate cover letter
-    setTimeout(() => {
-      const mockGeneratedLetter = `# John Doe
-123 Main Street | City, State | (123) 456-7890 | john.doe@email.com | portfoliosite.com
+    try {
+      const { jobDescription, name, email, phone, portfolioUrl, language } =
+        data;
+      // TODO: Change the API URL to the production one which has AI and not the dummy one as it is now.
+      // const response = await fetch("/api/cover-letter/generate", {
+      const response = await fetch("http://localhost:8000/api/cover-letter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // TODO: Get the date in user's timezone
 
-${new Date().toLocaleDateString()}
+        body: JSON.stringify({
+          date: localDate,
+          resumeText,
+          jobDescription,
+          name: name || session?.user.name,
+          email: email || session?.user.email,
+          phoneNumber: phone, // Ensure your API expects 'phoneNumber'
+          portfolioUrl,
+          language: language || "English",
+          userId: session?.user.id,
+        }),
+      });
 
-Hiring Manager
-Company Name
-Company Address
-City, State ZIP
+      if (!response.ok) {
+        let errorData;
+        try {
+          errorData = await response.json();
+        } catch (e) {
+          errorData = { message: response.statusText };
+        }
+        toast.error(
+          `Failed to generate: ${errorData.message || "Unknown error"}`
+        );
+        console.error(`API ERROR: ${response.status}`, errorData);
+        setStep(1); // Optionally revert step
+        setIsLoading(false);
+        return;
+      }
 
-Dear Hiring Manager,
+      const responseData = await response.json();
+      // responseData should be: { jobRole, company, coverLetter }
 
-I am writing to express my strong interest in the Software Engineer position at TechCorp as advertised on your company website. With my background in full-stack development and proven track record of delivering scalable software solutions, I am confident in my ability to make significant contributions to your team.
+      setJobRole(responseData.jobRole);
+      setCompany(responseData.company);
 
-Throughout my career, I have developed expertise in JavaScript, React, and Node.js, which aligns perfectly with the technical requirements outlined in your job description. In my current role as a Senior Developer at CurrentCompany, I successfully led the development of a customer-facing portal that improved user engagement by 35% and reduced support tickets by 50%. This achievement demonstrates my ability to create effective solutions that positively impact both users and business metrics.
+      let fullCoverLetter = responseData.coverLetter || "";
 
-I am particularly drawn to TechCorp's mission to make technology accessible to underserved communities. Your recent initiative to provide coding education to rural schools resonates with my personal commitment to expanding opportunities in the tech sector. I believe my experience mentoring junior developers and contributing to open-source projects would allow me to further your company's goals.
+      // Pre-process newlines for ReactMarkdown:
+      // Replace \n\n (or more) with a unique placeholder for paragraph breaks
+      // Replace single \n with <br />
+      // Then restore paragraph breaks. This gives more control.
+      // However, remark-gfm should handle this. Let's simplify and rely on remark-gfm first.
+      // If issues persist, this pre-processing can be added:
+      fullCoverLetter = fullCoverLetter.trim(); // Trim leading/trailing whitespace
 
-I am excited about the possibility of bringing my technical expertise, leadership experience, and passion for innovation to TechCorp. I would welcome the opportunity to discuss how my background and skills would be an asset to your team. Thank you for considering my application, and I look forward to speaking with you soon.
+      fullCoverLetter = fullCoverLetter
+        // .replace(/\n{2,}/g, "\n\n") // Normalize multiple newlines to exactly two
+        // .replace(/(?<!\n)\n(?!\n)/g, "<br /><br/ >"); // Single \n to <br/> (if not part of \n\n)
+        .replace(/\n/g, "<br/>");
 
-Sincerely,
+      if (fullCoverLetter) {
+        setIsTyping(true); // Start typing animation
+        // Split by words, sequences of newlines, or sequences of spaces.
+        // This helps treat newlines as distinct "typing" steps.
+        const tokens: Token[] = fullCoverLetter
+          .split(/(\n+|\s+|\S+)/g) // Split by newlines, spaces, or words
+          .filter((token: string) => token && token.length > 0);
 
-John Doe`;
-
-      setGeneratedLetter(mockGeneratedLetter);
-      setIsLoading(false);
-      setStep(2);
-    }, 2000);
+        let currentText = "";
+        for (const token of tokens) {
+          currentText += token;
+          setGeneratedLetter(
+            currentText + '<span class="blinking-cursor">▋</span>'
+          ); // Pure markdown string
+          // Only add delay if the token is not purely whitespace,
+          // or make delay for whitespace very small if desired.
+          // For simplicity, delaying for all tokens here.
+          await new Promise((resolve) =>
+            setTimeout(resolve, TYPING_ANIMATION_DELAY_MS)
+          );
+        }
+        setIsTyping(false); // End typing animation
+        // Check the below line!!!!
+        setGeneratedLetter(currentText); // Final pure markdown string
+      } else {
+        setGeneratedLetter("No cover letter content received.");
+        toast.info("Cover letter content was empty.");
+      }
+    } catch (error) {
+      console.error("Failed to generate cover letter (onSubmit):", error);
+      toast.error(
+        "An unexpected error occurred. Please check console for details."
+      );
+      setGeneratedLetter("Error generating cover letter. Please try again.");
+      setStep(1); // Optionally revert step
+      setIsTyping(false); // Ensure typing state is reset
+    } finally {
+      // setIsLoading(false) will be called regardless of typing animation completion
+      // If you want loading to stop only after typing, move it from here
+      // and set it after the loop or in the catch if error before loop.
+      // For now, let's assume isLoading primarily covers API call and initial setup.
+      // The isTyping state handles the animation phase.
+      // If API call is quick, and typing is long, user sees loading briefly, then typing.
+      // If isLoading should cover the whole typing animation:
+      // 1. Remove setIsLoading(false) from finally.
+      // 2. Add setIsLoading(false) after the typing loop completes successfully.
+      // 3. Add setIsLoading(false) in the catch block if an error occurs *before or during* typing.
+      // Let's keep it simple: isLoading for API, isTyping for animation.
+      setIsLoading(false); // API call is done, main loading is over.
+      // Typing animation will proceed if successful.
+      setStep(2); // Move to step 2 to show generated letter
+    }
   };
 
   const handleRefinement = (refinementType: string) => {
@@ -118,95 +397,123 @@ John Doe`;
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Inputs */}
           <motion.div
-            className={`lg:col-span-1 ${step === 2 ? "hidden lg:block" : ""}`}
+            className={`lg:col-span-1 ${
+              step === 2 && !isTyping ? "hidden lg:block" : ""
+            }`} // Keep visible during typing
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <div className="card p-6">
-              <h2 className="text-xl font-semibold mb-4">Input Information</h2>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="card p-6">
+                <h2 className="text-xl font-semibold mb-4">
+                  Input Information
+                </h2>
 
-              {/* Resume Upload */}
-              <div className="mb-6">
-                <label
-                  htmlFor="resume"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Upload Resume
-                </label>
-                <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center">
-                  <input
-                    type="file"
-                    id="resume"
-                    className="hidden"
-                    accept=".pdf,.docx,.txt"
-                    onChange={handleResumeUpload}
-                  />
+                {/* Resume Upload */}
+                <div className="mb-6">
                   <label
                     htmlFor="resume"
-                    className="cursor-pointer flex flex-col items-center justify-center py-4"
+                    className="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    <Upload className="h-8 w-8 text-gray-400 mb-2" />
-                    <span className="text-gray-600 font-medium">
-                      Upload Resume
-                    </span>
-                    <span className="text-gray-500 text-sm mt-1">
-                      PDF, DOCX, or TXT
-                    </span>
+                    Upload Resume
                   </label>
+                  <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center">
+                    <input
+                      type="file"
+                      id="resume"
+                      className="hidden"
+                      accept=".pdf,.docx,.txt"
+                      onChange={handleResumeUpload}
+                    />
+                    <label
+                      htmlFor="resume"
+                      className="cursor-pointer flex flex-col items-center justify-center py-4"
+                    >
+                      <Upload className="h-8 w-8 text-gray-400 mb-2" />
+                      <span className="text-gray-600 font-medium">
+                        Upload Resume
+                      </span>
+                      <span className="text-gray-500 text-sm mt-1">
+                        PDF, DOCX, or TXT
+                      </span>
+                    </label>
+                  </div>
+                  <p className="text-sm text-gray-500 mt-2">
+                    Or paste your resume text below:
+                  </p>
+                  <Textarea
+                    id="resume-text"
+                    rows={5}
+                    className="mt-1 w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    placeholder="Paste your resume content here..."
+                    value={resumeText}
+                    onChange={(e) => setResumeText(e.target.value)}
+                  ></Textarea>
                 </div>
-                <p className="text-sm text-gray-500 mt-2">
-                  Or paste your resume text below:
-                </p>
-                <Textarea
-                  id="resume-text"
-                  rows={5}
-                  className="mt-1 w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
-                  placeholder="Paste your resume content here..."
-                  value={resumeText}
-                  onChange={(e) => setResumeText(e.target.value)}
-                ></Textarea>
-              </div>
 
-              {/* Job Description */}
-              <div className="mb-6">
-                <label
-                  htmlFor="job-description"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Job Description
-                </label>
-                <Textarea
-                  id="job-description"
-                  rows={5}
-                  className="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
-                  placeholder="Paste the job description here..."
-                  value={jobDescription}
-                  onChange={(e) => setJobDescription(e.target.value)}
-                ></Textarea>
-              </div>
+                {/* Job Description */}
+                <div className="mb-6">
+                  <label
+                    htmlFor="job-description"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Job Description
+                  </label>
+                  <Textarea
+                    id="job-description"
+                    rows={5}
+                    className="overflow-y-scroll w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    placeholder="Paste the job description here..."
+                    // value={jobDescription}
+                    // onChange={(e) => setJobDescription(e.target.value)}
+                    {...register("jobDescription", {
+                      required: "Job description is required",
+                    })}
+                  ></Textarea>
+                  {errors.jobDescription && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.jobDescription.message}
+                    </p>
+                  )}
+                </div>
 
-              {/* Language Selection */}
-              <div className="mb-6">
-                <Label
-                  htmlFor="language"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Language
-                </Label>
-                <Select>
-                  <SelectTrigger className="w-full rounded border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
-                    <SelectValue placeholder="Select Language" />
-                  </SelectTrigger>
-                  <SelectContent className="rounded border-gray-300 shadow-sm">
-                    <SelectItem value="English">English</SelectItem>
-                    <SelectItem value="Spanish">Spanish</SelectItem>
-                    <SelectItem value="French">French</SelectItem>
-                    <SelectItem value="German">German</SelectItem>
-                    <SelectItem value="Chinese">Chinese</SelectItem>
-                  </SelectContent>
-                </Select>
-                {/* <select
+                {/* Language Selection */}
+                <div className="mb-6">
+                  <Label
+                    htmlFor="language"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Language
+                  </Label>
+                  <Controller
+                    name="language"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                        defaultValue="English"
+                      >
+                        <SelectTrigger className="w-full rounded border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
+                          <SelectValue placeholder="Select Language" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded border-gray-300 shadow-sm">
+                          <SelectItem value="English">English</SelectItem>
+                          <SelectItem value="Spanish">Spanish</SelectItem>
+                          <SelectItem value="French">French</SelectItem>
+                          <SelectItem value="German">German</SelectItem>
+                          <SelectItem value="Chinese">Chinese</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                  {errors.language && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.language.message}
+                    </p>
+                  )}
+                  {/* <select
                   id="language"
                   className="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                   value={selectedLanguage}
@@ -218,80 +525,102 @@ John Doe`;
                   <option value="German">German</option>
                   <option value="Chinese">Chinese</option>
                 </select> */}
-              </div>
-
-              {/* Contact Information */}
-              <div className="mb-6">
-                <div className="flex justify-between items-center mb-2">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Contact Information
-                  </label>
                 </div>
-                <div className="space-y-4">
-                  <div>
-                    <Input
-                      type="text"
-                      placeholder="Your Name"
-                      className="w-full rounded border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                    {/* <input
+
+                {/* Contact Information */}
+                <div className="mb-6">
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Contact Information
+                    </label>
+                  </div>
+                  <div className="space-y-4">
+                    <div>
+                      <Input
+                        type="text"
+                        placeholder="Your Name"
+                        className="w-full rounded border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                        defaultValue={session?.user?.name}
+                        // onChange={(e) => setName(e.target.value)}
+                        {...register("name")}
+                      />
+
+                      {/* <input
                       type="text"
                       placeholder="Your Name"
                       className="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                     /> */}
-                  </div>
-                  <div>
-                    <Input
-                      type="email"
-                      placeholder="Email Address"
-                      className="w-full rounded border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      type="tel"
-                      placeholder="Phone Number"
-                      className="w-full rounded border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      type="url"
-                      placeholder="Portfolio URL (optional)"
-                      className="w-full rounded border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
-                      value={portfolioUrl}
-                      onChange={(e) => setPortfolioUrl(e.target.value)}
-                    />
+                    </div>
+                    <div>
+                      <Input
+                        type="email"
+                        placeholder="Email Address"
+                        className="w-full rounded border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                        defaultValue={session?.user?.email}
+                        // onChange={(e) => setEmail(e.target.value)}
+                        {...register("email")}
+                      />
+                    </div>
+                    <div>
+                      <Input
+                        type="tel"
+                        placeholder="Phone Number"
+                        className="w-full rounded border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                        // value={phone}
+                        // onChange={(e) => setPhone(e.target.value)}
+                        {...register("phone")}
+                      />
+                    </div>
+                    <div>
+                      <Input
+                        type="url"
+                        placeholder="Portfolio URL (optional)"
+                        className="w-full rounded border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                        // value={portfolioUrl}
+                        // onChange={(e) => setPortfolioUrl(e.target.value)}
+                        {...register("portfolioUrl")}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <button
-                className="btn btn-primary w-full justify-center py-3"
-                onClick={handleSubmit}
-                disabled={isLoading || !resumeText || !jobDescription}
-              >
-                {isLoading ? (
-                  <div className="flex items-center">
-                    <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2"></div>
-                    Generating...
-                  </div>
-                ) : (
-                  <>
-                    <Sparkles className="mr-2 h-5 w-5" />
-                    Generate Cover Letter
-                  </>
-                )}
-              </button>
-            </div>
+                <Button
+                  className="w-full"
+                  // className="btn btn-primary w-full justify-center py-3"
+                  // onClick={handleSubmit}
+                  type="submit"
+                  disabled={
+                    isLoading ||
+                    isTyping ||
+                    !resumeText ||
+                    !watchedJobDescription
+                  }
+                >
+                  {isLoading &&
+                    !isTyping && ( // Show "Generating..." only during API call
+                      <div className="flex items-center">
+                        <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2"></div>
+                        Generating...
+                      </div>
+                    )}
+                  {isTyping && ( // Show "Typing..." during animation
+                    <div className="flex items-center">
+                      <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2"></div>
+                      Writing...
+                    </div>
+                  )}
+                  {!isLoading &&
+                    !isTyping && ( // Default button text
+                      <>
+                        <Sparkles className="mr-2 h-5 w-5" />
+                        Generate Cover Letter
+                      </>
+                    )}
+                </Button>
+              </div>
+            </form>
           </motion.div>
 
           {/* Center Column - Generated Letter Preview */}
@@ -304,31 +633,42 @@ John Doe`;
             <div className="card h-full">
               <div className="border-b border-gray-200 p-4 flex justify-between items-center">
                 <h2 className="text-xl font-semibold">
-                  {step === 1 ? "Preview" : "Generated Cover Letter"}
+                  {step === 1 && !generatedLetter
+                    ? "Preview"
+                    : "Generated Cover Letter"}
                 </h2>
-                {step === 2 && (
-                  <div className="flex space-x-2">
-                    <button
-                      className="btn btn-outline py-1 px-3"
-                      onClick={() => {
-                        navigator.clipboard.writeText(generatedLetter);
-                      }}
-                    >
-                      <Clipboard className="h-4 w-4 mr-1" />
-                      Copy
-                    </button>
-                    <button className="btn btn-outline py-1 px-3">
-                      <FileDown className="h-4 w-4 mr-1" />
-                      Download
-                    </button>
-                  </div>
-                )}
+                {step === 2 &&
+                  !isTyping &&
+                  generatedLetter !== "" && ( // Show buttons after typing
+                    <div className="flex space-x-2">
+                      <button
+                        className="btn btn-outline py-1 px-3"
+                        onClick={() => {
+                          // Replace the `<br/>` tags with newlines
+                          const cover = generatedLetter.replace(
+                            /<br\s*\/?>/gi,
+                            "\n"
+                          );
+                          // const cover=generatedLetter.replace()
+                          navigator.clipboard.writeText(cover);
+                        }}
+                      >
+                        <Clipboard className="h-4 w-4 mr-1" />
+                        Copy
+                      </button>
+                      {/* TODO: Add download funcitionality as a pdf or docx */}
+                      <button className="btn btn-outline py-1 px-3">
+                        <FileDown className="h-4 w-4 mr-1" />
+                        Download
+                      </button>
+                    </div>
+                  )}
               </div>
 
-              <div className="p-6 h-[calc(100vh-300px)] overflow-y-auto bg-gray-50">
-                {step === 1 ? (
+              <div className="p-6 h-[calc(100vh-2.5rem)] overflow-y-auto bg-gray-50">
+                {step === 1 && !isLoading && !isTyping ? (
                   <div className="flex flex-col items-center justify-center h-full text-center">
-                    {resumeText && jobDescription ? (
+                    {resumeText && watchedJobDescription ? (
                       <div>
                         <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-4" />
                         <h3 className="text-lg font-medium text-gray-900 mb-2">
@@ -353,7 +693,7 @@ John Doe`;
                       </div>
                     )}
                   </div>
-                ) : isLoading ? (
+                ) : isLoading && !isTyping ? (
                   <div className="flex flex-col items-center justify-center h-full text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600 mb-4"></div>
                     <h3 className="text-lg font-medium text-gray-900 mb-2">
@@ -368,8 +708,20 @@ John Doe`;
                     </p>
                   </div>
                 ) : (
-                  <div className="prose prose-blue max-w-none">
-                    <ReactMarkdown>{generatedLetter}</ReactMarkdown>
+                  // Displaying generated letter (or typing animation)
+                  <div
+                    className="prose prose-blue max-w-none h-full overflow-y-auto"
+                    // style={{ whiteSpace: "pre-wrap" }} // Add this style
+                  >
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      rehypePlugins={[rehypeRaw]}
+                    >
+                      {generatedLetter}
+                    </ReactMarkdown>
+                    {/* {isTyping && (
+                      <span className="blinking-cursor inline">▋</span>
+                    )} */}
                   </div>
                 )}
               </div>
@@ -377,71 +729,78 @@ John Doe`;
           </motion.div>
 
           {/* Right Column - Refinement Panel (Only visible in step 2) */}
-          {step === 2 && (
-            <motion.div
-              className="lg:col-span-3 xl:col-span-1"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-            >
-              <div className="card p-6">
-                <h2 className="text-xl font-semibold mb-4">
-                  Refine Your Letter
-                </h2>
+          {step === 2 &&
+            !isLoading &&
+            !isTyping &&
+            generatedLetter && ( // Show only after typing is complete
+              <motion.div
+                className="lg:col-span-3 xl:col-span-1"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+              >
+                <div className="card p-6">
+                  <h2 className="text-xl font-semibold mb-4">
+                    Refine Your Letter
+                  </h2>
 
-                <div className="space-y-4 mb-8">
-                  <button
-                    className="btn btn-outline w-full justify-start py-2.5 text-left"
-                    onClick={() => handleRefinement("More Concise")}
-                  >
-                    <RefreshCw className="h-5 w-5 mr-3 text-blue-600" />
-                    Make it more concise
-                  </button>
-                  <button
-                    className="btn btn-outline w-full justify-start py-2.5 text-left"
-                    onClick={() => handleRefinement("More Formal")}
-                  >
-                    <RefreshCw className="h-5 w-5 mr-3 text-purple-600" />
-                    More formal tone
-                  </button>
-                  <button
-                    className="btn btn-outline w-full justify-start py-2.5 text-left"
-                    onClick={() => handleRefinement("More Confident")}
-                  >
-                    <RefreshCw className="h-5 w-5 mr-3 text-teal-600" />
-                    More confident language
-                  </button>
-                  <button
-                    className="btn btn-outline w-full justify-start py-2.5 text-left"
-                    onClick={() => handleRefinement("More Achievement-Focused")}
-                  >
-                    <RefreshCw className="h-5 w-5 mr-3 text-amber-600" />
-                    Emphasize achievements
-                  </button>
-                </div>
-
-                <div className="mt-8">
-                  <h3 className="text-md font-medium mb-3">Rate This Letter</h3>
-                  <div className="flex space-x-2">
-                    <button className="btn btn-outline py-2 flex-1">
-                      <ThumbsUp className="h-5 w-5 mr-2" />
-                      It&apos;s Great
+                  <div className="space-y-4 mb-8">
+                    <button
+                      className="btn btn-outline w-full justify-start py-2.5 text-left"
+                      onClick={() => handleRefinement("More Concise")}
+                    >
+                      <RefreshCw className="h-5 w-5 mr-3 text-blue-600" />
+                      Make it more concise
                     </button>
-                    <button className="btn btn-outline py-2 flex-1">
-                      <ThumbsDown className="h-5 w-5 mr-2" />
-                      Needs Work
+                    <button
+                      className="btn btn-outline w-full justify-start py-2.5 text-left"
+                      onClick={() => handleRefinement("More Formal")}
+                    >
+                      <RefreshCw className="h-5 w-5 mr-3 text-purple-600" />
+                      More formal tone
+                    </button>
+                    <button
+                      className="btn btn-outline w-full justify-start py-2.5 text-left"
+                      onClick={() => handleRefinement("More Confident")}
+                    >
+                      <RefreshCw className="h-5 w-5 mr-3 text-teal-600" />
+                      More confident language
+                    </button>
+                    <button
+                      className="btn btn-outline w-full justify-start py-2.5 text-left"
+                      onClick={() =>
+                        handleRefinement("More Achievement-Focused")
+                      }
+                    >
+                      <RefreshCw className="h-5 w-5 mr-3 text-amber-600" />
+                      Emphasize achievements
+                    </button>
+                  </div>
+
+                  <div className="mt-8">
+                    <h3 className="text-md font-medium mb-3">
+                      Rate This Letter
+                    </h3>
+                    <div className="flex space-x-2">
+                      <button className="btn btn-outline py-2 flex-1">
+                        <ThumbsUp className="h-5 w-5 mr-2" />
+                        It&apos;s Great
+                      </button>
+                      <button className="btn btn-outline py-2 flex-1">
+                        <ThumbsDown className="h-5 w-5 mr-2" />
+                        Needs Work
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="mt-8 pt-6 border-t border-gray-200">
+                    <button className="btn btn-primary w-full justify-center py-2.5">
+                      Save Cover Letter
                     </button>
                   </div>
                 </div>
-
-                <div className="mt-8 pt-6 border-t border-gray-200">
-                  <button className="btn btn-primary w-full justify-center py-2.5">
-                    Save Cover Letter
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          )}
+              </motion.div>
+            )}
         </div>
       </div>
     </div>

@@ -50,10 +50,24 @@ BACKEND:
   - ~~login~~
   - ~~register~~
   - ~~forgot password~~
-  - verify user <- TODO!!!!
+  - ~~verify user~~
 
 NOTE:
 
 - email verification - mailjet
 - reset password - mailtrap
 - contact form - mailgun
+
+For all the api references for better-auth in your project: http://localhost:3000/api/auth/reference
+
+Generate Cover letter:
+
+- Store:
+  - Resume
+  - job description
+  - timestamp
+  - generated cover letter
+  - id
+  -
+
+TEST:

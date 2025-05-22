@@ -160,6 +160,23 @@ exports.Prisma.VerificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CoverLetterScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  resumeText: 'resumeText',
+  resumeFileUrl: 'resumeFileUrl',
+  jobDescription: 'jobDescription',
+  coverLetter: 'coverLetter',
+  name: 'name',
+  email: 'email',
+  phoneNumber: 'phoneNumber',
+  portfolioUrl: 'portfolioUrl',
+  language: 'language',
+  jobRole: 'jobRole',
+  company: 'company',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -175,7 +192,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  CoverLetter: 'CoverLetter'
 };
 
 /**
