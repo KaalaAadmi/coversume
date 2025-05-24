@@ -34,10 +34,15 @@ export type Account = $Result.DefaultSelection<Prisma.$AccountPayload>
  */
 export type Verification = $Result.DefaultSelection<Prisma.$VerificationPayload>
 /**
- * Model CoverLetter
+ * Model CoverLetterRoot
  * 
  */
-export type CoverLetter = $Result.DefaultSelection<Prisma.$CoverLetterPayload>
+export type CoverLetterRoot = $Result.DefaultSelection<Prisma.$CoverLetterRootPayload>
+/**
+ * Model CoverLetterVersion
+ * 
+ */
+export type CoverLetterVersion = $Result.DefaultSelection<Prisma.$CoverLetterVersionPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -172,14 +177,24 @@ export class PrismaClient<
   get verification(): Prisma.VerificationDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.coverLetter`: Exposes CRUD operations for the **CoverLetter** model.
+   * `prisma.coverLetterRoot`: Exposes CRUD operations for the **CoverLetterRoot** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more CoverLetters
-    * const coverLetters = await prisma.coverLetter.findMany()
+    * // Fetch zero or more CoverLetterRoots
+    * const coverLetterRoots = await prisma.coverLetterRoot.findMany()
     * ```
     */
-  get coverLetter(): Prisma.CoverLetterDelegate<ExtArgs, ClientOptions>;
+  get coverLetterRoot(): Prisma.CoverLetterRootDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.coverLetterVersion`: Exposes CRUD operations for the **CoverLetterVersion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CoverLetterVersions
+    * const coverLetterVersions = await prisma.coverLetterVersion.findMany()
+    * ```
+    */
+  get coverLetterVersion(): Prisma.CoverLetterVersionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -624,7 +639,8 @@ export namespace Prisma {
     Session: 'Session',
     Account: 'Account',
     Verification: 'Verification',
-    CoverLetter: 'CoverLetter'
+    CoverLetterRoot: 'CoverLetterRoot',
+    CoverLetterVersion: 'CoverLetterVersion'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -643,7 +659,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "session" | "account" | "verification" | "coverLetter"
+      modelProps: "user" | "session" | "account" | "verification" | "coverLetterRoot" | "coverLetterVersion"
       txIsolationLevel: never
     }
     model: {
@@ -943,77 +959,151 @@ export namespace Prisma {
           }
         }
       }
-      CoverLetter: {
-        payload: Prisma.$CoverLetterPayload<ExtArgs>
-        fields: Prisma.CoverLetterFieldRefs
+      CoverLetterRoot: {
+        payload: Prisma.$CoverLetterRootPayload<ExtArgs>
+        fields: Prisma.CoverLetterRootFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.CoverLetterFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoverLetterPayload> | null
+            args: Prisma.CoverLetterRootFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoverLetterRootPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.CoverLetterFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoverLetterPayload>
+            args: Prisma.CoverLetterRootFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoverLetterRootPayload>
           }
           findFirst: {
-            args: Prisma.CoverLetterFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoverLetterPayload> | null
+            args: Prisma.CoverLetterRootFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoverLetterRootPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.CoverLetterFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoverLetterPayload>
+            args: Prisma.CoverLetterRootFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoverLetterRootPayload>
           }
           findMany: {
-            args: Prisma.CoverLetterFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoverLetterPayload>[]
+            args: Prisma.CoverLetterRootFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoverLetterRootPayload>[]
           }
           create: {
-            args: Prisma.CoverLetterCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoverLetterPayload>
+            args: Prisma.CoverLetterRootCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoverLetterRootPayload>
           }
           createMany: {
-            args: Prisma.CoverLetterCreateManyArgs<ExtArgs>
+            args: Prisma.CoverLetterRootCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           delete: {
-            args: Prisma.CoverLetterDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoverLetterPayload>
+            args: Prisma.CoverLetterRootDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoverLetterRootPayload>
           }
           update: {
-            args: Prisma.CoverLetterUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoverLetterPayload>
+            args: Prisma.CoverLetterRootUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoverLetterRootPayload>
           }
           deleteMany: {
-            args: Prisma.CoverLetterDeleteManyArgs<ExtArgs>
+            args: Prisma.CoverLetterRootDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.CoverLetterUpdateManyArgs<ExtArgs>
+            args: Prisma.CoverLetterRootUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           upsert: {
-            args: Prisma.CoverLetterUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoverLetterPayload>
+            args: Prisma.CoverLetterRootUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoverLetterRootPayload>
           }
           aggregate: {
-            args: Prisma.CoverLetterAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateCoverLetter>
+            args: Prisma.CoverLetterRootAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCoverLetterRoot>
           }
           groupBy: {
-            args: Prisma.CoverLetterGroupByArgs<ExtArgs>
-            result: $Utils.Optional<CoverLetterGroupByOutputType>[]
+            args: Prisma.CoverLetterRootGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CoverLetterRootGroupByOutputType>[]
           }
           findRaw: {
-            args: Prisma.CoverLetterFindRawArgs<ExtArgs>
+            args: Prisma.CoverLetterRootFindRawArgs<ExtArgs>
             result: JsonObject
           }
           aggregateRaw: {
-            args: Prisma.CoverLetterAggregateRawArgs<ExtArgs>
+            args: Prisma.CoverLetterRootAggregateRawArgs<ExtArgs>
             result: JsonObject
           }
           count: {
-            args: Prisma.CoverLetterCountArgs<ExtArgs>
-            result: $Utils.Optional<CoverLetterCountAggregateOutputType> | number
+            args: Prisma.CoverLetterRootCountArgs<ExtArgs>
+            result: $Utils.Optional<CoverLetterRootCountAggregateOutputType> | number
+          }
+        }
+      }
+      CoverLetterVersion: {
+        payload: Prisma.$CoverLetterVersionPayload<ExtArgs>
+        fields: Prisma.CoverLetterVersionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CoverLetterVersionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoverLetterVersionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CoverLetterVersionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoverLetterVersionPayload>
+          }
+          findFirst: {
+            args: Prisma.CoverLetterVersionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoverLetterVersionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CoverLetterVersionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoverLetterVersionPayload>
+          }
+          findMany: {
+            args: Prisma.CoverLetterVersionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoverLetterVersionPayload>[]
+          }
+          create: {
+            args: Prisma.CoverLetterVersionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoverLetterVersionPayload>
+          }
+          createMany: {
+            args: Prisma.CoverLetterVersionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.CoverLetterVersionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoverLetterVersionPayload>
+          }
+          update: {
+            args: Prisma.CoverLetterVersionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoverLetterVersionPayload>
+          }
+          deleteMany: {
+            args: Prisma.CoverLetterVersionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CoverLetterVersionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CoverLetterVersionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoverLetterVersionPayload>
+          }
+          aggregate: {
+            args: Prisma.CoverLetterVersionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCoverLetterVersion>
+          }
+          groupBy: {
+            args: Prisma.CoverLetterVersionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CoverLetterVersionGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.CoverLetterVersionFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.CoverLetterVersionAggregateRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          count: {
+            args: Prisma.CoverLetterVersionCountArgs<ExtArgs>
+            result: $Utils.Optional<CoverLetterVersionCountAggregateOutputType> | number
           }
         }
       }
@@ -1092,7 +1182,8 @@ export namespace Prisma {
     session?: SessionOmit
     account?: AccountOmit
     verification?: VerificationOmit
-    coverLetter?: CoverLetterOmit
+    coverLetterRoot?: CoverLetterRootOmit
+    coverLetterVersion?: CoverLetterVersionOmit
   }
 
   /* Types for Logging */
@@ -1189,11 +1280,13 @@ export namespace Prisma {
   export type UserCountOutputType = {
     sessions: number
     accounts: number
+    coverLetterRoots: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
+    coverLetterRoots?: boolean | UserCountOutputTypeCountCoverLetterRootsArgs
   }
 
   // Custom InputTypes
@@ -1221,6 +1314,44 @@ export namespace Prisma {
     where?: AccountWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCoverLetterRootsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CoverLetterRootWhereInput
+  }
+
+
+  /**
+   * Count Type CoverLetterRootCountOutputType
+   */
+
+  export type CoverLetterRootCountOutputType = {
+    versions: number
+  }
+
+  export type CoverLetterRootCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    versions?: boolean | CoverLetterRootCountOutputTypeCountVersionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CoverLetterRootCountOutputType without action
+   */
+  export type CoverLetterRootCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CoverLetterRootCountOutputType
+     */
+    select?: CoverLetterRootCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CoverLetterRootCountOutputType without action
+   */
+  export type CoverLetterRootCountOutputTypeCountVersionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CoverLetterVersionWhereInput
+  }
+
 
   /**
    * Models
@@ -1232,8 +1363,20 @@ export namespace Prisma {
 
   export type AggregateUser = {
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
+  }
+
+  export type UserAvgAggregateOutputType = {
+    coverLetterCount: number | null
+    coverLetterCountPerMonth: number | null
+  }
+
+  export type UserSumAggregateOutputType = {
+    coverLetterCount: number | null
+    coverLetterCountPerMonth: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -1245,6 +1388,9 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     isPro: boolean | null
+    coverLetterCount: number | null
+    coverLetterCountPerMonth: number | null
+    monthlyCountLastReset: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1256,6 +1402,9 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     isPro: boolean | null
+    coverLetterCount: number | null
+    coverLetterCountPerMonth: number | null
+    monthlyCountLastReset: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1267,9 +1416,22 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     isPro: number
+    coverLetterCount: number
+    coverLetterCountPerMonth: number
+    monthlyCountLastReset: number
     _all: number
   }
 
+
+  export type UserAvgAggregateInputType = {
+    coverLetterCount?: true
+    coverLetterCountPerMonth?: true
+  }
+
+  export type UserSumAggregateInputType = {
+    coverLetterCount?: true
+    coverLetterCountPerMonth?: true
+  }
 
   export type UserMinAggregateInputType = {
     id?: true
@@ -1280,6 +1442,9 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     isPro?: true
+    coverLetterCount?: true
+    coverLetterCountPerMonth?: true
+    monthlyCountLastReset?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1291,6 +1456,9 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     isPro?: true
+    coverLetterCount?: true
+    coverLetterCountPerMonth?: true
+    monthlyCountLastReset?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1302,6 +1470,9 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     isPro?: true
+    coverLetterCount?: true
+    coverLetterCountPerMonth?: true
+    monthlyCountLastReset?: true
     _all?: true
   }
 
@@ -1343,6 +1514,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType
@@ -1373,6 +1556,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserCountAggregateInputType | true
+    _avg?: UserAvgAggregateInputType
+    _sum?: UserSumAggregateInputType
     _min?: UserMinAggregateInputType
     _max?: UserMaxAggregateInputType
   }
@@ -1386,7 +1571,12 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     isPro: boolean
+    coverLetterCount: number
+    coverLetterCountPerMonth: number
+    monthlyCountLastReset: Date | null
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
@@ -1414,8 +1604,12 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     isPro?: boolean
+    coverLetterCount?: boolean
+    coverLetterCountPerMonth?: boolean
+    monthlyCountLastReset?: boolean
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
+    coverLetterRoots?: boolean | User$coverLetterRootsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1430,12 +1624,16 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     isPro?: boolean
+    coverLetterCount?: boolean
+    coverLetterCountPerMonth?: boolean
+    monthlyCountLastReset?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "isPro", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "isPro" | "coverLetterCount" | "coverLetterCountPerMonth" | "monthlyCountLastReset", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
+    coverLetterRoots?: boolean | User$coverLetterRootsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -1444,6 +1642,7 @@ export namespace Prisma {
     objects: {
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       accounts: Prisma.$AccountPayload<ExtArgs>[]
+      coverLetterRoots: Prisma.$CoverLetterRootPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1454,6 +1653,9 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       isPro: boolean
+      coverLetterCount: number
+      coverLetterCountPerMonth: number
+      monthlyCountLastReset: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -1819,6 +2021,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    coverLetterRoots<T extends User$coverLetterRootsArgs<ExtArgs> = {}>(args?: Subset<T, User$coverLetterRootsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoverLetterRootPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1856,6 +2059,9 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly isPro: FieldRef<"User", 'Boolean'>
+    readonly coverLetterCount: FieldRef<"User", 'Int'>
+    readonly coverLetterCountPerMonth: FieldRef<"User", 'Int'>
+    readonly monthlyCountLastReset: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -2271,6 +2477,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AccountScalarFieldEnum | AccountScalarFieldEnum[]
+  }
+
+  /**
+   * User.coverLetterRoots
+   */
+  export type User$coverLetterRootsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CoverLetterRoot
+     */
+    select?: CoverLetterRootSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CoverLetterRoot
+     */
+    omit?: CoverLetterRootOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoverLetterRootInclude<ExtArgs> | null
+    where?: CoverLetterRootWhereInput
+    orderBy?: CoverLetterRootOrderByWithRelationInput | CoverLetterRootOrderByWithRelationInput[]
+    cursor?: CoverLetterRootWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CoverLetterRootScalarFieldEnum | CoverLetterRootScalarFieldEnum[]
   }
 
   /**
@@ -5315,419 +5545,430 @@ export namespace Prisma {
 
 
   /**
-   * Model CoverLetter
+   * Model CoverLetterRoot
    */
 
-  export type AggregateCoverLetter = {
-    _count: CoverLetterCountAggregateOutputType | null
-    _min: CoverLetterMinAggregateOutputType | null
-    _max: CoverLetterMaxAggregateOutputType | null
+  export type AggregateCoverLetterRoot = {
+    _count: CoverLetterRootCountAggregateOutputType | null
+    _min: CoverLetterRootMinAggregateOutputType | null
+    _max: CoverLetterRootMaxAggregateOutputType | null
   }
 
-  export type CoverLetterMinAggregateOutputType = {
+  export type CoverLetterRootMinAggregateOutputType = {
     id: string | null
-    createdAt: Date | null
-    resumeText: string | null
-    resumeFileUrl: string | null
-    jobDescription: string | null
-    coverLetter: string | null
-    name: string | null
-    email: string | null
-    phoneNumber: string | null
-    portfolioUrl: string | null
-    language: string | null
-    jobRole: string | null
-    company: string | null
     userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    originalResumeText: string | null
+    originalJobDescription: string | null
+    originalName: string | null
+    originalEmail: string | null
+    originalPhoneNumber: string | null
+    originalPortfolioUrl: string | null
+    originalLanguage: string | null
+    originalDate: string | null
+    currentJobRole: string | null
+    currentCompany: string | null
   }
 
-  export type CoverLetterMaxAggregateOutputType = {
+  export type CoverLetterRootMaxAggregateOutputType = {
     id: string | null
-    createdAt: Date | null
-    resumeText: string | null
-    resumeFileUrl: string | null
-    jobDescription: string | null
-    coverLetter: string | null
-    name: string | null
-    email: string | null
-    phoneNumber: string | null
-    portfolioUrl: string | null
-    language: string | null
-    jobRole: string | null
-    company: string | null
     userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    originalResumeText: string | null
+    originalJobDescription: string | null
+    originalName: string | null
+    originalEmail: string | null
+    originalPhoneNumber: string | null
+    originalPortfolioUrl: string | null
+    originalLanguage: string | null
+    originalDate: string | null
+    currentJobRole: string | null
+    currentCompany: string | null
   }
 
-  export type CoverLetterCountAggregateOutputType = {
+  export type CoverLetterRootCountAggregateOutputType = {
     id: number
-    createdAt: number
-    resumeText: number
-    resumeFileUrl: number
-    jobDescription: number
-    coverLetter: number
-    name: number
-    email: number
-    phoneNumber: number
-    portfolioUrl: number
-    language: number
-    jobRole: number
-    company: number
     userId: number
+    createdAt: number
+    updatedAt: number
+    originalResumeText: number
+    originalJobDescription: number
+    originalName: number
+    originalEmail: number
+    originalPhoneNumber: number
+    originalPortfolioUrl: number
+    originalLanguage: number
+    originalDate: number
+    currentJobRole: number
+    currentCompany: number
     _all: number
   }
 
 
-  export type CoverLetterMinAggregateInputType = {
+  export type CoverLetterRootMinAggregateInputType = {
     id?: true
-    createdAt?: true
-    resumeText?: true
-    resumeFileUrl?: true
-    jobDescription?: true
-    coverLetter?: true
-    name?: true
-    email?: true
-    phoneNumber?: true
-    portfolioUrl?: true
-    language?: true
-    jobRole?: true
-    company?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
+    originalResumeText?: true
+    originalJobDescription?: true
+    originalName?: true
+    originalEmail?: true
+    originalPhoneNumber?: true
+    originalPortfolioUrl?: true
+    originalLanguage?: true
+    originalDate?: true
+    currentJobRole?: true
+    currentCompany?: true
   }
 
-  export type CoverLetterMaxAggregateInputType = {
+  export type CoverLetterRootMaxAggregateInputType = {
     id?: true
-    createdAt?: true
-    resumeText?: true
-    resumeFileUrl?: true
-    jobDescription?: true
-    coverLetter?: true
-    name?: true
-    email?: true
-    phoneNumber?: true
-    portfolioUrl?: true
-    language?: true
-    jobRole?: true
-    company?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
+    originalResumeText?: true
+    originalJobDescription?: true
+    originalName?: true
+    originalEmail?: true
+    originalPhoneNumber?: true
+    originalPortfolioUrl?: true
+    originalLanguage?: true
+    originalDate?: true
+    currentJobRole?: true
+    currentCompany?: true
   }
 
-  export type CoverLetterCountAggregateInputType = {
+  export type CoverLetterRootCountAggregateInputType = {
     id?: true
-    createdAt?: true
-    resumeText?: true
-    resumeFileUrl?: true
-    jobDescription?: true
-    coverLetter?: true
-    name?: true
-    email?: true
-    phoneNumber?: true
-    portfolioUrl?: true
-    language?: true
-    jobRole?: true
-    company?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
+    originalResumeText?: true
+    originalJobDescription?: true
+    originalName?: true
+    originalEmail?: true
+    originalPhoneNumber?: true
+    originalPortfolioUrl?: true
+    originalLanguage?: true
+    originalDate?: true
+    currentJobRole?: true
+    currentCompany?: true
     _all?: true
   }
 
-  export type CoverLetterAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CoverLetterRootAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which CoverLetter to aggregate.
+     * Filter which CoverLetterRoot to aggregate.
      */
-    where?: CoverLetterWhereInput
+    where?: CoverLetterRootWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of CoverLetters to fetch.
+     * Determine the order of CoverLetterRoots to fetch.
      */
-    orderBy?: CoverLetterOrderByWithRelationInput | CoverLetterOrderByWithRelationInput[]
+    orderBy?: CoverLetterRootOrderByWithRelationInput | CoverLetterRootOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: CoverLetterWhereUniqueInput
+    cursor?: CoverLetterRootWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` CoverLetters from the position of the cursor.
+     * Take `±n` CoverLetterRoots from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` CoverLetters.
+     * Skip the first `n` CoverLetterRoots.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned CoverLetters
+     * Count returned CoverLetterRoots
     **/
-    _count?: true | CoverLetterCountAggregateInputType
+    _count?: true | CoverLetterRootCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: CoverLetterMinAggregateInputType
+    _min?: CoverLetterRootMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: CoverLetterMaxAggregateInputType
+    _max?: CoverLetterRootMaxAggregateInputType
   }
 
-  export type GetCoverLetterAggregateType<T extends CoverLetterAggregateArgs> = {
-        [P in keyof T & keyof AggregateCoverLetter]: P extends '_count' | 'count'
+  export type GetCoverLetterRootAggregateType<T extends CoverLetterRootAggregateArgs> = {
+        [P in keyof T & keyof AggregateCoverLetterRoot]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateCoverLetter[P]>
-      : GetScalarType<T[P], AggregateCoverLetter[P]>
+        : GetScalarType<T[P], AggregateCoverLetterRoot[P]>
+      : GetScalarType<T[P], AggregateCoverLetterRoot[P]>
   }
 
 
 
 
-  export type CoverLetterGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CoverLetterWhereInput
-    orderBy?: CoverLetterOrderByWithAggregationInput | CoverLetterOrderByWithAggregationInput[]
-    by: CoverLetterScalarFieldEnum[] | CoverLetterScalarFieldEnum
-    having?: CoverLetterScalarWhereWithAggregatesInput
+  export type CoverLetterRootGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CoverLetterRootWhereInput
+    orderBy?: CoverLetterRootOrderByWithAggregationInput | CoverLetterRootOrderByWithAggregationInput[]
+    by: CoverLetterRootScalarFieldEnum[] | CoverLetterRootScalarFieldEnum
+    having?: CoverLetterRootScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: CoverLetterCountAggregateInputType | true
-    _min?: CoverLetterMinAggregateInputType
-    _max?: CoverLetterMaxAggregateInputType
+    _count?: CoverLetterRootCountAggregateInputType | true
+    _min?: CoverLetterRootMinAggregateInputType
+    _max?: CoverLetterRootMaxAggregateInputType
   }
 
-  export type CoverLetterGroupByOutputType = {
+  export type CoverLetterRootGroupByOutputType = {
     id: string
-    createdAt: Date
-    resumeText: string
-    resumeFileUrl: string | null
-    jobDescription: string
-    coverLetter: string
-    name: string | null
-    email: string | null
-    phoneNumber: string | null
-    portfolioUrl: string | null
-    language: string | null
-    jobRole: string | null
-    company: string | null
     userId: string | null
-    _count: CoverLetterCountAggregateOutputType | null
-    _min: CoverLetterMinAggregateOutputType | null
-    _max: CoverLetterMaxAggregateOutputType | null
+    createdAt: Date
+    updatedAt: Date
+    originalResumeText: string
+    originalJobDescription: string
+    originalName: string | null
+    originalEmail: string | null
+    originalPhoneNumber: string | null
+    originalPortfolioUrl: string | null
+    originalLanguage: string | null
+    originalDate: string | null
+    currentJobRole: string | null
+    currentCompany: string | null
+    _count: CoverLetterRootCountAggregateOutputType | null
+    _min: CoverLetterRootMinAggregateOutputType | null
+    _max: CoverLetterRootMaxAggregateOutputType | null
   }
 
-  type GetCoverLetterGroupByPayload<T extends CoverLetterGroupByArgs> = Prisma.PrismaPromise<
+  type GetCoverLetterRootGroupByPayload<T extends CoverLetterRootGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<CoverLetterGroupByOutputType, T['by']> &
+      PickEnumerable<CoverLetterRootGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof CoverLetterGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof CoverLetterRootGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], CoverLetterGroupByOutputType[P]>
-            : GetScalarType<T[P], CoverLetterGroupByOutputType[P]>
+              : GetScalarType<T[P], CoverLetterRootGroupByOutputType[P]>
+            : GetScalarType<T[P], CoverLetterRootGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type CoverLetterSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type CoverLetterRootSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    createdAt?: boolean
-    resumeText?: boolean
-    resumeFileUrl?: boolean
-    jobDescription?: boolean
-    coverLetter?: boolean
-    name?: boolean
-    email?: boolean
-    phoneNumber?: boolean
-    portfolioUrl?: boolean
-    language?: boolean
-    jobRole?: boolean
-    company?: boolean
     userId?: boolean
-  }, ExtArgs["result"]["coverLetter"]>
+    createdAt?: boolean
+    updatedAt?: boolean
+    originalResumeText?: boolean
+    originalJobDescription?: boolean
+    originalName?: boolean
+    originalEmail?: boolean
+    originalPhoneNumber?: boolean
+    originalPortfolioUrl?: boolean
+    originalLanguage?: boolean
+    originalDate?: boolean
+    currentJobRole?: boolean
+    currentCompany?: boolean
+    user?: boolean | CoverLetterRoot$userArgs<ExtArgs>
+    versions?: boolean | CoverLetterRoot$versionsArgs<ExtArgs>
+    _count?: boolean | CoverLetterRootCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["coverLetterRoot"]>
 
 
 
-  export type CoverLetterSelectScalar = {
+  export type CoverLetterRootSelectScalar = {
     id?: boolean
-    createdAt?: boolean
-    resumeText?: boolean
-    resumeFileUrl?: boolean
-    jobDescription?: boolean
-    coverLetter?: boolean
-    name?: boolean
-    email?: boolean
-    phoneNumber?: boolean
-    portfolioUrl?: boolean
-    language?: boolean
-    jobRole?: boolean
-    company?: boolean
     userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    originalResumeText?: boolean
+    originalJobDescription?: boolean
+    originalName?: boolean
+    originalEmail?: boolean
+    originalPhoneNumber?: boolean
+    originalPortfolioUrl?: boolean
+    originalLanguage?: boolean
+    originalDate?: boolean
+    currentJobRole?: boolean
+    currentCompany?: boolean
   }
 
-  export type CoverLetterOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "resumeText" | "resumeFileUrl" | "jobDescription" | "coverLetter" | "name" | "email" | "phoneNumber" | "portfolioUrl" | "language" | "jobRole" | "company" | "userId", ExtArgs["result"]["coverLetter"]>
+  export type CoverLetterRootOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "createdAt" | "updatedAt" | "originalResumeText" | "originalJobDescription" | "originalName" | "originalEmail" | "originalPhoneNumber" | "originalPortfolioUrl" | "originalLanguage" | "originalDate" | "currentJobRole" | "currentCompany", ExtArgs["result"]["coverLetterRoot"]>
+  export type CoverLetterRootInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | CoverLetterRoot$userArgs<ExtArgs>
+    versions?: boolean | CoverLetterRoot$versionsArgs<ExtArgs>
+    _count?: boolean | CoverLetterRootCountOutputTypeDefaultArgs<ExtArgs>
+  }
 
-  export type $CoverLetterPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "CoverLetter"
-    objects: {}
+  export type $CoverLetterRootPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CoverLetterRoot"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs> | null
+      versions: Prisma.$CoverLetterVersionPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      createdAt: Date
-      resumeText: string
-      resumeFileUrl: string | null
-      jobDescription: string
-      coverLetter: string
-      name: string | null
-      email: string | null
-      phoneNumber: string | null
-      portfolioUrl: string | null
-      language: string | null
-      jobRole: string | null
-      company: string | null
       userId: string | null
-    }, ExtArgs["result"]["coverLetter"]>
+      createdAt: Date
+      updatedAt: Date
+      originalResumeText: string
+      originalJobDescription: string
+      originalName: string | null
+      originalEmail: string | null
+      originalPhoneNumber: string | null
+      originalPortfolioUrl: string | null
+      originalLanguage: string | null
+      originalDate: string | null
+      currentJobRole: string | null
+      currentCompany: string | null
+    }, ExtArgs["result"]["coverLetterRoot"]>
     composites: {}
   }
 
-  type CoverLetterGetPayload<S extends boolean | null | undefined | CoverLetterDefaultArgs> = $Result.GetResult<Prisma.$CoverLetterPayload, S>
+  type CoverLetterRootGetPayload<S extends boolean | null | undefined | CoverLetterRootDefaultArgs> = $Result.GetResult<Prisma.$CoverLetterRootPayload, S>
 
-  type CoverLetterCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<CoverLetterFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: CoverLetterCountAggregateInputType | true
+  type CoverLetterRootCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CoverLetterRootFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CoverLetterRootCountAggregateInputType | true
     }
 
-  export interface CoverLetterDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CoverLetter'], meta: { name: 'CoverLetter' } }
+  export interface CoverLetterRootDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CoverLetterRoot'], meta: { name: 'CoverLetterRoot' } }
     /**
-     * Find zero or one CoverLetter that matches the filter.
-     * @param {CoverLetterFindUniqueArgs} args - Arguments to find a CoverLetter
+     * Find zero or one CoverLetterRoot that matches the filter.
+     * @param {CoverLetterRootFindUniqueArgs} args - Arguments to find a CoverLetterRoot
      * @example
-     * // Get one CoverLetter
-     * const coverLetter = await prisma.coverLetter.findUnique({
+     * // Get one CoverLetterRoot
+     * const coverLetterRoot = await prisma.coverLetterRoot.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends CoverLetterFindUniqueArgs>(args: SelectSubset<T, CoverLetterFindUniqueArgs<ExtArgs>>): Prisma__CoverLetterClient<$Result.GetResult<Prisma.$CoverLetterPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends CoverLetterRootFindUniqueArgs>(args: SelectSubset<T, CoverLetterRootFindUniqueArgs<ExtArgs>>): Prisma__CoverLetterRootClient<$Result.GetResult<Prisma.$CoverLetterRootPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one CoverLetter that matches the filter or throw an error with `error.code='P2025'`
+     * Find one CoverLetterRoot that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {CoverLetterFindUniqueOrThrowArgs} args - Arguments to find a CoverLetter
+     * @param {CoverLetterRootFindUniqueOrThrowArgs} args - Arguments to find a CoverLetterRoot
      * @example
-     * // Get one CoverLetter
-     * const coverLetter = await prisma.coverLetter.findUniqueOrThrow({
+     * // Get one CoverLetterRoot
+     * const coverLetterRoot = await prisma.coverLetterRoot.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends CoverLetterFindUniqueOrThrowArgs>(args: SelectSubset<T, CoverLetterFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CoverLetterClient<$Result.GetResult<Prisma.$CoverLetterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends CoverLetterRootFindUniqueOrThrowArgs>(args: SelectSubset<T, CoverLetterRootFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CoverLetterRootClient<$Result.GetResult<Prisma.$CoverLetterRootPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first CoverLetter that matches the filter.
+     * Find the first CoverLetterRoot that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CoverLetterFindFirstArgs} args - Arguments to find a CoverLetter
+     * @param {CoverLetterRootFindFirstArgs} args - Arguments to find a CoverLetterRoot
      * @example
-     * // Get one CoverLetter
-     * const coverLetter = await prisma.coverLetter.findFirst({
+     * // Get one CoverLetterRoot
+     * const coverLetterRoot = await prisma.coverLetterRoot.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends CoverLetterFindFirstArgs>(args?: SelectSubset<T, CoverLetterFindFirstArgs<ExtArgs>>): Prisma__CoverLetterClient<$Result.GetResult<Prisma.$CoverLetterPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends CoverLetterRootFindFirstArgs>(args?: SelectSubset<T, CoverLetterRootFindFirstArgs<ExtArgs>>): Prisma__CoverLetterRootClient<$Result.GetResult<Prisma.$CoverLetterRootPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first CoverLetter that matches the filter or
+     * Find the first CoverLetterRoot that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CoverLetterFindFirstOrThrowArgs} args - Arguments to find a CoverLetter
+     * @param {CoverLetterRootFindFirstOrThrowArgs} args - Arguments to find a CoverLetterRoot
      * @example
-     * // Get one CoverLetter
-     * const coverLetter = await prisma.coverLetter.findFirstOrThrow({
+     * // Get one CoverLetterRoot
+     * const coverLetterRoot = await prisma.coverLetterRoot.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends CoverLetterFindFirstOrThrowArgs>(args?: SelectSubset<T, CoverLetterFindFirstOrThrowArgs<ExtArgs>>): Prisma__CoverLetterClient<$Result.GetResult<Prisma.$CoverLetterPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends CoverLetterRootFindFirstOrThrowArgs>(args?: SelectSubset<T, CoverLetterRootFindFirstOrThrowArgs<ExtArgs>>): Prisma__CoverLetterRootClient<$Result.GetResult<Prisma.$CoverLetterRootPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more CoverLetters that matches the filter.
+     * Find zero or more CoverLetterRoots that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CoverLetterFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {CoverLetterRootFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all CoverLetters
-     * const coverLetters = await prisma.coverLetter.findMany()
+     * // Get all CoverLetterRoots
+     * const coverLetterRoots = await prisma.coverLetterRoot.findMany()
      * 
-     * // Get first 10 CoverLetters
-     * const coverLetters = await prisma.coverLetter.findMany({ take: 10 })
+     * // Get first 10 CoverLetterRoots
+     * const coverLetterRoots = await prisma.coverLetterRoot.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const coverLetterWithIdOnly = await prisma.coverLetter.findMany({ select: { id: true } })
+     * const coverLetterRootWithIdOnly = await prisma.coverLetterRoot.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends CoverLetterFindManyArgs>(args?: SelectSubset<T, CoverLetterFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoverLetterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends CoverLetterRootFindManyArgs>(args?: SelectSubset<T, CoverLetterRootFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoverLetterRootPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a CoverLetter.
-     * @param {CoverLetterCreateArgs} args - Arguments to create a CoverLetter.
+     * Create a CoverLetterRoot.
+     * @param {CoverLetterRootCreateArgs} args - Arguments to create a CoverLetterRoot.
      * @example
-     * // Create one CoverLetter
-     * const CoverLetter = await prisma.coverLetter.create({
+     * // Create one CoverLetterRoot
+     * const CoverLetterRoot = await prisma.coverLetterRoot.create({
      *   data: {
-     *     // ... data to create a CoverLetter
+     *     // ... data to create a CoverLetterRoot
      *   }
      * })
      * 
      */
-    create<T extends CoverLetterCreateArgs>(args: SelectSubset<T, CoverLetterCreateArgs<ExtArgs>>): Prisma__CoverLetterClient<$Result.GetResult<Prisma.$CoverLetterPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends CoverLetterRootCreateArgs>(args: SelectSubset<T, CoverLetterRootCreateArgs<ExtArgs>>): Prisma__CoverLetterRootClient<$Result.GetResult<Prisma.$CoverLetterRootPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many CoverLetters.
-     * @param {CoverLetterCreateManyArgs} args - Arguments to create many CoverLetters.
+     * Create many CoverLetterRoots.
+     * @param {CoverLetterRootCreateManyArgs} args - Arguments to create many CoverLetterRoots.
      * @example
-     * // Create many CoverLetters
-     * const coverLetter = await prisma.coverLetter.createMany({
+     * // Create many CoverLetterRoots
+     * const coverLetterRoot = await prisma.coverLetterRoot.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends CoverLetterCreateManyArgs>(args?: SelectSubset<T, CoverLetterCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends CoverLetterRootCreateManyArgs>(args?: SelectSubset<T, CoverLetterRootCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a CoverLetter.
-     * @param {CoverLetterDeleteArgs} args - Arguments to delete one CoverLetter.
+     * Delete a CoverLetterRoot.
+     * @param {CoverLetterRootDeleteArgs} args - Arguments to delete one CoverLetterRoot.
      * @example
-     * // Delete one CoverLetter
-     * const CoverLetter = await prisma.coverLetter.delete({
+     * // Delete one CoverLetterRoot
+     * const CoverLetterRoot = await prisma.coverLetterRoot.delete({
      *   where: {
-     *     // ... filter to delete one CoverLetter
+     *     // ... filter to delete one CoverLetterRoot
      *   }
      * })
      * 
      */
-    delete<T extends CoverLetterDeleteArgs>(args: SelectSubset<T, CoverLetterDeleteArgs<ExtArgs>>): Prisma__CoverLetterClient<$Result.GetResult<Prisma.$CoverLetterPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends CoverLetterRootDeleteArgs>(args: SelectSubset<T, CoverLetterRootDeleteArgs<ExtArgs>>): Prisma__CoverLetterRootClient<$Result.GetResult<Prisma.$CoverLetterRootPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one CoverLetter.
-     * @param {CoverLetterUpdateArgs} args - Arguments to update one CoverLetter.
+     * Update one CoverLetterRoot.
+     * @param {CoverLetterRootUpdateArgs} args - Arguments to update one CoverLetterRoot.
      * @example
-     * // Update one CoverLetter
-     * const coverLetter = await prisma.coverLetter.update({
+     * // Update one CoverLetterRoot
+     * const coverLetterRoot = await prisma.coverLetterRoot.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5737,30 +5978,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends CoverLetterUpdateArgs>(args: SelectSubset<T, CoverLetterUpdateArgs<ExtArgs>>): Prisma__CoverLetterClient<$Result.GetResult<Prisma.$CoverLetterPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends CoverLetterRootUpdateArgs>(args: SelectSubset<T, CoverLetterRootUpdateArgs<ExtArgs>>): Prisma__CoverLetterRootClient<$Result.GetResult<Prisma.$CoverLetterRootPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more CoverLetters.
-     * @param {CoverLetterDeleteManyArgs} args - Arguments to filter CoverLetters to delete.
+     * Delete zero or more CoverLetterRoots.
+     * @param {CoverLetterRootDeleteManyArgs} args - Arguments to filter CoverLetterRoots to delete.
      * @example
-     * // Delete a few CoverLetters
-     * const { count } = await prisma.coverLetter.deleteMany({
+     * // Delete a few CoverLetterRoots
+     * const { count } = await prisma.coverLetterRoot.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends CoverLetterDeleteManyArgs>(args?: SelectSubset<T, CoverLetterDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends CoverLetterRootDeleteManyArgs>(args?: SelectSubset<T, CoverLetterRootDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more CoverLetters.
+     * Update zero or more CoverLetterRoots.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CoverLetterUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {CoverLetterRootUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many CoverLetters
-     * const coverLetter = await prisma.coverLetter.updateMany({
+     * // Update many CoverLetterRoots
+     * const coverLetterRoot = await prisma.coverLetterRoot.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5770,79 +6011,79 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends CoverLetterUpdateManyArgs>(args: SelectSubset<T, CoverLetterUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends CoverLetterRootUpdateManyArgs>(args: SelectSubset<T, CoverLetterRootUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one CoverLetter.
-     * @param {CoverLetterUpsertArgs} args - Arguments to update or create a CoverLetter.
+     * Create or update one CoverLetterRoot.
+     * @param {CoverLetterRootUpsertArgs} args - Arguments to update or create a CoverLetterRoot.
      * @example
-     * // Update or create a CoverLetter
-     * const coverLetter = await prisma.coverLetter.upsert({
+     * // Update or create a CoverLetterRoot
+     * const coverLetterRoot = await prisma.coverLetterRoot.upsert({
      *   create: {
-     *     // ... data to create a CoverLetter
+     *     // ... data to create a CoverLetterRoot
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the CoverLetter we want to update
+     *     // ... the filter for the CoverLetterRoot we want to update
      *   }
      * })
      */
-    upsert<T extends CoverLetterUpsertArgs>(args: SelectSubset<T, CoverLetterUpsertArgs<ExtArgs>>): Prisma__CoverLetterClient<$Result.GetResult<Prisma.$CoverLetterPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends CoverLetterRootUpsertArgs>(args: SelectSubset<T, CoverLetterRootUpsertArgs<ExtArgs>>): Prisma__CoverLetterRootClient<$Result.GetResult<Prisma.$CoverLetterRootPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more CoverLetters that matches the filter.
-     * @param {CoverLetterFindRawArgs} args - Select which filters you would like to apply.
+     * Find zero or more CoverLetterRoots that matches the filter.
+     * @param {CoverLetterRootFindRawArgs} args - Select which filters you would like to apply.
      * @example
-     * const coverLetter = await prisma.coverLetter.findRaw({
+     * const coverLetterRoot = await prisma.coverLetterRoot.findRaw({
      *   filter: { age: { $gt: 25 } }
      * })
      */
-    findRaw(args?: CoverLetterFindRawArgs): Prisma.PrismaPromise<JsonObject>
+    findRaw(args?: CoverLetterRootFindRawArgs): Prisma.PrismaPromise<JsonObject>
 
     /**
-     * Perform aggregation operations on a CoverLetter.
-     * @param {CoverLetterAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * Perform aggregation operations on a CoverLetterRoot.
+     * @param {CoverLetterRootAggregateRawArgs} args - Select which aggregations you would like to apply.
      * @example
-     * const coverLetter = await prisma.coverLetter.aggregateRaw({
+     * const coverLetterRoot = await prisma.coverLetterRoot.aggregateRaw({
      *   pipeline: [
      *     { $match: { status: "registered" } },
      *     { $group: { _id: "$country", total: { $sum: 1 } } }
      *   ]
      * })
      */
-    aggregateRaw(args?: CoverLetterAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+    aggregateRaw(args?: CoverLetterRootAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
-     * Count the number of CoverLetters.
+     * Count the number of CoverLetterRoots.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CoverLetterCountArgs} args - Arguments to filter CoverLetters to count.
+     * @param {CoverLetterRootCountArgs} args - Arguments to filter CoverLetterRoots to count.
      * @example
-     * // Count the number of CoverLetters
-     * const count = await prisma.coverLetter.count({
+     * // Count the number of CoverLetterRoots
+     * const count = await prisma.coverLetterRoot.count({
      *   where: {
-     *     // ... the filter for the CoverLetters we want to count
+     *     // ... the filter for the CoverLetterRoots we want to count
      *   }
      * })
     **/
-    count<T extends CoverLetterCountArgs>(
-      args?: Subset<T, CoverLetterCountArgs>,
+    count<T extends CoverLetterRootCountArgs>(
+      args?: Subset<T, CoverLetterRootCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], CoverLetterCountAggregateOutputType>
+          : GetScalarType<T['select'], CoverLetterRootCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a CoverLetter.
+     * Allows you to perform aggregations operations on a CoverLetterRoot.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CoverLetterAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {CoverLetterRootAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -5862,13 +6103,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends CoverLetterAggregateArgs>(args: Subset<T, CoverLetterAggregateArgs>): Prisma.PrismaPromise<GetCoverLetterAggregateType<T>>
+    aggregate<T extends CoverLetterRootAggregateArgs>(args: Subset<T, CoverLetterRootAggregateArgs>): Prisma.PrismaPromise<GetCoverLetterRootAggregateType<T>>
 
     /**
-     * Group by CoverLetter.
+     * Group by CoverLetterRoot.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CoverLetterGroupByArgs} args - Group by arguments.
+     * @param {CoverLetterRootGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -5883,14 +6124,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends CoverLetterGroupByArgs,
+      T extends CoverLetterRootGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: CoverLetterGroupByArgs['orderBy'] }
-        : { orderBy?: CoverLetterGroupByArgs['orderBy'] },
+        ? { orderBy: CoverLetterRootGroupByArgs['orderBy'] }
+        : { orderBy?: CoverLetterRootGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -5939,21 +6180,23 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, CoverLetterGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCoverLetterGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, CoverLetterRootGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCoverLetterRootGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the CoverLetter model
+   * Fields of the CoverLetterRoot model
    */
-  readonly fields: CoverLetterFieldRefs;
+  readonly fields: CoverLetterRootFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for CoverLetter.
+   * The delegate class that acts as a "Promise-like" for CoverLetterRoot.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__CoverLetterClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__CoverLetterRootClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends CoverLetterRoot$userArgs<ExtArgs> = {}>(args?: Subset<T, CoverLetterRoot$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    versions<T extends CoverLetterRoot$versionsArgs<ExtArgs> = {}>(args?: Subset<T, CoverLetterRoot$versionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoverLetterVersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5980,332 +6223,368 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the CoverLetter model
+   * Fields of the CoverLetterRoot model
    */
-  interface CoverLetterFieldRefs {
-    readonly id: FieldRef<"CoverLetter", 'String'>
-    readonly createdAt: FieldRef<"CoverLetter", 'DateTime'>
-    readonly resumeText: FieldRef<"CoverLetter", 'String'>
-    readonly resumeFileUrl: FieldRef<"CoverLetter", 'String'>
-    readonly jobDescription: FieldRef<"CoverLetter", 'String'>
-    readonly coverLetter: FieldRef<"CoverLetter", 'String'>
-    readonly name: FieldRef<"CoverLetter", 'String'>
-    readonly email: FieldRef<"CoverLetter", 'String'>
-    readonly phoneNumber: FieldRef<"CoverLetter", 'String'>
-    readonly portfolioUrl: FieldRef<"CoverLetter", 'String'>
-    readonly language: FieldRef<"CoverLetter", 'String'>
-    readonly jobRole: FieldRef<"CoverLetter", 'String'>
-    readonly company: FieldRef<"CoverLetter", 'String'>
-    readonly userId: FieldRef<"CoverLetter", 'String'>
+  interface CoverLetterRootFieldRefs {
+    readonly id: FieldRef<"CoverLetterRoot", 'String'>
+    readonly userId: FieldRef<"CoverLetterRoot", 'String'>
+    readonly createdAt: FieldRef<"CoverLetterRoot", 'DateTime'>
+    readonly updatedAt: FieldRef<"CoverLetterRoot", 'DateTime'>
+    readonly originalResumeText: FieldRef<"CoverLetterRoot", 'String'>
+    readonly originalJobDescription: FieldRef<"CoverLetterRoot", 'String'>
+    readonly originalName: FieldRef<"CoverLetterRoot", 'String'>
+    readonly originalEmail: FieldRef<"CoverLetterRoot", 'String'>
+    readonly originalPhoneNumber: FieldRef<"CoverLetterRoot", 'String'>
+    readonly originalPortfolioUrl: FieldRef<"CoverLetterRoot", 'String'>
+    readonly originalLanguage: FieldRef<"CoverLetterRoot", 'String'>
+    readonly originalDate: FieldRef<"CoverLetterRoot", 'String'>
+    readonly currentJobRole: FieldRef<"CoverLetterRoot", 'String'>
+    readonly currentCompany: FieldRef<"CoverLetterRoot", 'String'>
   }
     
 
   // Custom InputTypes
   /**
-   * CoverLetter findUnique
+   * CoverLetterRoot findUnique
    */
-  export type CoverLetterFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CoverLetterRootFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CoverLetter
+     * Select specific fields to fetch from the CoverLetterRoot
      */
-    select?: CoverLetterSelect<ExtArgs> | null
+    select?: CoverLetterRootSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CoverLetter
+     * Omit specific fields from the CoverLetterRoot
      */
-    omit?: CoverLetterOmit<ExtArgs> | null
+    omit?: CoverLetterRootOmit<ExtArgs> | null
     /**
-     * Filter, which CoverLetter to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where: CoverLetterWhereUniqueInput
+    include?: CoverLetterRootInclude<ExtArgs> | null
+    /**
+     * Filter, which CoverLetterRoot to fetch.
+     */
+    where: CoverLetterRootWhereUniqueInput
   }
 
   /**
-   * CoverLetter findUniqueOrThrow
+   * CoverLetterRoot findUniqueOrThrow
    */
-  export type CoverLetterFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CoverLetterRootFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CoverLetter
+     * Select specific fields to fetch from the CoverLetterRoot
      */
-    select?: CoverLetterSelect<ExtArgs> | null
+    select?: CoverLetterRootSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CoverLetter
+     * Omit specific fields from the CoverLetterRoot
      */
-    omit?: CoverLetterOmit<ExtArgs> | null
+    omit?: CoverLetterRootOmit<ExtArgs> | null
     /**
-     * Filter, which CoverLetter to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where: CoverLetterWhereUniqueInput
+    include?: CoverLetterRootInclude<ExtArgs> | null
+    /**
+     * Filter, which CoverLetterRoot to fetch.
+     */
+    where: CoverLetterRootWhereUniqueInput
   }
 
   /**
-   * CoverLetter findFirst
+   * CoverLetterRoot findFirst
    */
-  export type CoverLetterFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CoverLetterRootFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CoverLetter
+     * Select specific fields to fetch from the CoverLetterRoot
      */
-    select?: CoverLetterSelect<ExtArgs> | null
+    select?: CoverLetterRootSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CoverLetter
+     * Omit specific fields from the CoverLetterRoot
      */
-    omit?: CoverLetterOmit<ExtArgs> | null
+    omit?: CoverLetterRootOmit<ExtArgs> | null
     /**
-     * Filter, which CoverLetter to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where?: CoverLetterWhereInput
+    include?: CoverLetterRootInclude<ExtArgs> | null
+    /**
+     * Filter, which CoverLetterRoot to fetch.
+     */
+    where?: CoverLetterRootWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of CoverLetters to fetch.
+     * Determine the order of CoverLetterRoots to fetch.
      */
-    orderBy?: CoverLetterOrderByWithRelationInput | CoverLetterOrderByWithRelationInput[]
+    orderBy?: CoverLetterRootOrderByWithRelationInput | CoverLetterRootOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for CoverLetters.
+     * Sets the position for searching for CoverLetterRoots.
      */
-    cursor?: CoverLetterWhereUniqueInput
+    cursor?: CoverLetterRootWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` CoverLetters from the position of the cursor.
+     * Take `±n` CoverLetterRoots from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` CoverLetters.
+     * Skip the first `n` CoverLetterRoots.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of CoverLetters.
+     * Filter by unique combinations of CoverLetterRoots.
      */
-    distinct?: CoverLetterScalarFieldEnum | CoverLetterScalarFieldEnum[]
+    distinct?: CoverLetterRootScalarFieldEnum | CoverLetterRootScalarFieldEnum[]
   }
 
   /**
-   * CoverLetter findFirstOrThrow
+   * CoverLetterRoot findFirstOrThrow
    */
-  export type CoverLetterFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CoverLetterRootFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CoverLetter
+     * Select specific fields to fetch from the CoverLetterRoot
      */
-    select?: CoverLetterSelect<ExtArgs> | null
+    select?: CoverLetterRootSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CoverLetter
+     * Omit specific fields from the CoverLetterRoot
      */
-    omit?: CoverLetterOmit<ExtArgs> | null
+    omit?: CoverLetterRootOmit<ExtArgs> | null
     /**
-     * Filter, which CoverLetter to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where?: CoverLetterWhereInput
+    include?: CoverLetterRootInclude<ExtArgs> | null
+    /**
+     * Filter, which CoverLetterRoot to fetch.
+     */
+    where?: CoverLetterRootWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of CoverLetters to fetch.
+     * Determine the order of CoverLetterRoots to fetch.
      */
-    orderBy?: CoverLetterOrderByWithRelationInput | CoverLetterOrderByWithRelationInput[]
+    orderBy?: CoverLetterRootOrderByWithRelationInput | CoverLetterRootOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for CoverLetters.
+     * Sets the position for searching for CoverLetterRoots.
      */
-    cursor?: CoverLetterWhereUniqueInput
+    cursor?: CoverLetterRootWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` CoverLetters from the position of the cursor.
+     * Take `±n` CoverLetterRoots from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` CoverLetters.
+     * Skip the first `n` CoverLetterRoots.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of CoverLetters.
+     * Filter by unique combinations of CoverLetterRoots.
      */
-    distinct?: CoverLetterScalarFieldEnum | CoverLetterScalarFieldEnum[]
+    distinct?: CoverLetterRootScalarFieldEnum | CoverLetterRootScalarFieldEnum[]
   }
 
   /**
-   * CoverLetter findMany
+   * CoverLetterRoot findMany
    */
-  export type CoverLetterFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CoverLetterRootFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CoverLetter
+     * Select specific fields to fetch from the CoverLetterRoot
      */
-    select?: CoverLetterSelect<ExtArgs> | null
+    select?: CoverLetterRootSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CoverLetter
+     * Omit specific fields from the CoverLetterRoot
      */
-    omit?: CoverLetterOmit<ExtArgs> | null
+    omit?: CoverLetterRootOmit<ExtArgs> | null
     /**
-     * Filter, which CoverLetters to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where?: CoverLetterWhereInput
+    include?: CoverLetterRootInclude<ExtArgs> | null
+    /**
+     * Filter, which CoverLetterRoots to fetch.
+     */
+    where?: CoverLetterRootWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of CoverLetters to fetch.
+     * Determine the order of CoverLetterRoots to fetch.
      */
-    orderBy?: CoverLetterOrderByWithRelationInput | CoverLetterOrderByWithRelationInput[]
+    orderBy?: CoverLetterRootOrderByWithRelationInput | CoverLetterRootOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing CoverLetters.
+     * Sets the position for listing CoverLetterRoots.
      */
-    cursor?: CoverLetterWhereUniqueInput
+    cursor?: CoverLetterRootWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` CoverLetters from the position of the cursor.
+     * Take `±n` CoverLetterRoots from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` CoverLetters.
+     * Skip the first `n` CoverLetterRoots.
      */
     skip?: number
-    distinct?: CoverLetterScalarFieldEnum | CoverLetterScalarFieldEnum[]
+    distinct?: CoverLetterRootScalarFieldEnum | CoverLetterRootScalarFieldEnum[]
   }
 
   /**
-   * CoverLetter create
+   * CoverLetterRoot create
    */
-  export type CoverLetterCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CoverLetterRootCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CoverLetter
+     * Select specific fields to fetch from the CoverLetterRoot
      */
-    select?: CoverLetterSelect<ExtArgs> | null
+    select?: CoverLetterRootSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CoverLetter
+     * Omit specific fields from the CoverLetterRoot
      */
-    omit?: CoverLetterOmit<ExtArgs> | null
+    omit?: CoverLetterRootOmit<ExtArgs> | null
     /**
-     * The data needed to create a CoverLetter.
+     * Choose, which related nodes to fetch as well
      */
-    data: XOR<CoverLetterCreateInput, CoverLetterUncheckedCreateInput>
+    include?: CoverLetterRootInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CoverLetterRoot.
+     */
+    data: XOR<CoverLetterRootCreateInput, CoverLetterRootUncheckedCreateInput>
   }
 
   /**
-   * CoverLetter createMany
+   * CoverLetterRoot createMany
    */
-  export type CoverLetterCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CoverLetterRootCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many CoverLetters.
+     * The data used to create many CoverLetterRoots.
      */
-    data: CoverLetterCreateManyInput | CoverLetterCreateManyInput[]
+    data: CoverLetterRootCreateManyInput | CoverLetterRootCreateManyInput[]
   }
 
   /**
-   * CoverLetter update
+   * CoverLetterRoot update
    */
-  export type CoverLetterUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CoverLetterRootUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CoverLetter
+     * Select specific fields to fetch from the CoverLetterRoot
      */
-    select?: CoverLetterSelect<ExtArgs> | null
+    select?: CoverLetterRootSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CoverLetter
+     * Omit specific fields from the CoverLetterRoot
      */
-    omit?: CoverLetterOmit<ExtArgs> | null
+    omit?: CoverLetterRootOmit<ExtArgs> | null
     /**
-     * The data needed to update a CoverLetter.
+     * Choose, which related nodes to fetch as well
      */
-    data: XOR<CoverLetterUpdateInput, CoverLetterUncheckedUpdateInput>
+    include?: CoverLetterRootInclude<ExtArgs> | null
     /**
-     * Choose, which CoverLetter to update.
+     * The data needed to update a CoverLetterRoot.
      */
-    where: CoverLetterWhereUniqueInput
+    data: XOR<CoverLetterRootUpdateInput, CoverLetterRootUncheckedUpdateInput>
+    /**
+     * Choose, which CoverLetterRoot to update.
+     */
+    where: CoverLetterRootWhereUniqueInput
   }
 
   /**
-   * CoverLetter updateMany
+   * CoverLetterRoot updateMany
    */
-  export type CoverLetterUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CoverLetterRootUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update CoverLetters.
+     * The data used to update CoverLetterRoots.
      */
-    data: XOR<CoverLetterUpdateManyMutationInput, CoverLetterUncheckedUpdateManyInput>
+    data: XOR<CoverLetterRootUpdateManyMutationInput, CoverLetterRootUncheckedUpdateManyInput>
     /**
-     * Filter which CoverLetters to update
+     * Filter which CoverLetterRoots to update
      */
-    where?: CoverLetterWhereInput
+    where?: CoverLetterRootWhereInput
     /**
-     * Limit how many CoverLetters to update.
+     * Limit how many CoverLetterRoots to update.
      */
     limit?: number
   }
 
   /**
-   * CoverLetter upsert
+   * CoverLetterRoot upsert
    */
-  export type CoverLetterUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CoverLetterRootUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CoverLetter
+     * Select specific fields to fetch from the CoverLetterRoot
      */
-    select?: CoverLetterSelect<ExtArgs> | null
+    select?: CoverLetterRootSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CoverLetter
+     * Omit specific fields from the CoverLetterRoot
      */
-    omit?: CoverLetterOmit<ExtArgs> | null
+    omit?: CoverLetterRootOmit<ExtArgs> | null
     /**
-     * The filter to search for the CoverLetter to update in case it exists.
+     * Choose, which related nodes to fetch as well
      */
-    where: CoverLetterWhereUniqueInput
+    include?: CoverLetterRootInclude<ExtArgs> | null
     /**
-     * In case the CoverLetter found by the `where` argument doesn't exist, create a new CoverLetter with this data.
+     * The filter to search for the CoverLetterRoot to update in case it exists.
      */
-    create: XOR<CoverLetterCreateInput, CoverLetterUncheckedCreateInput>
+    where: CoverLetterRootWhereUniqueInput
     /**
-     * In case the CoverLetter was found with the provided `where` argument, update it with this data.
+     * In case the CoverLetterRoot found by the `where` argument doesn't exist, create a new CoverLetterRoot with this data.
      */
-    update: XOR<CoverLetterUpdateInput, CoverLetterUncheckedUpdateInput>
+    create: XOR<CoverLetterRootCreateInput, CoverLetterRootUncheckedCreateInput>
+    /**
+     * In case the CoverLetterRoot was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CoverLetterRootUpdateInput, CoverLetterRootUncheckedUpdateInput>
   }
 
   /**
-   * CoverLetter delete
+   * CoverLetterRoot delete
    */
-  export type CoverLetterDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CoverLetterRootDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CoverLetter
+     * Select specific fields to fetch from the CoverLetterRoot
      */
-    select?: CoverLetterSelect<ExtArgs> | null
+    select?: CoverLetterRootSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CoverLetter
+     * Omit specific fields from the CoverLetterRoot
      */
-    omit?: CoverLetterOmit<ExtArgs> | null
+    omit?: CoverLetterRootOmit<ExtArgs> | null
     /**
-     * Filter which CoverLetter to delete.
+     * Choose, which related nodes to fetch as well
      */
-    where: CoverLetterWhereUniqueInput
+    include?: CoverLetterRootInclude<ExtArgs> | null
+    /**
+     * Filter which CoverLetterRoot to delete.
+     */
+    where: CoverLetterRootWhereUniqueInput
   }
 
   /**
-   * CoverLetter deleteMany
+   * CoverLetterRoot deleteMany
    */
-  export type CoverLetterDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CoverLetterRootDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which CoverLetters to delete
+     * Filter which CoverLetterRoots to delete
      */
-    where?: CoverLetterWhereInput
+    where?: CoverLetterRootWhereInput
     /**
-     * Limit how many CoverLetters to delete.
+     * Limit how many CoverLetterRoots to delete.
      */
     limit?: number
   }
 
   /**
-   * CoverLetter findRaw
+   * CoverLetterRoot findRaw
    */
-  export type CoverLetterFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CoverLetterRootFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
      */
@@ -6317,9 +6596,9 @@ export namespace Prisma {
   }
 
   /**
-   * CoverLetter aggregateRaw
+   * CoverLetterRoot aggregateRaw
    */
-  export type CoverLetterAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CoverLetterRootAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
      */
@@ -6331,17 +6610,1088 @@ export namespace Prisma {
   }
 
   /**
-   * CoverLetter without action
+   * CoverLetterRoot.user
    */
-  export type CoverLetterDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CoverLetterRoot$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CoverLetter
+     * Select specific fields to fetch from the User
      */
-    select?: CoverLetterSelect<ExtArgs> | null
+    select?: UserSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CoverLetter
+     * Omit specific fields from the User
      */
-    omit?: CoverLetterOmit<ExtArgs> | null
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * CoverLetterRoot.versions
+   */
+  export type CoverLetterRoot$versionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CoverLetterVersion
+     */
+    select?: CoverLetterVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CoverLetterVersion
+     */
+    omit?: CoverLetterVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoverLetterVersionInclude<ExtArgs> | null
+    where?: CoverLetterVersionWhereInput
+    orderBy?: CoverLetterVersionOrderByWithRelationInput | CoverLetterVersionOrderByWithRelationInput[]
+    cursor?: CoverLetterVersionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CoverLetterVersionScalarFieldEnum | CoverLetterVersionScalarFieldEnum[]
+  }
+
+  /**
+   * CoverLetterRoot without action
+   */
+  export type CoverLetterRootDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CoverLetterRoot
+     */
+    select?: CoverLetterRootSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CoverLetterRoot
+     */
+    omit?: CoverLetterRootOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoverLetterRootInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CoverLetterVersion
+   */
+
+  export type AggregateCoverLetterVersion = {
+    _count: CoverLetterVersionCountAggregateOutputType | null
+    _avg: CoverLetterVersionAvgAggregateOutputType | null
+    _sum: CoverLetterVersionSumAggregateOutputType | null
+    _min: CoverLetterVersionMinAggregateOutputType | null
+    _max: CoverLetterVersionMaxAggregateOutputType | null
+  }
+
+  export type CoverLetterVersionAvgAggregateOutputType = {
+    versionNumber: number | null
+  }
+
+  export type CoverLetterVersionSumAggregateOutputType = {
+    versionNumber: number | null
+  }
+
+  export type CoverLetterVersionMinAggregateOutputType = {
+    id: string | null
+    rootId: string | null
+    content: string | null
+    versionNumber: number | null
+    createdAt: Date | null
+    refinementTypeUsed: string | null
+  }
+
+  export type CoverLetterVersionMaxAggregateOutputType = {
+    id: string | null
+    rootId: string | null
+    content: string | null
+    versionNumber: number | null
+    createdAt: Date | null
+    refinementTypeUsed: string | null
+  }
+
+  export type CoverLetterVersionCountAggregateOutputType = {
+    id: number
+    rootId: number
+    content: number
+    versionNumber: number
+    createdAt: number
+    refinementTypeUsed: number
+    _all: number
+  }
+
+
+  export type CoverLetterVersionAvgAggregateInputType = {
+    versionNumber?: true
+  }
+
+  export type CoverLetterVersionSumAggregateInputType = {
+    versionNumber?: true
+  }
+
+  export type CoverLetterVersionMinAggregateInputType = {
+    id?: true
+    rootId?: true
+    content?: true
+    versionNumber?: true
+    createdAt?: true
+    refinementTypeUsed?: true
+  }
+
+  export type CoverLetterVersionMaxAggregateInputType = {
+    id?: true
+    rootId?: true
+    content?: true
+    versionNumber?: true
+    createdAt?: true
+    refinementTypeUsed?: true
+  }
+
+  export type CoverLetterVersionCountAggregateInputType = {
+    id?: true
+    rootId?: true
+    content?: true
+    versionNumber?: true
+    createdAt?: true
+    refinementTypeUsed?: true
+    _all?: true
+  }
+
+  export type CoverLetterVersionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CoverLetterVersion to aggregate.
+     */
+    where?: CoverLetterVersionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CoverLetterVersions to fetch.
+     */
+    orderBy?: CoverLetterVersionOrderByWithRelationInput | CoverLetterVersionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CoverLetterVersionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CoverLetterVersions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CoverLetterVersions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CoverLetterVersions
+    **/
+    _count?: true | CoverLetterVersionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CoverLetterVersionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CoverLetterVersionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CoverLetterVersionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CoverLetterVersionMaxAggregateInputType
+  }
+
+  export type GetCoverLetterVersionAggregateType<T extends CoverLetterVersionAggregateArgs> = {
+        [P in keyof T & keyof AggregateCoverLetterVersion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCoverLetterVersion[P]>
+      : GetScalarType<T[P], AggregateCoverLetterVersion[P]>
+  }
+
+
+
+
+  export type CoverLetterVersionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CoverLetterVersionWhereInput
+    orderBy?: CoverLetterVersionOrderByWithAggregationInput | CoverLetterVersionOrderByWithAggregationInput[]
+    by: CoverLetterVersionScalarFieldEnum[] | CoverLetterVersionScalarFieldEnum
+    having?: CoverLetterVersionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CoverLetterVersionCountAggregateInputType | true
+    _avg?: CoverLetterVersionAvgAggregateInputType
+    _sum?: CoverLetterVersionSumAggregateInputType
+    _min?: CoverLetterVersionMinAggregateInputType
+    _max?: CoverLetterVersionMaxAggregateInputType
+  }
+
+  export type CoverLetterVersionGroupByOutputType = {
+    id: string
+    rootId: string
+    content: string
+    versionNumber: number
+    createdAt: Date
+    refinementTypeUsed: string | null
+    _count: CoverLetterVersionCountAggregateOutputType | null
+    _avg: CoverLetterVersionAvgAggregateOutputType | null
+    _sum: CoverLetterVersionSumAggregateOutputType | null
+    _min: CoverLetterVersionMinAggregateOutputType | null
+    _max: CoverLetterVersionMaxAggregateOutputType | null
+  }
+
+  type GetCoverLetterVersionGroupByPayload<T extends CoverLetterVersionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CoverLetterVersionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CoverLetterVersionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CoverLetterVersionGroupByOutputType[P]>
+            : GetScalarType<T[P], CoverLetterVersionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CoverLetterVersionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    rootId?: boolean
+    content?: boolean
+    versionNumber?: boolean
+    createdAt?: boolean
+    refinementTypeUsed?: boolean
+    root?: boolean | CoverLetterRootDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["coverLetterVersion"]>
+
+
+
+  export type CoverLetterVersionSelectScalar = {
+    id?: boolean
+    rootId?: boolean
+    content?: boolean
+    versionNumber?: boolean
+    createdAt?: boolean
+    refinementTypeUsed?: boolean
+  }
+
+  export type CoverLetterVersionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "rootId" | "content" | "versionNumber" | "createdAt" | "refinementTypeUsed", ExtArgs["result"]["coverLetterVersion"]>
+  export type CoverLetterVersionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    root?: boolean | CoverLetterRootDefaultArgs<ExtArgs>
+  }
+
+  export type $CoverLetterVersionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CoverLetterVersion"
+    objects: {
+      root: Prisma.$CoverLetterRootPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      rootId: string
+      content: string
+      versionNumber: number
+      createdAt: Date
+      refinementTypeUsed: string | null
+    }, ExtArgs["result"]["coverLetterVersion"]>
+    composites: {}
+  }
+
+  type CoverLetterVersionGetPayload<S extends boolean | null | undefined | CoverLetterVersionDefaultArgs> = $Result.GetResult<Prisma.$CoverLetterVersionPayload, S>
+
+  type CoverLetterVersionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CoverLetterVersionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CoverLetterVersionCountAggregateInputType | true
+    }
+
+  export interface CoverLetterVersionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CoverLetterVersion'], meta: { name: 'CoverLetterVersion' } }
+    /**
+     * Find zero or one CoverLetterVersion that matches the filter.
+     * @param {CoverLetterVersionFindUniqueArgs} args - Arguments to find a CoverLetterVersion
+     * @example
+     * // Get one CoverLetterVersion
+     * const coverLetterVersion = await prisma.coverLetterVersion.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CoverLetterVersionFindUniqueArgs>(args: SelectSubset<T, CoverLetterVersionFindUniqueArgs<ExtArgs>>): Prisma__CoverLetterVersionClient<$Result.GetResult<Prisma.$CoverLetterVersionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CoverLetterVersion that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CoverLetterVersionFindUniqueOrThrowArgs} args - Arguments to find a CoverLetterVersion
+     * @example
+     * // Get one CoverLetterVersion
+     * const coverLetterVersion = await prisma.coverLetterVersion.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CoverLetterVersionFindUniqueOrThrowArgs>(args: SelectSubset<T, CoverLetterVersionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CoverLetterVersionClient<$Result.GetResult<Prisma.$CoverLetterVersionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CoverLetterVersion that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CoverLetterVersionFindFirstArgs} args - Arguments to find a CoverLetterVersion
+     * @example
+     * // Get one CoverLetterVersion
+     * const coverLetterVersion = await prisma.coverLetterVersion.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CoverLetterVersionFindFirstArgs>(args?: SelectSubset<T, CoverLetterVersionFindFirstArgs<ExtArgs>>): Prisma__CoverLetterVersionClient<$Result.GetResult<Prisma.$CoverLetterVersionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CoverLetterVersion that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CoverLetterVersionFindFirstOrThrowArgs} args - Arguments to find a CoverLetterVersion
+     * @example
+     * // Get one CoverLetterVersion
+     * const coverLetterVersion = await prisma.coverLetterVersion.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CoverLetterVersionFindFirstOrThrowArgs>(args?: SelectSubset<T, CoverLetterVersionFindFirstOrThrowArgs<ExtArgs>>): Prisma__CoverLetterVersionClient<$Result.GetResult<Prisma.$CoverLetterVersionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CoverLetterVersions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CoverLetterVersionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CoverLetterVersions
+     * const coverLetterVersions = await prisma.coverLetterVersion.findMany()
+     * 
+     * // Get first 10 CoverLetterVersions
+     * const coverLetterVersions = await prisma.coverLetterVersion.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const coverLetterVersionWithIdOnly = await prisma.coverLetterVersion.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CoverLetterVersionFindManyArgs>(args?: SelectSubset<T, CoverLetterVersionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoverLetterVersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CoverLetterVersion.
+     * @param {CoverLetterVersionCreateArgs} args - Arguments to create a CoverLetterVersion.
+     * @example
+     * // Create one CoverLetterVersion
+     * const CoverLetterVersion = await prisma.coverLetterVersion.create({
+     *   data: {
+     *     // ... data to create a CoverLetterVersion
+     *   }
+     * })
+     * 
+     */
+    create<T extends CoverLetterVersionCreateArgs>(args: SelectSubset<T, CoverLetterVersionCreateArgs<ExtArgs>>): Prisma__CoverLetterVersionClient<$Result.GetResult<Prisma.$CoverLetterVersionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CoverLetterVersions.
+     * @param {CoverLetterVersionCreateManyArgs} args - Arguments to create many CoverLetterVersions.
+     * @example
+     * // Create many CoverLetterVersions
+     * const coverLetterVersion = await prisma.coverLetterVersion.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CoverLetterVersionCreateManyArgs>(args?: SelectSubset<T, CoverLetterVersionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a CoverLetterVersion.
+     * @param {CoverLetterVersionDeleteArgs} args - Arguments to delete one CoverLetterVersion.
+     * @example
+     * // Delete one CoverLetterVersion
+     * const CoverLetterVersion = await prisma.coverLetterVersion.delete({
+     *   where: {
+     *     // ... filter to delete one CoverLetterVersion
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CoverLetterVersionDeleteArgs>(args: SelectSubset<T, CoverLetterVersionDeleteArgs<ExtArgs>>): Prisma__CoverLetterVersionClient<$Result.GetResult<Prisma.$CoverLetterVersionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CoverLetterVersion.
+     * @param {CoverLetterVersionUpdateArgs} args - Arguments to update one CoverLetterVersion.
+     * @example
+     * // Update one CoverLetterVersion
+     * const coverLetterVersion = await prisma.coverLetterVersion.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CoverLetterVersionUpdateArgs>(args: SelectSubset<T, CoverLetterVersionUpdateArgs<ExtArgs>>): Prisma__CoverLetterVersionClient<$Result.GetResult<Prisma.$CoverLetterVersionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CoverLetterVersions.
+     * @param {CoverLetterVersionDeleteManyArgs} args - Arguments to filter CoverLetterVersions to delete.
+     * @example
+     * // Delete a few CoverLetterVersions
+     * const { count } = await prisma.coverLetterVersion.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CoverLetterVersionDeleteManyArgs>(args?: SelectSubset<T, CoverLetterVersionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CoverLetterVersions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CoverLetterVersionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CoverLetterVersions
+     * const coverLetterVersion = await prisma.coverLetterVersion.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CoverLetterVersionUpdateManyArgs>(args: SelectSubset<T, CoverLetterVersionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CoverLetterVersion.
+     * @param {CoverLetterVersionUpsertArgs} args - Arguments to update or create a CoverLetterVersion.
+     * @example
+     * // Update or create a CoverLetterVersion
+     * const coverLetterVersion = await prisma.coverLetterVersion.upsert({
+     *   create: {
+     *     // ... data to create a CoverLetterVersion
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CoverLetterVersion we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CoverLetterVersionUpsertArgs>(args: SelectSubset<T, CoverLetterVersionUpsertArgs<ExtArgs>>): Prisma__CoverLetterVersionClient<$Result.GetResult<Prisma.$CoverLetterVersionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CoverLetterVersions that matches the filter.
+     * @param {CoverLetterVersionFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const coverLetterVersion = await prisma.coverLetterVersion.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: CoverLetterVersionFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a CoverLetterVersion.
+     * @param {CoverLetterVersionAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const coverLetterVersion = await prisma.coverLetterVersion.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: CoverLetterVersionAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
+
+    /**
+     * Count the number of CoverLetterVersions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CoverLetterVersionCountArgs} args - Arguments to filter CoverLetterVersions to count.
+     * @example
+     * // Count the number of CoverLetterVersions
+     * const count = await prisma.coverLetterVersion.count({
+     *   where: {
+     *     // ... the filter for the CoverLetterVersions we want to count
+     *   }
+     * })
+    **/
+    count<T extends CoverLetterVersionCountArgs>(
+      args?: Subset<T, CoverLetterVersionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CoverLetterVersionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CoverLetterVersion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CoverLetterVersionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CoverLetterVersionAggregateArgs>(args: Subset<T, CoverLetterVersionAggregateArgs>): Prisma.PrismaPromise<GetCoverLetterVersionAggregateType<T>>
+
+    /**
+     * Group by CoverLetterVersion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CoverLetterVersionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CoverLetterVersionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CoverLetterVersionGroupByArgs['orderBy'] }
+        : { orderBy?: CoverLetterVersionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CoverLetterVersionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCoverLetterVersionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CoverLetterVersion model
+   */
+  readonly fields: CoverLetterVersionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CoverLetterVersion.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CoverLetterVersionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    root<T extends CoverLetterRootDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CoverLetterRootDefaultArgs<ExtArgs>>): Prisma__CoverLetterRootClient<$Result.GetResult<Prisma.$CoverLetterRootPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CoverLetterVersion model
+   */
+  interface CoverLetterVersionFieldRefs {
+    readonly id: FieldRef<"CoverLetterVersion", 'String'>
+    readonly rootId: FieldRef<"CoverLetterVersion", 'String'>
+    readonly content: FieldRef<"CoverLetterVersion", 'String'>
+    readonly versionNumber: FieldRef<"CoverLetterVersion", 'Int'>
+    readonly createdAt: FieldRef<"CoverLetterVersion", 'DateTime'>
+    readonly refinementTypeUsed: FieldRef<"CoverLetterVersion", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CoverLetterVersion findUnique
+   */
+  export type CoverLetterVersionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CoverLetterVersion
+     */
+    select?: CoverLetterVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CoverLetterVersion
+     */
+    omit?: CoverLetterVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoverLetterVersionInclude<ExtArgs> | null
+    /**
+     * Filter, which CoverLetterVersion to fetch.
+     */
+    where: CoverLetterVersionWhereUniqueInput
+  }
+
+  /**
+   * CoverLetterVersion findUniqueOrThrow
+   */
+  export type CoverLetterVersionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CoverLetterVersion
+     */
+    select?: CoverLetterVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CoverLetterVersion
+     */
+    omit?: CoverLetterVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoverLetterVersionInclude<ExtArgs> | null
+    /**
+     * Filter, which CoverLetterVersion to fetch.
+     */
+    where: CoverLetterVersionWhereUniqueInput
+  }
+
+  /**
+   * CoverLetterVersion findFirst
+   */
+  export type CoverLetterVersionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CoverLetterVersion
+     */
+    select?: CoverLetterVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CoverLetterVersion
+     */
+    omit?: CoverLetterVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoverLetterVersionInclude<ExtArgs> | null
+    /**
+     * Filter, which CoverLetterVersion to fetch.
+     */
+    where?: CoverLetterVersionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CoverLetterVersions to fetch.
+     */
+    orderBy?: CoverLetterVersionOrderByWithRelationInput | CoverLetterVersionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CoverLetterVersions.
+     */
+    cursor?: CoverLetterVersionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CoverLetterVersions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CoverLetterVersions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CoverLetterVersions.
+     */
+    distinct?: CoverLetterVersionScalarFieldEnum | CoverLetterVersionScalarFieldEnum[]
+  }
+
+  /**
+   * CoverLetterVersion findFirstOrThrow
+   */
+  export type CoverLetterVersionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CoverLetterVersion
+     */
+    select?: CoverLetterVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CoverLetterVersion
+     */
+    omit?: CoverLetterVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoverLetterVersionInclude<ExtArgs> | null
+    /**
+     * Filter, which CoverLetterVersion to fetch.
+     */
+    where?: CoverLetterVersionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CoverLetterVersions to fetch.
+     */
+    orderBy?: CoverLetterVersionOrderByWithRelationInput | CoverLetterVersionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CoverLetterVersions.
+     */
+    cursor?: CoverLetterVersionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CoverLetterVersions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CoverLetterVersions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CoverLetterVersions.
+     */
+    distinct?: CoverLetterVersionScalarFieldEnum | CoverLetterVersionScalarFieldEnum[]
+  }
+
+  /**
+   * CoverLetterVersion findMany
+   */
+  export type CoverLetterVersionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CoverLetterVersion
+     */
+    select?: CoverLetterVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CoverLetterVersion
+     */
+    omit?: CoverLetterVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoverLetterVersionInclude<ExtArgs> | null
+    /**
+     * Filter, which CoverLetterVersions to fetch.
+     */
+    where?: CoverLetterVersionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CoverLetterVersions to fetch.
+     */
+    orderBy?: CoverLetterVersionOrderByWithRelationInput | CoverLetterVersionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CoverLetterVersions.
+     */
+    cursor?: CoverLetterVersionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CoverLetterVersions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CoverLetterVersions.
+     */
+    skip?: number
+    distinct?: CoverLetterVersionScalarFieldEnum | CoverLetterVersionScalarFieldEnum[]
+  }
+
+  /**
+   * CoverLetterVersion create
+   */
+  export type CoverLetterVersionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CoverLetterVersion
+     */
+    select?: CoverLetterVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CoverLetterVersion
+     */
+    omit?: CoverLetterVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoverLetterVersionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CoverLetterVersion.
+     */
+    data: XOR<CoverLetterVersionCreateInput, CoverLetterVersionUncheckedCreateInput>
+  }
+
+  /**
+   * CoverLetterVersion createMany
+   */
+  export type CoverLetterVersionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CoverLetterVersions.
+     */
+    data: CoverLetterVersionCreateManyInput | CoverLetterVersionCreateManyInput[]
+  }
+
+  /**
+   * CoverLetterVersion update
+   */
+  export type CoverLetterVersionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CoverLetterVersion
+     */
+    select?: CoverLetterVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CoverLetterVersion
+     */
+    omit?: CoverLetterVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoverLetterVersionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CoverLetterVersion.
+     */
+    data: XOR<CoverLetterVersionUpdateInput, CoverLetterVersionUncheckedUpdateInput>
+    /**
+     * Choose, which CoverLetterVersion to update.
+     */
+    where: CoverLetterVersionWhereUniqueInput
+  }
+
+  /**
+   * CoverLetterVersion updateMany
+   */
+  export type CoverLetterVersionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CoverLetterVersions.
+     */
+    data: XOR<CoverLetterVersionUpdateManyMutationInput, CoverLetterVersionUncheckedUpdateManyInput>
+    /**
+     * Filter which CoverLetterVersions to update
+     */
+    where?: CoverLetterVersionWhereInput
+    /**
+     * Limit how many CoverLetterVersions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CoverLetterVersion upsert
+   */
+  export type CoverLetterVersionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CoverLetterVersion
+     */
+    select?: CoverLetterVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CoverLetterVersion
+     */
+    omit?: CoverLetterVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoverLetterVersionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CoverLetterVersion to update in case it exists.
+     */
+    where: CoverLetterVersionWhereUniqueInput
+    /**
+     * In case the CoverLetterVersion found by the `where` argument doesn't exist, create a new CoverLetterVersion with this data.
+     */
+    create: XOR<CoverLetterVersionCreateInput, CoverLetterVersionUncheckedCreateInput>
+    /**
+     * In case the CoverLetterVersion was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CoverLetterVersionUpdateInput, CoverLetterVersionUncheckedUpdateInput>
+  }
+
+  /**
+   * CoverLetterVersion delete
+   */
+  export type CoverLetterVersionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CoverLetterVersion
+     */
+    select?: CoverLetterVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CoverLetterVersion
+     */
+    omit?: CoverLetterVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoverLetterVersionInclude<ExtArgs> | null
+    /**
+     * Filter which CoverLetterVersion to delete.
+     */
+    where: CoverLetterVersionWhereUniqueInput
+  }
+
+  /**
+   * CoverLetterVersion deleteMany
+   */
+  export type CoverLetterVersionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CoverLetterVersions to delete
+     */
+    where?: CoverLetterVersionWhereInput
+    /**
+     * Limit how many CoverLetterVersions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CoverLetterVersion findRaw
+   */
+  export type CoverLetterVersionFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * CoverLetterVersion aggregateRaw
+   */
+  export type CoverLetterVersionAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * CoverLetterVersion without action
+   */
+  export type CoverLetterVersionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CoverLetterVersion
+     */
+    select?: CoverLetterVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CoverLetterVersion
+     */
+    omit?: CoverLetterVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoverLetterVersionInclude<ExtArgs> | null
   }
 
 
@@ -6357,7 +7707,10 @@ export namespace Prisma {
     image: 'image',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    isPro: 'isPro'
+    isPro: 'isPro',
+    coverLetterCount: 'coverLetterCount',
+    coverLetterCountPerMonth: 'coverLetterCountPerMonth',
+    monthlyCountLastReset: 'monthlyCountLastReset'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -6408,24 +7761,36 @@ export namespace Prisma {
   export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
-  export const CoverLetterScalarFieldEnum: {
+  export const CoverLetterRootScalarFieldEnum: {
     id: 'id',
+    userId: 'userId',
     createdAt: 'createdAt',
-    resumeText: 'resumeText',
-    resumeFileUrl: 'resumeFileUrl',
-    jobDescription: 'jobDescription',
-    coverLetter: 'coverLetter',
-    name: 'name',
-    email: 'email',
-    phoneNumber: 'phoneNumber',
-    portfolioUrl: 'portfolioUrl',
-    language: 'language',
-    jobRole: 'jobRole',
-    company: 'company',
-    userId: 'userId'
+    updatedAt: 'updatedAt',
+    originalResumeText: 'originalResumeText',
+    originalJobDescription: 'originalJobDescription',
+    originalName: 'originalName',
+    originalEmail: 'originalEmail',
+    originalPhoneNumber: 'originalPhoneNumber',
+    originalPortfolioUrl: 'originalPortfolioUrl',
+    originalLanguage: 'originalLanguage',
+    originalDate: 'originalDate',
+    currentJobRole: 'currentJobRole',
+    currentCompany: 'currentCompany'
   };
 
-  export type CoverLetterScalarFieldEnum = (typeof CoverLetterScalarFieldEnum)[keyof typeof CoverLetterScalarFieldEnum]
+  export type CoverLetterRootScalarFieldEnum = (typeof CoverLetterRootScalarFieldEnum)[keyof typeof CoverLetterRootScalarFieldEnum]
+
+
+  export const CoverLetterVersionScalarFieldEnum: {
+    id: 'id',
+    rootId: 'rootId',
+    content: 'content',
+    versionNumber: 'versionNumber',
+    createdAt: 'createdAt',
+    refinementTypeUsed: 'refinementTypeUsed'
+  };
+
+  export type CoverLetterVersionScalarFieldEnum = (typeof CoverLetterVersionScalarFieldEnum)[keyof typeof CoverLetterVersionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -6496,6 +7861,20 @@ export namespace Prisma {
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
   /**
    * Deep Input Types
    */
@@ -6513,8 +7892,12 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     isPro?: BoolFilter<"User"> | boolean
+    coverLetterCount?: IntFilter<"User"> | number
+    coverLetterCountPerMonth?: IntFilter<"User"> | number
+    monthlyCountLastReset?: DateTimeNullableFilter<"User"> | Date | string | null
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
+    coverLetterRoots?: CoverLetterRootListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -6526,8 +7909,12 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     isPro?: SortOrder
+    coverLetterCount?: SortOrder
+    coverLetterCountPerMonth?: SortOrder
+    monthlyCountLastReset?: SortOrder
     sessions?: SessionOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
+    coverLetterRoots?: CoverLetterRootOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -6542,8 +7929,12 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     isPro?: BoolFilter<"User"> | boolean
+    coverLetterCount?: IntFilter<"User"> | number
+    coverLetterCountPerMonth?: IntFilter<"User"> | number
+    monthlyCountLastReset?: DateTimeNullableFilter<"User"> | Date | string | null
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
+    coverLetterRoots?: CoverLetterRootListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -6555,9 +7946,14 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     isPro?: SortOrder
+    coverLetterCount?: SortOrder
+    coverLetterCountPerMonth?: SortOrder
+    monthlyCountLastReset?: SortOrder
     _count?: UserCountOrderByAggregateInput
+    _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
+    _sum?: UserSumOrderByAggregateInput
   }
 
   export type UserScalarWhereWithAggregatesInput = {
@@ -6572,6 +7968,9 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     isPro?: BoolWithAggregatesFilter<"User"> | boolean
+    coverLetterCount?: IntWithAggregatesFilter<"User"> | number
+    coverLetterCountPerMonth?: IntWithAggregatesFilter<"User"> | number
+    monthlyCountLastReset?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
 
   export type SessionWhereInput = {
@@ -6796,101 +8195,169 @@ export namespace Prisma {
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Verification"> | Date | string | null
   }
 
-  export type CoverLetterWhereInput = {
-    AND?: CoverLetterWhereInput | CoverLetterWhereInput[]
-    OR?: CoverLetterWhereInput[]
-    NOT?: CoverLetterWhereInput | CoverLetterWhereInput[]
-    id?: StringFilter<"CoverLetter"> | string
-    createdAt?: DateTimeFilter<"CoverLetter"> | Date | string
-    resumeText?: StringFilter<"CoverLetter"> | string
-    resumeFileUrl?: StringNullableFilter<"CoverLetter"> | string | null
-    jobDescription?: StringFilter<"CoverLetter"> | string
-    coverLetter?: StringFilter<"CoverLetter"> | string
-    name?: StringNullableFilter<"CoverLetter"> | string | null
-    email?: StringNullableFilter<"CoverLetter"> | string | null
-    phoneNumber?: StringNullableFilter<"CoverLetter"> | string | null
-    portfolioUrl?: StringNullableFilter<"CoverLetter"> | string | null
-    language?: StringNullableFilter<"CoverLetter"> | string | null
-    jobRole?: StringNullableFilter<"CoverLetter"> | string | null
-    company?: StringNullableFilter<"CoverLetter"> | string | null
-    userId?: StringNullableFilter<"CoverLetter"> | string | null
+  export type CoverLetterRootWhereInput = {
+    AND?: CoverLetterRootWhereInput | CoverLetterRootWhereInput[]
+    OR?: CoverLetterRootWhereInput[]
+    NOT?: CoverLetterRootWhereInput | CoverLetterRootWhereInput[]
+    id?: StringFilter<"CoverLetterRoot"> | string
+    userId?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    createdAt?: DateTimeFilter<"CoverLetterRoot"> | Date | string
+    updatedAt?: DateTimeFilter<"CoverLetterRoot"> | Date | string
+    originalResumeText?: StringFilter<"CoverLetterRoot"> | string
+    originalJobDescription?: StringFilter<"CoverLetterRoot"> | string
+    originalName?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    originalEmail?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    originalPhoneNumber?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    originalPortfolioUrl?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    originalLanguage?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    originalDate?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    currentJobRole?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    currentCompany?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    versions?: CoverLetterVersionListRelationFilter
   }
 
-  export type CoverLetterOrderByWithRelationInput = {
+  export type CoverLetterRootOrderByWithRelationInput = {
     id?: SortOrder
-    createdAt?: SortOrder
-    resumeText?: SortOrder
-    resumeFileUrl?: SortOrder
-    jobDescription?: SortOrder
-    coverLetter?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    phoneNumber?: SortOrder
-    portfolioUrl?: SortOrder
-    language?: SortOrder
-    jobRole?: SortOrder
-    company?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    originalResumeText?: SortOrder
+    originalJobDescription?: SortOrder
+    originalName?: SortOrder
+    originalEmail?: SortOrder
+    originalPhoneNumber?: SortOrder
+    originalPortfolioUrl?: SortOrder
+    originalLanguage?: SortOrder
+    originalDate?: SortOrder
+    currentJobRole?: SortOrder
+    currentCompany?: SortOrder
+    user?: UserOrderByWithRelationInput
+    versions?: CoverLetterVersionOrderByRelationAggregateInput
   }
 
-  export type CoverLetterWhereUniqueInput = Prisma.AtLeast<{
+  export type CoverLetterRootWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: CoverLetterWhereInput | CoverLetterWhereInput[]
-    OR?: CoverLetterWhereInput[]
-    NOT?: CoverLetterWhereInput | CoverLetterWhereInput[]
-    createdAt?: DateTimeFilter<"CoverLetter"> | Date | string
-    resumeText?: StringFilter<"CoverLetter"> | string
-    resumeFileUrl?: StringNullableFilter<"CoverLetter"> | string | null
-    jobDescription?: StringFilter<"CoverLetter"> | string
-    coverLetter?: StringFilter<"CoverLetter"> | string
-    name?: StringNullableFilter<"CoverLetter"> | string | null
-    email?: StringNullableFilter<"CoverLetter"> | string | null
-    phoneNumber?: StringNullableFilter<"CoverLetter"> | string | null
-    portfolioUrl?: StringNullableFilter<"CoverLetter"> | string | null
-    language?: StringNullableFilter<"CoverLetter"> | string | null
-    jobRole?: StringNullableFilter<"CoverLetter"> | string | null
-    company?: StringNullableFilter<"CoverLetter"> | string | null
-    userId?: StringNullableFilter<"CoverLetter"> | string | null
+    AND?: CoverLetterRootWhereInput | CoverLetterRootWhereInput[]
+    OR?: CoverLetterRootWhereInput[]
+    NOT?: CoverLetterRootWhereInput | CoverLetterRootWhereInput[]
+    userId?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    createdAt?: DateTimeFilter<"CoverLetterRoot"> | Date | string
+    updatedAt?: DateTimeFilter<"CoverLetterRoot"> | Date | string
+    originalResumeText?: StringFilter<"CoverLetterRoot"> | string
+    originalJobDescription?: StringFilter<"CoverLetterRoot"> | string
+    originalName?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    originalEmail?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    originalPhoneNumber?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    originalPortfolioUrl?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    originalLanguage?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    originalDate?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    currentJobRole?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    currentCompany?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    versions?: CoverLetterVersionListRelationFilter
   }, "id">
 
-  export type CoverLetterOrderByWithAggregationInput = {
+  export type CoverLetterRootOrderByWithAggregationInput = {
     id?: SortOrder
-    createdAt?: SortOrder
-    resumeText?: SortOrder
-    resumeFileUrl?: SortOrder
-    jobDescription?: SortOrder
-    coverLetter?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    phoneNumber?: SortOrder
-    portfolioUrl?: SortOrder
-    language?: SortOrder
-    jobRole?: SortOrder
-    company?: SortOrder
     userId?: SortOrder
-    _count?: CoverLetterCountOrderByAggregateInput
-    _max?: CoverLetterMaxOrderByAggregateInput
-    _min?: CoverLetterMinOrderByAggregateInput
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    originalResumeText?: SortOrder
+    originalJobDescription?: SortOrder
+    originalName?: SortOrder
+    originalEmail?: SortOrder
+    originalPhoneNumber?: SortOrder
+    originalPortfolioUrl?: SortOrder
+    originalLanguage?: SortOrder
+    originalDate?: SortOrder
+    currentJobRole?: SortOrder
+    currentCompany?: SortOrder
+    _count?: CoverLetterRootCountOrderByAggregateInput
+    _max?: CoverLetterRootMaxOrderByAggregateInput
+    _min?: CoverLetterRootMinOrderByAggregateInput
   }
 
-  export type CoverLetterScalarWhereWithAggregatesInput = {
-    AND?: CoverLetterScalarWhereWithAggregatesInput | CoverLetterScalarWhereWithAggregatesInput[]
-    OR?: CoverLetterScalarWhereWithAggregatesInput[]
-    NOT?: CoverLetterScalarWhereWithAggregatesInput | CoverLetterScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"CoverLetter"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"CoverLetter"> | Date | string
-    resumeText?: StringWithAggregatesFilter<"CoverLetter"> | string
-    resumeFileUrl?: StringNullableWithAggregatesFilter<"CoverLetter"> | string | null
-    jobDescription?: StringWithAggregatesFilter<"CoverLetter"> | string
-    coverLetter?: StringWithAggregatesFilter<"CoverLetter"> | string
-    name?: StringNullableWithAggregatesFilter<"CoverLetter"> | string | null
-    email?: StringNullableWithAggregatesFilter<"CoverLetter"> | string | null
-    phoneNumber?: StringNullableWithAggregatesFilter<"CoverLetter"> | string | null
-    portfolioUrl?: StringNullableWithAggregatesFilter<"CoverLetter"> | string | null
-    language?: StringNullableWithAggregatesFilter<"CoverLetter"> | string | null
-    jobRole?: StringNullableWithAggregatesFilter<"CoverLetter"> | string | null
-    company?: StringNullableWithAggregatesFilter<"CoverLetter"> | string | null
-    userId?: StringNullableWithAggregatesFilter<"CoverLetter"> | string | null
+  export type CoverLetterRootScalarWhereWithAggregatesInput = {
+    AND?: CoverLetterRootScalarWhereWithAggregatesInput | CoverLetterRootScalarWhereWithAggregatesInput[]
+    OR?: CoverLetterRootScalarWhereWithAggregatesInput[]
+    NOT?: CoverLetterRootScalarWhereWithAggregatesInput | CoverLetterRootScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CoverLetterRoot"> | string
+    userId?: StringNullableWithAggregatesFilter<"CoverLetterRoot"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CoverLetterRoot"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CoverLetterRoot"> | Date | string
+    originalResumeText?: StringWithAggregatesFilter<"CoverLetterRoot"> | string
+    originalJobDescription?: StringWithAggregatesFilter<"CoverLetterRoot"> | string
+    originalName?: StringNullableWithAggregatesFilter<"CoverLetterRoot"> | string | null
+    originalEmail?: StringNullableWithAggregatesFilter<"CoverLetterRoot"> | string | null
+    originalPhoneNumber?: StringNullableWithAggregatesFilter<"CoverLetterRoot"> | string | null
+    originalPortfolioUrl?: StringNullableWithAggregatesFilter<"CoverLetterRoot"> | string | null
+    originalLanguage?: StringNullableWithAggregatesFilter<"CoverLetterRoot"> | string | null
+    originalDate?: StringNullableWithAggregatesFilter<"CoverLetterRoot"> | string | null
+    currentJobRole?: StringNullableWithAggregatesFilter<"CoverLetterRoot"> | string | null
+    currentCompany?: StringNullableWithAggregatesFilter<"CoverLetterRoot"> | string | null
+  }
+
+  export type CoverLetterVersionWhereInput = {
+    AND?: CoverLetterVersionWhereInput | CoverLetterVersionWhereInput[]
+    OR?: CoverLetterVersionWhereInput[]
+    NOT?: CoverLetterVersionWhereInput | CoverLetterVersionWhereInput[]
+    id?: StringFilter<"CoverLetterVersion"> | string
+    rootId?: StringFilter<"CoverLetterVersion"> | string
+    content?: StringFilter<"CoverLetterVersion"> | string
+    versionNumber?: IntFilter<"CoverLetterVersion"> | number
+    createdAt?: DateTimeFilter<"CoverLetterVersion"> | Date | string
+    refinementTypeUsed?: StringNullableFilter<"CoverLetterVersion"> | string | null
+    root?: XOR<CoverLetterRootScalarRelationFilter, CoverLetterRootWhereInput>
+  }
+
+  export type CoverLetterVersionOrderByWithRelationInput = {
+    id?: SortOrder
+    rootId?: SortOrder
+    content?: SortOrder
+    versionNumber?: SortOrder
+    createdAt?: SortOrder
+    refinementTypeUsed?: SortOrder
+    root?: CoverLetterRootOrderByWithRelationInput
+  }
+
+  export type CoverLetterVersionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CoverLetterVersionWhereInput | CoverLetterVersionWhereInput[]
+    OR?: CoverLetterVersionWhereInput[]
+    NOT?: CoverLetterVersionWhereInput | CoverLetterVersionWhereInput[]
+    rootId?: StringFilter<"CoverLetterVersion"> | string
+    content?: StringFilter<"CoverLetterVersion"> | string
+    versionNumber?: IntFilter<"CoverLetterVersion"> | number
+    createdAt?: DateTimeFilter<"CoverLetterVersion"> | Date | string
+    refinementTypeUsed?: StringNullableFilter<"CoverLetterVersion"> | string | null
+    root?: XOR<CoverLetterRootScalarRelationFilter, CoverLetterRootWhereInput>
+  }, "id">
+
+  export type CoverLetterVersionOrderByWithAggregationInput = {
+    id?: SortOrder
+    rootId?: SortOrder
+    content?: SortOrder
+    versionNumber?: SortOrder
+    createdAt?: SortOrder
+    refinementTypeUsed?: SortOrder
+    _count?: CoverLetterVersionCountOrderByAggregateInput
+    _avg?: CoverLetterVersionAvgOrderByAggregateInput
+    _max?: CoverLetterVersionMaxOrderByAggregateInput
+    _min?: CoverLetterVersionMinOrderByAggregateInput
+    _sum?: CoverLetterVersionSumOrderByAggregateInput
+  }
+
+  export type CoverLetterVersionScalarWhereWithAggregatesInput = {
+    AND?: CoverLetterVersionScalarWhereWithAggregatesInput | CoverLetterVersionScalarWhereWithAggregatesInput[]
+    OR?: CoverLetterVersionScalarWhereWithAggregatesInput[]
+    NOT?: CoverLetterVersionScalarWhereWithAggregatesInput | CoverLetterVersionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CoverLetterVersion"> | string
+    rootId?: StringWithAggregatesFilter<"CoverLetterVersion"> | string
+    content?: StringWithAggregatesFilter<"CoverLetterVersion"> | string
+    versionNumber?: IntWithAggregatesFilter<"CoverLetterVersion"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"CoverLetterVersion"> | Date | string
+    refinementTypeUsed?: StringNullableWithAggregatesFilter<"CoverLetterVersion"> | string | null
   }
 
   export type UserCreateInput = {
@@ -6902,8 +8369,12 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     isPro?: boolean
+    coverLetterCount?: number
+    coverLetterCountPerMonth?: number
+    monthlyCountLastReset?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
+    coverLetterRoots?: CoverLetterRootCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -6915,8 +8386,12 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     isPro?: boolean
+    coverLetterCount?: number
+    coverLetterCountPerMonth?: number
+    monthlyCountLastReset?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    coverLetterRoots?: CoverLetterRootUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -6927,8 +8402,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
+    coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
+    monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    coverLetterRoots?: CoverLetterRootUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -6939,8 +8418,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
+    coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
+    monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    coverLetterRoots?: CoverLetterRootUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -6952,6 +8435,9 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     isPro?: boolean
+    coverLetterCount?: number
+    coverLetterCountPerMonth?: number
+    monthlyCountLastReset?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -6962,6 +8448,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
+    coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
+    monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -6972,6 +8461,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
+    coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
+    monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SessionCreateInput = {
@@ -7212,119 +8704,180 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type CoverLetterCreateInput = {
+  export type CoverLetterRootCreateInput = {
     id?: string
     createdAt?: Date | string
-    resumeText: string
-    resumeFileUrl?: string | null
-    jobDescription: string
-    coverLetter: string
-    name?: string | null
-    email?: string | null
-    phoneNumber?: string | null
-    portfolioUrl?: string | null
-    language?: string | null
-    jobRole?: string | null
-    company?: string | null
-    userId?: string | null
+    updatedAt?: Date | string
+    originalResumeText: string
+    originalJobDescription: string
+    originalName?: string | null
+    originalEmail?: string | null
+    originalPhoneNumber?: string | null
+    originalPortfolioUrl?: string | null
+    originalLanguage?: string | null
+    originalDate?: string | null
+    currentJobRole?: string | null
+    currentCompany?: string | null
+    user?: UserCreateNestedOneWithoutCoverLetterRootsInput
+    versions?: CoverLetterVersionCreateNestedManyWithoutRootInput
   }
 
-  export type CoverLetterUncheckedCreateInput = {
+  export type CoverLetterRootUncheckedCreateInput = {
     id?: string
-    createdAt?: Date | string
-    resumeText: string
-    resumeFileUrl?: string | null
-    jobDescription: string
-    coverLetter: string
-    name?: string | null
-    email?: string | null
-    phoneNumber?: string | null
-    portfolioUrl?: string | null
-    language?: string | null
-    jobRole?: string | null
-    company?: string | null
     userId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    originalResumeText: string
+    originalJobDescription: string
+    originalName?: string | null
+    originalEmail?: string | null
+    originalPhoneNumber?: string | null
+    originalPortfolioUrl?: string | null
+    originalLanguage?: string | null
+    originalDate?: string | null
+    currentJobRole?: string | null
+    currentCompany?: string | null
+    versions?: CoverLetterVersionUncheckedCreateNestedManyWithoutRootInput
   }
 
-  export type CoverLetterUpdateInput = {
+  export type CoverLetterRootUpdateInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    resumeText?: StringFieldUpdateOperationsInput | string
-    resumeFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    jobDescription?: StringFieldUpdateOperationsInput | string
-    coverLetter?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
-    jobRole?: NullableStringFieldUpdateOperationsInput | string | null
-    company?: NullableStringFieldUpdateOperationsInput | string | null
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalResumeText?: StringFieldUpdateOperationsInput | string
+    originalJobDescription?: StringFieldUpdateOperationsInput | string
+    originalName?: NullableStringFieldUpdateOperationsInput | string | null
+    originalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    originalPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    originalPortfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    originalLanguage?: NullableStringFieldUpdateOperationsInput | string | null
+    originalDate?: NullableStringFieldUpdateOperationsInput | string | null
+    currentJobRole?: NullableStringFieldUpdateOperationsInput | string | null
+    currentCompany?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneWithoutCoverLetterRootsNestedInput
+    versions?: CoverLetterVersionUpdateManyWithoutRootNestedInput
   }
 
-  export type CoverLetterUncheckedUpdateInput = {
+  export type CoverLetterRootUncheckedUpdateInput = {
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    resumeText?: StringFieldUpdateOperationsInput | string
-    resumeFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    jobDescription?: StringFieldUpdateOperationsInput | string
-    coverLetter?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
-    jobRole?: NullableStringFieldUpdateOperationsInput | string | null
-    company?: NullableStringFieldUpdateOperationsInput | string | null
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalResumeText?: StringFieldUpdateOperationsInput | string
+    originalJobDescription?: StringFieldUpdateOperationsInput | string
+    originalName?: NullableStringFieldUpdateOperationsInput | string | null
+    originalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    originalPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    originalPortfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    originalLanguage?: NullableStringFieldUpdateOperationsInput | string | null
+    originalDate?: NullableStringFieldUpdateOperationsInput | string | null
+    currentJobRole?: NullableStringFieldUpdateOperationsInput | string | null
+    currentCompany?: NullableStringFieldUpdateOperationsInput | string | null
+    versions?: CoverLetterVersionUncheckedUpdateManyWithoutRootNestedInput
   }
 
-  export type CoverLetterCreateManyInput = {
+  export type CoverLetterRootCreateManyInput = {
     id?: string
-    createdAt?: Date | string
-    resumeText: string
-    resumeFileUrl?: string | null
-    jobDescription: string
-    coverLetter: string
-    name?: string | null
-    email?: string | null
-    phoneNumber?: string | null
-    portfolioUrl?: string | null
-    language?: string | null
-    jobRole?: string | null
-    company?: string | null
     userId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    originalResumeText: string
+    originalJobDescription: string
+    originalName?: string | null
+    originalEmail?: string | null
+    originalPhoneNumber?: string | null
+    originalPortfolioUrl?: string | null
+    originalLanguage?: string | null
+    originalDate?: string | null
+    currentJobRole?: string | null
+    currentCompany?: string | null
   }
 
-  export type CoverLetterUpdateManyMutationInput = {
+  export type CoverLetterRootUpdateManyMutationInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    resumeText?: StringFieldUpdateOperationsInput | string
-    resumeFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    jobDescription?: StringFieldUpdateOperationsInput | string
-    coverLetter?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
-    jobRole?: NullableStringFieldUpdateOperationsInput | string | null
-    company?: NullableStringFieldUpdateOperationsInput | string | null
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalResumeText?: StringFieldUpdateOperationsInput | string
+    originalJobDescription?: StringFieldUpdateOperationsInput | string
+    originalName?: NullableStringFieldUpdateOperationsInput | string | null
+    originalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    originalPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    originalPortfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    originalLanguage?: NullableStringFieldUpdateOperationsInput | string | null
+    originalDate?: NullableStringFieldUpdateOperationsInput | string | null
+    currentJobRole?: NullableStringFieldUpdateOperationsInput | string | null
+    currentCompany?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type CoverLetterUncheckedUpdateManyInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    resumeText?: StringFieldUpdateOperationsInput | string
-    resumeFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    jobDescription?: StringFieldUpdateOperationsInput | string
-    coverLetter?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
-    jobRole?: NullableStringFieldUpdateOperationsInput | string | null
-    company?: NullableStringFieldUpdateOperationsInput | string | null
+  export type CoverLetterRootUncheckedUpdateManyInput = {
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalResumeText?: StringFieldUpdateOperationsInput | string
+    originalJobDescription?: StringFieldUpdateOperationsInput | string
+    originalName?: NullableStringFieldUpdateOperationsInput | string | null
+    originalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    originalPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    originalPortfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    originalLanguage?: NullableStringFieldUpdateOperationsInput | string | null
+    originalDate?: NullableStringFieldUpdateOperationsInput | string | null
+    currentJobRole?: NullableStringFieldUpdateOperationsInput | string | null
+    currentCompany?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CoverLetterVersionCreateInput = {
+    id?: string
+    content: string
+    versionNumber: number
+    createdAt?: Date | string
+    refinementTypeUsed?: string | null
+    root: CoverLetterRootCreateNestedOneWithoutVersionsInput
+  }
+
+  export type CoverLetterVersionUncheckedCreateInput = {
+    id?: string
+    rootId: string
+    content: string
+    versionNumber: number
+    createdAt?: Date | string
+    refinementTypeUsed?: string | null
+  }
+
+  export type CoverLetterVersionUpdateInput = {
+    content?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    refinementTypeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    root?: CoverLetterRootUpdateOneRequiredWithoutVersionsNestedInput
+  }
+
+  export type CoverLetterVersionUncheckedUpdateInput = {
+    rootId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    refinementTypeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CoverLetterVersionCreateManyInput = {
+    id?: string
+    rootId: string
+    content: string
+    versionNumber: number
+    createdAt?: Date | string
+    refinementTypeUsed?: string | null
+  }
+
+  export type CoverLetterVersionUpdateManyMutationInput = {
+    content?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    refinementTypeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CoverLetterVersionUncheckedUpdateManyInput = {
+    rootId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    refinementTypeUsed?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -7374,6 +8927,29 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    isSet?: boolean
+  }
+
   export type SessionListRelationFilter = {
     every?: SessionWhereInput
     some?: SessionWhereInput
@@ -7386,11 +8962,21 @@ export namespace Prisma {
     none?: AccountWhereInput
   }
 
+  export type CoverLetterRootListRelationFilter = {
+    every?: CoverLetterRootWhereInput
+    some?: CoverLetterRootWhereInput
+    none?: CoverLetterRootWhereInput
+  }
+
   export type SessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type AccountOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CoverLetterRootOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -7403,6 +8989,14 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     isPro?: SortOrder
+    coverLetterCount?: SortOrder
+    coverLetterCountPerMonth?: SortOrder
+    monthlyCountLastReset?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    coverLetterCount?: SortOrder
+    coverLetterCountPerMonth?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -7414,6 +9008,9 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     isPro?: SortOrder
+    coverLetterCount?: SortOrder
+    coverLetterCountPerMonth?: SortOrder
+    monthlyCountLastReset?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -7425,6 +9022,14 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     isPro?: SortOrder
+    coverLetterCount?: SortOrder
+    coverLetterCountPerMonth?: SortOrder
+    monthlyCountLastReset?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    coverLetterCount?: SortOrder
+    coverLetterCountPerMonth?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -7486,6 +9091,37 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    isSet?: boolean
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -7522,18 +9158,6 @@ export namespace Prisma {
     ipAddress?: SortOrder
     userAgent?: SortOrder
     userId?: SortOrder
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-    isSet?: boolean
   }
 
   export type AccountCountOrderByAggregateInput = {
@@ -7584,21 +9208,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-    isSet?: boolean
-  }
-
   export type VerificationCountOrderByAggregateInput = {
     id?: SortOrder
     identifier?: SortOrder
@@ -7626,55 +9235,110 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type CoverLetterCountOrderByAggregateInput = {
-    id?: SortOrder
-    createdAt?: SortOrder
-    resumeText?: SortOrder
-    resumeFileUrl?: SortOrder
-    jobDescription?: SortOrder
-    coverLetter?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    phoneNumber?: SortOrder
-    portfolioUrl?: SortOrder
-    language?: SortOrder
-    jobRole?: SortOrder
-    company?: SortOrder
-    userId?: SortOrder
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
   }
 
-  export type CoverLetterMaxOrderByAggregateInput = {
-    id?: SortOrder
-    createdAt?: SortOrder
-    resumeText?: SortOrder
-    resumeFileUrl?: SortOrder
-    jobDescription?: SortOrder
-    coverLetter?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    phoneNumber?: SortOrder
-    portfolioUrl?: SortOrder
-    language?: SortOrder
-    jobRole?: SortOrder
-    company?: SortOrder
-    userId?: SortOrder
+  export type CoverLetterVersionListRelationFilter = {
+    every?: CoverLetterVersionWhereInput
+    some?: CoverLetterVersionWhereInput
+    none?: CoverLetterVersionWhereInput
   }
 
-  export type CoverLetterMinOrderByAggregateInput = {
+  export type CoverLetterVersionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CoverLetterRootCountOrderByAggregateInput = {
     id?: SortOrder
-    createdAt?: SortOrder
-    resumeText?: SortOrder
-    resumeFileUrl?: SortOrder
-    jobDescription?: SortOrder
-    coverLetter?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    phoneNumber?: SortOrder
-    portfolioUrl?: SortOrder
-    language?: SortOrder
-    jobRole?: SortOrder
-    company?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    originalResumeText?: SortOrder
+    originalJobDescription?: SortOrder
+    originalName?: SortOrder
+    originalEmail?: SortOrder
+    originalPhoneNumber?: SortOrder
+    originalPortfolioUrl?: SortOrder
+    originalLanguage?: SortOrder
+    originalDate?: SortOrder
+    currentJobRole?: SortOrder
+    currentCompany?: SortOrder
+  }
+
+  export type CoverLetterRootMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    originalResumeText?: SortOrder
+    originalJobDescription?: SortOrder
+    originalName?: SortOrder
+    originalEmail?: SortOrder
+    originalPhoneNumber?: SortOrder
+    originalPortfolioUrl?: SortOrder
+    originalLanguage?: SortOrder
+    originalDate?: SortOrder
+    currentJobRole?: SortOrder
+    currentCompany?: SortOrder
+  }
+
+  export type CoverLetterRootMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    originalResumeText?: SortOrder
+    originalJobDescription?: SortOrder
+    originalName?: SortOrder
+    originalEmail?: SortOrder
+    originalPhoneNumber?: SortOrder
+    originalPortfolioUrl?: SortOrder
+    originalLanguage?: SortOrder
+    originalDate?: SortOrder
+    currentJobRole?: SortOrder
+    currentCompany?: SortOrder
+  }
+
+  export type CoverLetterRootScalarRelationFilter = {
+    is?: CoverLetterRootWhereInput
+    isNot?: CoverLetterRootWhereInput
+  }
+
+  export type CoverLetterVersionCountOrderByAggregateInput = {
+    id?: SortOrder
+    rootId?: SortOrder
+    content?: SortOrder
+    versionNumber?: SortOrder
+    createdAt?: SortOrder
+    refinementTypeUsed?: SortOrder
+  }
+
+  export type CoverLetterVersionAvgOrderByAggregateInput = {
+    versionNumber?: SortOrder
+  }
+
+  export type CoverLetterVersionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    rootId?: SortOrder
+    content?: SortOrder
+    versionNumber?: SortOrder
+    createdAt?: SortOrder
+    refinementTypeUsed?: SortOrder
+  }
+
+  export type CoverLetterVersionMinOrderByAggregateInput = {
+    id?: SortOrder
+    rootId?: SortOrder
+    content?: SortOrder
+    versionNumber?: SortOrder
+    createdAt?: SortOrder
+    refinementTypeUsed?: SortOrder
+  }
+
+  export type CoverLetterVersionSumOrderByAggregateInput = {
+    versionNumber?: SortOrder
   }
 
   export type SessionCreateNestedManyWithoutUserInput = {
@@ -7691,6 +9355,13 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
+  export type CoverLetterRootCreateNestedManyWithoutUserInput = {
+    create?: XOR<CoverLetterRootCreateWithoutUserInput, CoverLetterRootUncheckedCreateWithoutUserInput> | CoverLetterRootCreateWithoutUserInput[] | CoverLetterRootUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CoverLetterRootCreateOrConnectWithoutUserInput | CoverLetterRootCreateOrConnectWithoutUserInput[]
+    createMany?: CoverLetterRootCreateManyUserInputEnvelope
+    connect?: CoverLetterRootWhereUniqueInput | CoverLetterRootWhereUniqueInput[]
+  }
+
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -7703,6 +9374,13 @@ export namespace Prisma {
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
     createMany?: AccountCreateManyUserInputEnvelope
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
+  }
+
+  export type CoverLetterRootUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<CoverLetterRootCreateWithoutUserInput, CoverLetterRootUncheckedCreateWithoutUserInput> | CoverLetterRootCreateWithoutUserInput[] | CoverLetterRootUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CoverLetterRootCreateOrConnectWithoutUserInput | CoverLetterRootCreateOrConnectWithoutUserInput[]
+    createMany?: CoverLetterRootCreateManyUserInputEnvelope
+    connect?: CoverLetterRootWhereUniqueInput | CoverLetterRootWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -7720,6 +9398,19 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+    unset?: boolean
   }
 
   export type SessionUpdateManyWithoutUserNestedInput = {
@@ -7750,6 +9441,20 @@ export namespace Prisma {
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
+  export type CoverLetterRootUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CoverLetterRootCreateWithoutUserInput, CoverLetterRootUncheckedCreateWithoutUserInput> | CoverLetterRootCreateWithoutUserInput[] | CoverLetterRootUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CoverLetterRootCreateOrConnectWithoutUserInput | CoverLetterRootCreateOrConnectWithoutUserInput[]
+    upsert?: CoverLetterRootUpsertWithWhereUniqueWithoutUserInput | CoverLetterRootUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CoverLetterRootCreateManyUserInputEnvelope
+    set?: CoverLetterRootWhereUniqueInput | CoverLetterRootWhereUniqueInput[]
+    disconnect?: CoverLetterRootWhereUniqueInput | CoverLetterRootWhereUniqueInput[]
+    delete?: CoverLetterRootWhereUniqueInput | CoverLetterRootWhereUniqueInput[]
+    connect?: CoverLetterRootWhereUniqueInput | CoverLetterRootWhereUniqueInput[]
+    update?: CoverLetterRootUpdateWithWhereUniqueWithoutUserInput | CoverLetterRootUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CoverLetterRootUpdateManyWithWhereWithoutUserInput | CoverLetterRootUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CoverLetterRootScalarWhereInput | CoverLetterRootScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -7778,6 +9483,20 @@ export namespace Prisma {
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
+  export type CoverLetterRootUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CoverLetterRootCreateWithoutUserInput, CoverLetterRootUncheckedCreateWithoutUserInput> | CoverLetterRootCreateWithoutUserInput[] | CoverLetterRootUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CoverLetterRootCreateOrConnectWithoutUserInput | CoverLetterRootCreateOrConnectWithoutUserInput[]
+    upsert?: CoverLetterRootUpsertWithWhereUniqueWithoutUserInput | CoverLetterRootUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CoverLetterRootCreateManyUserInputEnvelope
+    set?: CoverLetterRootWhereUniqueInput | CoverLetterRootWhereUniqueInput[]
+    disconnect?: CoverLetterRootWhereUniqueInput | CoverLetterRootWhereUniqueInput[]
+    delete?: CoverLetterRootWhereUniqueInput | CoverLetterRootWhereUniqueInput[]
+    connect?: CoverLetterRootWhereUniqueInput | CoverLetterRootWhereUniqueInput[]
+    update?: CoverLetterRootUpdateWithWhereUniqueWithoutUserInput | CoverLetterRootUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CoverLetterRootUpdateManyWithWhereWithoutUserInput | CoverLetterRootUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CoverLetterRootScalarWhereInput | CoverLetterRootScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutSessionsInput = {
     create?: XOR<UserCreateWithoutSessionsInput, UserUncheckedCreateWithoutSessionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutSessionsInput
@@ -7798,17 +9517,84 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-    unset?: boolean
-  }
-
   export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
     upsert?: UserUpsertWithoutAccountsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAccountsInput, UserUpdateWithoutAccountsInput>, UserUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type UserCreateNestedOneWithoutCoverLetterRootsInput = {
+    create?: XOR<UserCreateWithoutCoverLetterRootsInput, UserUncheckedCreateWithoutCoverLetterRootsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCoverLetterRootsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CoverLetterVersionCreateNestedManyWithoutRootInput = {
+    create?: XOR<CoverLetterVersionCreateWithoutRootInput, CoverLetterVersionUncheckedCreateWithoutRootInput> | CoverLetterVersionCreateWithoutRootInput[] | CoverLetterVersionUncheckedCreateWithoutRootInput[]
+    connectOrCreate?: CoverLetterVersionCreateOrConnectWithoutRootInput | CoverLetterVersionCreateOrConnectWithoutRootInput[]
+    createMany?: CoverLetterVersionCreateManyRootInputEnvelope
+    connect?: CoverLetterVersionWhereUniqueInput | CoverLetterVersionWhereUniqueInput[]
+  }
+
+  export type CoverLetterVersionUncheckedCreateNestedManyWithoutRootInput = {
+    create?: XOR<CoverLetterVersionCreateWithoutRootInput, CoverLetterVersionUncheckedCreateWithoutRootInput> | CoverLetterVersionCreateWithoutRootInput[] | CoverLetterVersionUncheckedCreateWithoutRootInput[]
+    connectOrCreate?: CoverLetterVersionCreateOrConnectWithoutRootInput | CoverLetterVersionCreateOrConnectWithoutRootInput[]
+    createMany?: CoverLetterVersionCreateManyRootInputEnvelope
+    connect?: CoverLetterVersionWhereUniqueInput | CoverLetterVersionWhereUniqueInput[]
+  }
+
+  export type UserUpdateOneWithoutCoverLetterRootsNestedInput = {
+    create?: XOR<UserCreateWithoutCoverLetterRootsInput, UserUncheckedCreateWithoutCoverLetterRootsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCoverLetterRootsInput
+    upsert?: UserUpsertWithoutCoverLetterRootsInput
+    disconnect?: boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCoverLetterRootsInput, UserUpdateWithoutCoverLetterRootsInput>, UserUncheckedUpdateWithoutCoverLetterRootsInput>
+  }
+
+  export type CoverLetterVersionUpdateManyWithoutRootNestedInput = {
+    create?: XOR<CoverLetterVersionCreateWithoutRootInput, CoverLetterVersionUncheckedCreateWithoutRootInput> | CoverLetterVersionCreateWithoutRootInput[] | CoverLetterVersionUncheckedCreateWithoutRootInput[]
+    connectOrCreate?: CoverLetterVersionCreateOrConnectWithoutRootInput | CoverLetterVersionCreateOrConnectWithoutRootInput[]
+    upsert?: CoverLetterVersionUpsertWithWhereUniqueWithoutRootInput | CoverLetterVersionUpsertWithWhereUniqueWithoutRootInput[]
+    createMany?: CoverLetterVersionCreateManyRootInputEnvelope
+    set?: CoverLetterVersionWhereUniqueInput | CoverLetterVersionWhereUniqueInput[]
+    disconnect?: CoverLetterVersionWhereUniqueInput | CoverLetterVersionWhereUniqueInput[]
+    delete?: CoverLetterVersionWhereUniqueInput | CoverLetterVersionWhereUniqueInput[]
+    connect?: CoverLetterVersionWhereUniqueInput | CoverLetterVersionWhereUniqueInput[]
+    update?: CoverLetterVersionUpdateWithWhereUniqueWithoutRootInput | CoverLetterVersionUpdateWithWhereUniqueWithoutRootInput[]
+    updateMany?: CoverLetterVersionUpdateManyWithWhereWithoutRootInput | CoverLetterVersionUpdateManyWithWhereWithoutRootInput[]
+    deleteMany?: CoverLetterVersionScalarWhereInput | CoverLetterVersionScalarWhereInput[]
+  }
+
+  export type CoverLetterVersionUncheckedUpdateManyWithoutRootNestedInput = {
+    create?: XOR<CoverLetterVersionCreateWithoutRootInput, CoverLetterVersionUncheckedCreateWithoutRootInput> | CoverLetterVersionCreateWithoutRootInput[] | CoverLetterVersionUncheckedCreateWithoutRootInput[]
+    connectOrCreate?: CoverLetterVersionCreateOrConnectWithoutRootInput | CoverLetterVersionCreateOrConnectWithoutRootInput[]
+    upsert?: CoverLetterVersionUpsertWithWhereUniqueWithoutRootInput | CoverLetterVersionUpsertWithWhereUniqueWithoutRootInput[]
+    createMany?: CoverLetterVersionCreateManyRootInputEnvelope
+    set?: CoverLetterVersionWhereUniqueInput | CoverLetterVersionWhereUniqueInput[]
+    disconnect?: CoverLetterVersionWhereUniqueInput | CoverLetterVersionWhereUniqueInput[]
+    delete?: CoverLetterVersionWhereUniqueInput | CoverLetterVersionWhereUniqueInput[]
+    connect?: CoverLetterVersionWhereUniqueInput | CoverLetterVersionWhereUniqueInput[]
+    update?: CoverLetterVersionUpdateWithWhereUniqueWithoutRootInput | CoverLetterVersionUpdateWithWhereUniqueWithoutRootInput[]
+    updateMany?: CoverLetterVersionUpdateManyWithWhereWithoutRootInput | CoverLetterVersionUpdateManyWithWhereWithoutRootInput[]
+    deleteMany?: CoverLetterVersionScalarWhereInput | CoverLetterVersionScalarWhereInput[]
+  }
+
+  export type CoverLetterRootCreateNestedOneWithoutVersionsInput = {
+    create?: XOR<CoverLetterRootCreateWithoutVersionsInput, CoverLetterRootUncheckedCreateWithoutVersionsInput>
+    connectOrCreate?: CoverLetterRootCreateOrConnectWithoutVersionsInput
+    connect?: CoverLetterRootWhereUniqueInput
+  }
+
+  export type CoverLetterRootUpdateOneRequiredWithoutVersionsNestedInput = {
+    create?: XOR<CoverLetterRootCreateWithoutVersionsInput, CoverLetterRootUncheckedCreateWithoutVersionsInput>
+    connectOrCreate?: CoverLetterRootCreateOrConnectWithoutVersionsInput
+    upsert?: CoverLetterRootUpsertWithoutVersionsInput
+    connect?: CoverLetterRootWhereUniqueInput
+    update?: XOR<XOR<CoverLetterRootUpdateToOneWithWhereWithoutVersionsInput, CoverLetterRootUpdateWithoutVersionsInput>, CoverLetterRootUncheckedUpdateWithoutVersionsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -7856,6 +9642,29 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    isSet?: boolean
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -7871,17 +9680,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -7936,16 +9734,31 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-    isSet?: boolean
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -8031,6 +9844,49 @@ export namespace Prisma {
     data: AccountCreateManyUserInput | AccountCreateManyUserInput[]
   }
 
+  export type CoverLetterRootCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    originalResumeText: string
+    originalJobDescription: string
+    originalName?: string | null
+    originalEmail?: string | null
+    originalPhoneNumber?: string | null
+    originalPortfolioUrl?: string | null
+    originalLanguage?: string | null
+    originalDate?: string | null
+    currentJobRole?: string | null
+    currentCompany?: string | null
+    versions?: CoverLetterVersionCreateNestedManyWithoutRootInput
+  }
+
+  export type CoverLetterRootUncheckedCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    originalResumeText: string
+    originalJobDescription: string
+    originalName?: string | null
+    originalEmail?: string | null
+    originalPhoneNumber?: string | null
+    originalPortfolioUrl?: string | null
+    originalLanguage?: string | null
+    originalDate?: string | null
+    currentJobRole?: string | null
+    currentCompany?: string | null
+    versions?: CoverLetterVersionUncheckedCreateNestedManyWithoutRootInput
+  }
+
+  export type CoverLetterRootCreateOrConnectWithoutUserInput = {
+    where: CoverLetterRootWhereUniqueInput
+    create: XOR<CoverLetterRootCreateWithoutUserInput, CoverLetterRootUncheckedCreateWithoutUserInput>
+  }
+
+  export type CoverLetterRootCreateManyUserInputEnvelope = {
+    data: CoverLetterRootCreateManyUserInput | CoverLetterRootCreateManyUserInput[]
+  }
+
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
     where: SessionWhereUniqueInput
     update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
@@ -8096,6 +9952,42 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Account"> | Date | string
   }
 
+  export type CoverLetterRootUpsertWithWhereUniqueWithoutUserInput = {
+    where: CoverLetterRootWhereUniqueInput
+    update: XOR<CoverLetterRootUpdateWithoutUserInput, CoverLetterRootUncheckedUpdateWithoutUserInput>
+    create: XOR<CoverLetterRootCreateWithoutUserInput, CoverLetterRootUncheckedCreateWithoutUserInput>
+  }
+
+  export type CoverLetterRootUpdateWithWhereUniqueWithoutUserInput = {
+    where: CoverLetterRootWhereUniqueInput
+    data: XOR<CoverLetterRootUpdateWithoutUserInput, CoverLetterRootUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CoverLetterRootUpdateManyWithWhereWithoutUserInput = {
+    where: CoverLetterRootScalarWhereInput
+    data: XOR<CoverLetterRootUpdateManyMutationInput, CoverLetterRootUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type CoverLetterRootScalarWhereInput = {
+    AND?: CoverLetterRootScalarWhereInput | CoverLetterRootScalarWhereInput[]
+    OR?: CoverLetterRootScalarWhereInput[]
+    NOT?: CoverLetterRootScalarWhereInput | CoverLetterRootScalarWhereInput[]
+    id?: StringFilter<"CoverLetterRoot"> | string
+    userId?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    createdAt?: DateTimeFilter<"CoverLetterRoot"> | Date | string
+    updatedAt?: DateTimeFilter<"CoverLetterRoot"> | Date | string
+    originalResumeText?: StringFilter<"CoverLetterRoot"> | string
+    originalJobDescription?: StringFilter<"CoverLetterRoot"> | string
+    originalName?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    originalEmail?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    originalPhoneNumber?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    originalPortfolioUrl?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    originalLanguage?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    originalDate?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    currentJobRole?: StringNullableFilter<"CoverLetterRoot"> | string | null
+    currentCompany?: StringNullableFilter<"CoverLetterRoot"> | string | null
+  }
+
   export type UserCreateWithoutSessionsInput = {
     id: string
     name: string
@@ -8105,7 +9997,11 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     isPro?: boolean
+    coverLetterCount?: number
+    coverLetterCountPerMonth?: number
+    monthlyCountLastReset?: Date | string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
+    coverLetterRoots?: CoverLetterRootCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -8117,7 +10013,11 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     isPro?: boolean
+    coverLetterCount?: number
+    coverLetterCountPerMonth?: number
+    monthlyCountLastReset?: Date | string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    coverLetterRoots?: CoverLetterRootUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -8144,7 +10044,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
+    coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
+    monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    coverLetterRoots?: CoverLetterRootUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -8155,7 +10059,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
+    coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
+    monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    coverLetterRoots?: CoverLetterRootUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -8167,7 +10075,11 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     isPro?: boolean
+    coverLetterCount?: number
+    coverLetterCountPerMonth?: number
+    monthlyCountLastReset?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
+    coverLetterRoots?: CoverLetterRootCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -8179,7 +10091,11 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     isPro?: boolean
+    coverLetterCount?: number
+    coverLetterCountPerMonth?: number
+    monthlyCountLastReset?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    coverLetterRoots?: CoverLetterRootUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -8206,7 +10122,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
+    coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
+    monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    coverLetterRoots?: CoverLetterRootUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -8217,7 +10137,224 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
+    coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
+    monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    coverLetterRoots?: CoverLetterRootUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutCoverLetterRootsInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    isPro?: boolean
+    coverLetterCount?: number
+    coverLetterCountPerMonth?: number
+    monthlyCountLastReset?: Date | string | null
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCoverLetterRootsInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    isPro?: boolean
+    coverLetterCount?: number
+    coverLetterCountPerMonth?: number
+    monthlyCountLastReset?: Date | string | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCoverLetterRootsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCoverLetterRootsInput, UserUncheckedCreateWithoutCoverLetterRootsInput>
+  }
+
+  export type CoverLetterVersionCreateWithoutRootInput = {
+    id?: string
+    content: string
+    versionNumber: number
+    createdAt?: Date | string
+    refinementTypeUsed?: string | null
+  }
+
+  export type CoverLetterVersionUncheckedCreateWithoutRootInput = {
+    id?: string
+    content: string
+    versionNumber: number
+    createdAt?: Date | string
+    refinementTypeUsed?: string | null
+  }
+
+  export type CoverLetterVersionCreateOrConnectWithoutRootInput = {
+    where: CoverLetterVersionWhereUniqueInput
+    create: XOR<CoverLetterVersionCreateWithoutRootInput, CoverLetterVersionUncheckedCreateWithoutRootInput>
+  }
+
+  export type CoverLetterVersionCreateManyRootInputEnvelope = {
+    data: CoverLetterVersionCreateManyRootInput | CoverLetterVersionCreateManyRootInput[]
+  }
+
+  export type UserUpsertWithoutCoverLetterRootsInput = {
+    update: XOR<UserUpdateWithoutCoverLetterRootsInput, UserUncheckedUpdateWithoutCoverLetterRootsInput>
+    create: XOR<UserCreateWithoutCoverLetterRootsInput, UserUncheckedCreateWithoutCoverLetterRootsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCoverLetterRootsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCoverLetterRootsInput, UserUncheckedUpdateWithoutCoverLetterRootsInput>
+  }
+
+  export type UserUpdateWithoutCoverLetterRootsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPro?: BoolFieldUpdateOperationsInput | boolean
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
+    coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
+    monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCoverLetterRootsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPro?: BoolFieldUpdateOperationsInput | boolean
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
+    coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
+    monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type CoverLetterVersionUpsertWithWhereUniqueWithoutRootInput = {
+    where: CoverLetterVersionWhereUniqueInput
+    update: XOR<CoverLetterVersionUpdateWithoutRootInput, CoverLetterVersionUncheckedUpdateWithoutRootInput>
+    create: XOR<CoverLetterVersionCreateWithoutRootInput, CoverLetterVersionUncheckedCreateWithoutRootInput>
+  }
+
+  export type CoverLetterVersionUpdateWithWhereUniqueWithoutRootInput = {
+    where: CoverLetterVersionWhereUniqueInput
+    data: XOR<CoverLetterVersionUpdateWithoutRootInput, CoverLetterVersionUncheckedUpdateWithoutRootInput>
+  }
+
+  export type CoverLetterVersionUpdateManyWithWhereWithoutRootInput = {
+    where: CoverLetterVersionScalarWhereInput
+    data: XOR<CoverLetterVersionUpdateManyMutationInput, CoverLetterVersionUncheckedUpdateManyWithoutRootInput>
+  }
+
+  export type CoverLetterVersionScalarWhereInput = {
+    AND?: CoverLetterVersionScalarWhereInput | CoverLetterVersionScalarWhereInput[]
+    OR?: CoverLetterVersionScalarWhereInput[]
+    NOT?: CoverLetterVersionScalarWhereInput | CoverLetterVersionScalarWhereInput[]
+    id?: StringFilter<"CoverLetterVersion"> | string
+    rootId?: StringFilter<"CoverLetterVersion"> | string
+    content?: StringFilter<"CoverLetterVersion"> | string
+    versionNumber?: IntFilter<"CoverLetterVersion"> | number
+    createdAt?: DateTimeFilter<"CoverLetterVersion"> | Date | string
+    refinementTypeUsed?: StringNullableFilter<"CoverLetterVersion"> | string | null
+  }
+
+  export type CoverLetterRootCreateWithoutVersionsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    originalResumeText: string
+    originalJobDescription: string
+    originalName?: string | null
+    originalEmail?: string | null
+    originalPhoneNumber?: string | null
+    originalPortfolioUrl?: string | null
+    originalLanguage?: string | null
+    originalDate?: string | null
+    currentJobRole?: string | null
+    currentCompany?: string | null
+    user?: UserCreateNestedOneWithoutCoverLetterRootsInput
+  }
+
+  export type CoverLetterRootUncheckedCreateWithoutVersionsInput = {
+    id?: string
+    userId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    originalResumeText: string
+    originalJobDescription: string
+    originalName?: string | null
+    originalEmail?: string | null
+    originalPhoneNumber?: string | null
+    originalPortfolioUrl?: string | null
+    originalLanguage?: string | null
+    originalDate?: string | null
+    currentJobRole?: string | null
+    currentCompany?: string | null
+  }
+
+  export type CoverLetterRootCreateOrConnectWithoutVersionsInput = {
+    where: CoverLetterRootWhereUniqueInput
+    create: XOR<CoverLetterRootCreateWithoutVersionsInput, CoverLetterRootUncheckedCreateWithoutVersionsInput>
+  }
+
+  export type CoverLetterRootUpsertWithoutVersionsInput = {
+    update: XOR<CoverLetterRootUpdateWithoutVersionsInput, CoverLetterRootUncheckedUpdateWithoutVersionsInput>
+    create: XOR<CoverLetterRootCreateWithoutVersionsInput, CoverLetterRootUncheckedCreateWithoutVersionsInput>
+    where?: CoverLetterRootWhereInput
+  }
+
+  export type CoverLetterRootUpdateToOneWithWhereWithoutVersionsInput = {
+    where?: CoverLetterRootWhereInput
+    data: XOR<CoverLetterRootUpdateWithoutVersionsInput, CoverLetterRootUncheckedUpdateWithoutVersionsInput>
+  }
+
+  export type CoverLetterRootUpdateWithoutVersionsInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalResumeText?: StringFieldUpdateOperationsInput | string
+    originalJobDescription?: StringFieldUpdateOperationsInput | string
+    originalName?: NullableStringFieldUpdateOperationsInput | string | null
+    originalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    originalPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    originalPortfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    originalLanguage?: NullableStringFieldUpdateOperationsInput | string | null
+    originalDate?: NullableStringFieldUpdateOperationsInput | string | null
+    currentJobRole?: NullableStringFieldUpdateOperationsInput | string | null
+    currentCompany?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneWithoutCoverLetterRootsNestedInput
+  }
+
+  export type CoverLetterRootUncheckedUpdateWithoutVersionsInput = {
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalResumeText?: StringFieldUpdateOperationsInput | string
+    originalJobDescription?: StringFieldUpdateOperationsInput | string
+    originalName?: NullableStringFieldUpdateOperationsInput | string | null
+    originalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    originalPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    originalPortfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    originalLanguage?: NullableStringFieldUpdateOperationsInput | string | null
+    originalDate?: NullableStringFieldUpdateOperationsInput | string | null
+    currentJobRole?: NullableStringFieldUpdateOperationsInput | string | null
+    currentCompany?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionCreateManyUserInput = {
@@ -8243,6 +10380,22 @@ export namespace Prisma {
     password?: string | null
     createdAt: Date | string
     updatedAt: Date | string
+  }
+
+  export type CoverLetterRootCreateManyUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    originalResumeText: string
+    originalJobDescription: string
+    originalName?: string | null
+    originalEmail?: string | null
+    originalPhoneNumber?: string | null
+    originalPortfolioUrl?: string | null
+    originalLanguage?: string | null
+    originalDate?: string | null
+    currentJobRole?: string | null
+    currentCompany?: string | null
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -8312,6 +10465,82 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CoverLetterRootUpdateWithoutUserInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalResumeText?: StringFieldUpdateOperationsInput | string
+    originalJobDescription?: StringFieldUpdateOperationsInput | string
+    originalName?: NullableStringFieldUpdateOperationsInput | string | null
+    originalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    originalPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    originalPortfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    originalLanguage?: NullableStringFieldUpdateOperationsInput | string | null
+    originalDate?: NullableStringFieldUpdateOperationsInput | string | null
+    currentJobRole?: NullableStringFieldUpdateOperationsInput | string | null
+    currentCompany?: NullableStringFieldUpdateOperationsInput | string | null
+    versions?: CoverLetterVersionUpdateManyWithoutRootNestedInput
+  }
+
+  export type CoverLetterRootUncheckedUpdateWithoutUserInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalResumeText?: StringFieldUpdateOperationsInput | string
+    originalJobDescription?: StringFieldUpdateOperationsInput | string
+    originalName?: NullableStringFieldUpdateOperationsInput | string | null
+    originalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    originalPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    originalPortfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    originalLanguage?: NullableStringFieldUpdateOperationsInput | string | null
+    originalDate?: NullableStringFieldUpdateOperationsInput | string | null
+    currentJobRole?: NullableStringFieldUpdateOperationsInput | string | null
+    currentCompany?: NullableStringFieldUpdateOperationsInput | string | null
+    versions?: CoverLetterVersionUncheckedUpdateManyWithoutRootNestedInput
+  }
+
+  export type CoverLetterRootUncheckedUpdateManyWithoutUserInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalResumeText?: StringFieldUpdateOperationsInput | string
+    originalJobDescription?: StringFieldUpdateOperationsInput | string
+    originalName?: NullableStringFieldUpdateOperationsInput | string | null
+    originalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    originalPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    originalPortfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    originalLanguage?: NullableStringFieldUpdateOperationsInput | string | null
+    originalDate?: NullableStringFieldUpdateOperationsInput | string | null
+    currentJobRole?: NullableStringFieldUpdateOperationsInput | string | null
+    currentCompany?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CoverLetterVersionCreateManyRootInput = {
+    id?: string
+    content: string
+    versionNumber: number
+    createdAt?: Date | string
+    refinementTypeUsed?: string | null
+  }
+
+  export type CoverLetterVersionUpdateWithoutRootInput = {
+    content?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    refinementTypeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CoverLetterVersionUncheckedUpdateWithoutRootInput = {
+    content?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    refinementTypeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CoverLetterVersionUncheckedUpdateManyWithoutRootInput = {
+    content?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    refinementTypeUsed?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

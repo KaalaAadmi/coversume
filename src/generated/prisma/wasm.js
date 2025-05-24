@@ -121,7 +121,10 @@ exports.Prisma.UserScalarFieldEnum = {
   image: 'image',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  isPro: 'isPro'
+  isPro: 'isPro',
+  coverLetterCount: 'coverLetterCount',
+  coverLetterCountPerMonth: 'coverLetterCountPerMonth',
+  monthlyCountLastReset: 'monthlyCountLastReset'
 };
 
 exports.Prisma.SessionScalarFieldEnum = {
@@ -160,21 +163,30 @@ exports.Prisma.VerificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.CoverLetterScalarFieldEnum = {
+exports.Prisma.CoverLetterRootScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
   createdAt: 'createdAt',
-  resumeText: 'resumeText',
-  resumeFileUrl: 'resumeFileUrl',
-  jobDescription: 'jobDescription',
-  coverLetter: 'coverLetter',
-  name: 'name',
-  email: 'email',
-  phoneNumber: 'phoneNumber',
-  portfolioUrl: 'portfolioUrl',
-  language: 'language',
-  jobRole: 'jobRole',
-  company: 'company',
-  userId: 'userId'
+  updatedAt: 'updatedAt',
+  originalResumeText: 'originalResumeText',
+  originalJobDescription: 'originalJobDescription',
+  originalName: 'originalName',
+  originalEmail: 'originalEmail',
+  originalPhoneNumber: 'originalPhoneNumber',
+  originalPortfolioUrl: 'originalPortfolioUrl',
+  originalLanguage: 'originalLanguage',
+  originalDate: 'originalDate',
+  currentJobRole: 'currentJobRole',
+  currentCompany: 'currentCompany'
+};
+
+exports.Prisma.CoverLetterVersionScalarFieldEnum = {
+  id: 'id',
+  rootId: 'rootId',
+  content: 'content',
+  versionNumber: 'versionNumber',
+  createdAt: 'createdAt',
+  refinementTypeUsed: 'refinementTypeUsed'
 };
 
 exports.Prisma.SortOrder = {
@@ -193,7 +205,8 @@ exports.Prisma.ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
-  CoverLetter: 'CoverLetter'
+  CoverLetterRoot: 'CoverLetterRoot',
+  CoverLetterVersion: 'CoverLetterVersion'
 };
 
 /**

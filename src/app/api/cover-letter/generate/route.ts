@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     date,
     resumeText,
     jobDescription,
-    resumeFileUrl,
+    // resumeFileUrl,
     name,
     email,
     phoneNumber,
@@ -43,6 +43,80 @@ export async function POST(req: NextRequest) {
   //   console.log(
   //     `resumeText: ${resumeText}, jobDescription: ${jobDescription}, resumeFileUrl: ${resumeFileUrl}, name: ${name}, email: ${email}, phoneNumber: ${phoneNumber}, portfolioUrl: ${portfolioUrl}, language: ${language}, userId: ${userId}`
   //   );
+
+  let userToUpdate = null;
+  let shouldUpdateUserCounts = false;
+
+  if (userId) {
+    userToUpdate = await prisma.user.findUnique({ where: { id: userId } });
+    shouldUpdateUserCounts = true; // Assume we'll update if user exists
+  }
+
+  if (userToUpdate && !userToUpdate.isPro) {
+    // For non-Pro users, check limits before proceeding (optional, implement if needed)
+    const now = new Date();
+    const currentMonthYear = {
+      month: now.getUTCMonth(),
+      year: now.getUTCFullYear(),
+    }; // Use UTC for consistency
+    let userMonthlyCount = userToUpdate.coverLetterCountPerMonth;
+    let userLastReset = userToUpdate.monthlyCountLastReset;
+
+    // Check if the month needs to be reset
+    if (userLastReset) {
+      const lastResetMonthYear = {
+        month: userLastReset.getUTCMonth(),
+        year: userLastReset.getUTCFullYear(),
+      };
+      if (
+        currentMonthYear.year > lastResetMonthYear.year ||
+        (currentMonthYear.year === lastResetMonthYear.year &&
+          currentMonthYear.month > lastResetMonthYear.month)
+      ) {
+        // New month, reset count and update reset date
+        userMonthlyCount = 0; // Reset count before incrementing for the current action
+        // Set userLastReset to the beginning of the current month for clarity
+        userLastReset = new Date(
+          Date.UTC(currentMonthYear.year, currentMonthYear.month, 1)
+        );
+
+        // Persist this reset immediately if it's a new month, even before the limit check for the current action
+        // This ensures the reset happens regardless of whether the current action is allowed
+        await prisma.user.update({
+          where: { id: userId },
+          data: {
+            coverLetterCountPerMonth: 0, // Reset to 0
+            monthlyCountLastReset: userLastReset,
+          },
+        });
+      }
+    } else {
+      // No reset date means this is effectively the first count in a cycle for a new month
+      userMonthlyCount = 0;
+      userLastReset = new Date(
+        Date.UTC(currentMonthYear.year, currentMonthYear.month, 1)
+      );
+      await prisma.user.update({
+        where: { id: userId },
+        data: {
+          coverLetterCountPerMonth: 0,
+          monthlyCountLastReset: userLastReset,
+        },
+      });
+    }
+    // Now check limit with potentially reset count
+    const monthlyFreeLimit = process.env.MONTHLY_FREE_LIMIT
+      ? Number(process.env.MONTHLY_FREE_LIMIT)
+      : 3;
+    if (userMonthlyCount >= monthlyFreeLimit) {
+      return new NextResponse(
+        JSON.stringify({
+          message: "Monthly generation/refinement limit reached.",
+        }),
+        { status: 403 }
+      );
+    }
+  }
 
   const prompt = `You are an expert recruitment copywriter.
 Perform two tasks in **one** response:
@@ -116,58 +190,121 @@ markdown formatted cover letter in harvard career services format
     const results = result.text.split("\n-----\n");
     const jsonPart = results[0];
     const cleaned = jsonPart.replace(/```json\n|\n```/g, "");
-    let jsonData;
+    let jsonData: { jobRole: string | null; company: string | null };
     try {
       jsonData = JSON.parse(cleaned);
       console.log(jsonData.jobRole); // "Frontend Engineer"
       console.log(jsonData.company); // "Intercom"
     } catch (err) {
       console.error("Failed to parse JSON:", err);
+      jsonData = { jobRole: null, company: null };
     }
     // const jsonData = JSON.parse(jsonPart);
     const coverLetter = results[1];
 
-    prisma.coverLetter
-      .create({
+    // const newCoverLetterRoot = await prisma.coverLetterRoot.create({
+    //   data: {
+    //     originalResumeText: resumeText,
+    //     // resumeFileUrl: resumeFileUrl !== undefined ? resumeFileUrl : null,
+    //     originalJobDescription: jobDescription,
+    //     // coverLetter,
+    //     originalName: name,
+    //     originalEmail: email,
+    //     originalPhoneNumber: phoneNumber,
+    //     originalPortfolioUrl: portfolioUrl !== "" ? portfolioUrl : null,
+    //     originalLanguage: language,
+    //     currentJobRole: jsonData.jobRole,
+    //     currentCompany: jsonData.company,
+    //     originalDate: date,
+    //     userId,
+    //     versions: {
+    //       create: [
+    //         {
+    //           content: coverLetter,
+    //           versionNumber: 1,
+    //           refinementTypeUsed: "initial",
+    //         },
+    //       ],
+    //     },
+    //   },
+    //   include: {
+    //     versions: {
+    //       where: { versionNumber: 1 }, // Ensure we get the first version
+    //     },
+    //   },
+    // });
+    // Transaction to create cover letter and update user counts
+    const newCoverLetterRoot = await prisma.$transaction(async (tx) => {
+      const createdRoot = await tx.coverLetterRoot.create({
         data: {
-          resumeText,
-          resumeFileUrl: resumeFileUrl !== undefined ? resumeFileUrl : null,
-          jobDescription,
-          coverLetter,
-          name,
-          email,
-          phoneNumber,
-          portfolioUrl: portfolioUrl !== "" ? portfolioUrl : null,
-          language,
-          jobRole: jsonData.jobRole,
-          company: jsonData.company,
-          userId,
+          userId: userId || null,
+          originalResumeText: resumeText,
+          originalJobDescription: jobDescription,
+          originalName: name,
+          originalEmail: email,
+          originalPhoneNumber: phoneNumber,
+          originalPortfolioUrl: portfolioUrl !== "" ? portfolioUrl : null,
+          originalLanguage: language,
+          originalDate: date,
+          currentJobRole: jsonData.jobRole,
+          currentCompany: jsonData.company,
+          versions: {
+            create: [
+              {
+                content: coverLetter,
+                versionNumber: 1,
+                refinementTypeUsed: "initial",
+              },
+            ],
+          },
         },
-      })
-      .catch((err) => {
-        console.error("DB insert error:", err);
-        return new NextResponse(
-          JSON.stringify({ message: "Something went wrong!" }),
-          { status: 500 }
-        );
+        include: {
+          versions: {
+            where: { versionNumber: 1 },
+          },
+        },
       });
+
+      if (shouldUpdateUserCounts && userToUpdate) {
+        const updateData: any = {
+          coverLetterCount: { increment: 1 },
+        };
+
+        if (!userToUpdate.isPro) {
+          // Increment the monthly count. The reset to 0 (if new month) happened *before* the limit check.
+          updateData.coverLetterCountPerMonth = { increment: 1 };
+          // monthlyCountLastReset was already updated if it was a new month.
+          // If it's the same month, we don't touch monthlyCountLastReset here.
+        }
+        // For Pro users, only total count is incremented if they are not subject to monthly limits.
+        // If Pro users have their own monthly limits, that logic would be added here.
+
+        await tx.user.update({
+          where: { id: userId },
+          data: updateData,
+        });
+      }
+      return createdRoot;
+    });
+
+    const firstVersion = newCoverLetterRoot.versions[0];
     return new NextResponse(
       JSON.stringify({
-        jobRole: jsonData.jobRole,
-        company: jsonData.company,
-        coverLetter: coverLetter,
+        rootId: newCoverLetterRoot.id, // Send rootId to frontend
+        versionId: firstVersion.id, // Send versionId of the created version
+        jobRole: newCoverLetterRoot.currentJobRole,
+        company: newCoverLetterRoot.currentCompany,
+        coverLetter: firstVersion.content,
       }),
       {
         status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       }
     );
   } catch (error) {
-    console.error("Error generating text:", error);
+    console.error("Error in /api/cover-letter/generate:", error);
     return new NextResponse(
-      JSON.stringify({ message: "Something went wrong!" }),
+      JSON.stringify({ message: "Something went wrong during generation!" }),
       { status: 500 }
     );
   }

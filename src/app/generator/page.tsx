@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import {
   Upload,
@@ -29,6 +29,23 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import remarkGfm from "remark-gfm"; // Import remark-gfm
 import rehypeRaw from "rehype-raw"; // Import rehype-raw
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { saveAs } from "file-saver";
+import { jsPDF } from "jspdf";
+import { Document, Packer, Paragraph, TextRun } from "docx";
+// import SimpleMDE from "react-simplemde-editor";
+import { SimpleMdeReact } from "react-simplemde-editor";
+import { Editor, EditorTextChangeEvent } from "primereact/editor";
+import { date } from "zod";
+
+// import "simplemde/dist/simplemde.min.css";
 
 type Inputs = {
   // resumeText: string;
@@ -67,6 +84,26 @@ const GeneratorPage: React.FC = () => {
   const [jobRole, setJobRole] = useState<string | null>(null);
   const [company, setCompany] = useState<string | null>(null);
   const [localDate, setLocalDate] = useState<string>("");
+  const [editableLetter, setEditableLetter] = useState(generatedLetter);
+  // type Position = { line: number; ch: number }; // Add this type definition above or here
+  // States for letter versions
+  const [letterVersions, setLetterVersions] = useState<string[]>([]);
+  const [currentVersionIndex, setCurrentVersionIndex] = useState<number>(-1);
+  const [activeCoverLetterRootId, setActiveCoverLetterRootId] = useState<
+    string | null
+  >(null); // New state for rootId
+
+  // const [lineAndCursor, setLineAndCursor] = useState<Position | null>(null);
+
+  // const getLineAndCursorCallback = useCallback((position: Position) => {
+  //   setLineAndCursor(position);
+  // }, []);
+
+  // useEffect(() => {
+  //   if (lineAndCursor) {
+  //     console.info("Hey I'm line and cursor info!", lineAndCursor);
+  //   }
+  // }, [lineAndCursor]);
   const {
     register,
     handleSubmit,
@@ -74,6 +111,7 @@ const GeneratorPage: React.FC = () => {
     watch,
     formState: { errors },
     setValue,
+    getValues,
   } = useForm<Inputs>({
     defaultValues: {
       // resumeText: "",
@@ -85,6 +123,7 @@ const GeneratorPage: React.FC = () => {
       language: "English",
     },
   });
+
   const watchedJobDescription = watch("jobDescription");
 
   useEffect(() => {
@@ -109,7 +148,30 @@ const GeneratorPage: React.FC = () => {
     // setLocalTime(timeString);
     console.log("Formatted Date:", formattedDate);
   }, [session, setValue]);
-
+  // let editorKey, editorReadOnly;
+  useEffect(() => {
+    if (isTyping) {
+      // During the typing animation, the Editor should display the incrementally built generatedLetter
+      setEditableLetter(generatedLetter);
+    } else {
+      // When not typing (e.g., after animation is done, or when navigating versions),
+      // set the editor's content from the current version in letterVersions.
+      if (
+        currentVersionIndex >= 0 &&
+        letterVersions[currentVersionIndex] !== undefined
+      ) {
+        const currentVersionContent = letterVersions[currentVersionIndex];
+        setEditableLetter(currentVersionContent);
+        // Also, ensure generatedLetter (used for UI conditions like button visibility)
+        // reflects the current complete version when not typing.
+        setGeneratedLetter(currentVersionContent);
+      } else if (letterVersions.length === 0 && currentVersionIndex === -1) {
+        // If there are no versions (e.g., initial state or after a reset), clear both.
+        setEditableLetter("");
+        setGeneratedLetter("");
+      }
+    }
+  }, [generatedLetter, letterVersions, currentVersionIndex, isTyping]); // Add generatedLetter to dependencies
   const handleResumeUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -124,132 +186,15 @@ const GeneratorPage: React.FC = () => {
     }
   };
 
-  // const jobDescription = (value: string) => {
-  //   if (getValues("jobDescription")) {
-  //     // read the checkbox value
-  //     return !!value;
-  //   }
-  // };
-
-  // const onSubmit: SubmitHandler<Inputs> = async (data) => {
-  //   // event?.preventDefault();
-  //   console.log("Ready to generate cover letter with data:", data);
-  //   setIsLoading(true);
-  //   setGeneratedLetter("");
-  //   try {
-  //     const { jobDescription, name, email, phone, portfolioUrl, language } =
-  //       data;
-  //     const response = await fetch("/api/cover-letter/generate", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         resumeText,
-  //         jobDescription,
-  //         name: name === "" ? session?.user.name : name,
-  //         email: email === "" ? session?.user.email : email,
-  //         phone,
-  //         portfolioUrl,
-  //         language: language === "" ? "English" : language,
-  //         userId: session?.user.id,
-  //       }),
-  //     });
-
-  //     if (!response.ok) {
-  //       toast.error("Failed to generate cover letter. Please try again.");
-  //       console.log(`API ERROR: ${response.status} ${response.statusText}`);
-  //     }
-  //     if (!response.body) {
-  //       toast.error("Failed to generate cover letter. Please try again.");
-  //       console.log(`Response body is empty`);
-  //     }
-  //     // const reader = response.body?.getReader();
-  //     // const decoder = new TextDecoder("utf-8");
-  //     // let buffer = "";
-  //     // let metadataParsed = false;
-
-  //     // while (true) {
-  //     //   const result = await reader?.read();
-  //     //   if (!result) break;
-  //     //   const { done, value } = result;
-  //     //   if (done) break;
-
-  //     //   buffer += decoder.decode(value, { stream: true });
-
-  //     //   if (!metadataParsed) {
-  //     //     const separatorIndex = buffer.indexOf("\n-----\n");
-  //     //     if (separatorIndex !== -1) {
-  //     //       const jsonPart = buffer.substring(0, separatorIndex);
-  //     //       const markdownPart = buffer.substring(
-  //     //         separatorIndex + "\n-----\n".length
-  //     //       );
-  //     //       try {
-  //     //         const metadata = JSON.parse(jsonPart);
-  //     //         setJobRole(metadata.jobRole);
-  //     //         setCompany(metadata.company);
-  //     //         console.log("Metadata:", metadata); // For debugging
-  //     //       } catch (error) {
-  //     //         console.log("Failed to parse metadata JSONL ", error);
-  //     //         // Handle cases where JSON might be malformed or not present as expected
-  //     //       }
-  //     //       setGeneratedLetter(markdownPart);
-  //     //       buffer = "";
-  //     //       metadataParsed = true; // Set flag to true after parsing metadata
-  //     //     }
-  //     //   }
-  //     //   // Final decode for any remaining data in buffer if stream ended mid-character
-  //     //   if (buffer.length > 0 && metadataParsed) {
-  //     //     setGeneratedLetter(
-  //     //       (prev) => prev + decoder.decode(new Uint8Array(), { stream: false })
-  //     //     );
-  //     //   }
-  //     // }
-  //     setStep(2);
-  //   } catch (error) {
-  //     console.error("Failed to generate cover letter:", error);
-  //     setGeneratedLetter("Error generating cover letter. Please try again.");
-  //     // Optionally, set an error state to display a more user-friendly message
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  //   // Simulate API call to generate cover letter
-  //   setTimeout(() => {
-  //     //       const mockGeneratedLetter = `# John Doe
-  //     // 123 Main Street | City, State | (123) 456-7890 | john.doe@email.com | portfoliosite.com
-
-  //     // ${new Date().toLocaleDateString()}
-
-  //     // Hiring Manager
-  //     // Company Name
-  //     // Company Address
-  //     // City, State ZIP
-
-  //     // Dear Hiring Manager,
-
-  //     // I am writing to express my strong interest in the Software Engineer position at TechCorp as advertised on your company website. With my background in full-stack development and proven track record of delivering scalable software solutions, I am confident in my ability to make significant contributions to your team.
-
-  //     // Throughout my career, I have developed expertise in JavaScript, React, and Node.js, which aligns perfectly with the technical requirements outlined in your job description. In my current role as a Senior Developer at CurrentCompany, I successfully led the development of a customer-facing portal that improved user engagement by 35% and reduced support tickets by 50%. This achievement demonstrates my ability to create effective solutions that positively impact both users and business metrics.
-
-  //     // I am particularly drawn to TechCorp's mission to make technology accessible to underserved communities. Your recent initiative to provide coding education to rural schools resonates with my personal commitment to expanding opportunities in the tech sector. I believe my experience mentoring junior developers and contributing to open-source projects would allow me to further your company's goals.
-
-  //     // I am excited about the possibility of bringing my technical expertise, leadership experience, and passion for innovation to TechCorp. I would welcome the opportunity to discuss how my background and skills would be an asset to your team. Thank you for considering my application, and I look forward to speaking with you soon.
-
-  //     // Sincerely,
-
-  //     // John Doe`;
-
-  //     // setGeneratedLetter(mockGeneratedLetter);
-  //     setIsLoading(false);
-  //     setStep(2);
-  //   }, 2000);
-  // };
-
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     console.log("Ready to generate cover letter with data:", data);
     setIsLoading(true);
-    setIsTyping(false); // Reset typing state
-    setGeneratedLetter(""); // Clear previous letter
+    setIsTyping(false);
+    setGeneratedLetter("");
+    setEditableLetter("");
+    setLetterVersions([]);
+    setCurrentVersionIndex(-1);
+    setActiveCoverLetterRootId(null); // Reset active root ID for a new generation
     setJobRole(null);
     setCompany(null);
     // setStep(2); // Move to step 2 to show loading/preview area
@@ -298,6 +243,11 @@ const GeneratorPage: React.FC = () => {
       const responseData = await response.json();
       // responseData should be: { jobRole, company, coverLetter }
 
+      // setJobRole(responseData.jobRole);
+      // setCompany(responseData.company);
+
+      // let fullCoverLetter = responseData.coverLetter || "";
+      setActiveCoverLetterRootId(responseData.rootId); // Store the rootId
       setJobRole(responseData.jobRole);
       setCompany(responseData.company);
 
@@ -327,9 +277,7 @@ const GeneratorPage: React.FC = () => {
         let currentText = "";
         for (const token of tokens) {
           currentText += token;
-          setGeneratedLetter(
-            currentText + '<span class="blinking-cursor">▋</span>'
-          ); // Pure markdown string
+          setGeneratedLetter(currentText); // Pure markdown string
           // Only add delay if the token is not purely whitespace,
           // or make delay for whitespace very small if desired.
           // For simplicity, delaying for all tokens here.
@@ -339,9 +287,12 @@ const GeneratorPage: React.FC = () => {
         }
         setIsTyping(false); // End typing animation
         // Check the below line!!!!
-        setGeneratedLetter(currentText); // Final pure markdown string
+        // setGeneratedLetter(currentText); // Final text is already in generatedLetter
+        setLetterVersions([currentText]); // Save the first version
+        setCurrentVersionIndex(0);
       } else {
         setGeneratedLetter("No cover letter content received.");
+        setIsTyping(false); // End typing animation
         toast.info("Cover letter content was empty.");
       }
     } catch (error) {
@@ -370,17 +321,178 @@ const GeneratorPage: React.FC = () => {
     }
   };
 
-  const handleRefinement = (refinementType: string) => {
-    setLetterFeedback(
-      `Letter will be refined to be ${refinementType.toLowerCase()}`
+  const handleDownloadPDF = () => {
+    const docName = `${jobRole} - ${company} - ${localDate}`;
+    const cover = editableLetter.replace(/<br\s*\/?>/gi, "\n");
+    const doc = new jsPDF();
+    const lines = doc.splitTextToSize(cover, 180); // wraps text
+    doc.text(lines, 10, 10);
+    doc.save(docName + ".pdf");
+    toast.success("Cover letter downloaded as PDF successfully!");
+  };
+
+  const handleDownloadDOCX = async () => {
+    const docName = `${jobRole} - ${company} - ${localDate}`;
+    const cover = editableLetter.replace(/<br\s*\/?>/gi, "\n");
+    const paragraphs = cover.split("\n").map(
+      (line) =>
+        new Paragraph({
+          children: [new TextRun(line)],
+        })
     );
 
-    // In a real app, this would call an API to refine the letter
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
+    const doc = new Document({
+      sections: [
+        {
+          properties: {},
+          children: paragraphs,
+        },
+      ],
+    });
+
+    const blob = await Packer.toBlob(doc);
+    saveAs(blob, docName + ".docx");
+    toast.success("Cover letter downloaded as DOCX successfully!");
   };
+  const handleDownloadTXT = async () => {
+    const docName = `${jobRole} - ${company} - ${localDate}`;
+    const cover = editableLetter.replace(/<br\s*\/?>/gi, "\n");
+    const blob = new Blob([cover], { type: "text/plain;charset=utf-8" });
+    await saveAs(blob, docName + ".txt");
+    toast.success("Cover letter downloaded as TXT successfully!");
+  };
+
+  const handleEditorTextChange = (e: EditorTextChangeEvent) => {
+    const newContent = e.htmlValue ?? "";
+    setEditableLetter(newContent); // Update for immediate display in editor
+
+    // If not currently typing via animation, update the version in state
+    if (!isTyping && currentVersionIndex !== -1) {
+      setLetterVersions((prevVersions) => {
+        const updatedVersions = [...prevVersions];
+        if (updatedVersions[currentVersionIndex] !== undefined) {
+          updatedVersions[currentVersionIndex] = newContent;
+        }
+        return updatedVersions;
+      });
+      // Also keep generatedLetter in sync if it's used elsewhere
+      setGeneratedLetter(newContent);
+    }
+  };
+
+  const handleRefinement = async (refinementType: string) => {
+    // 1. Set feedback and loading state immediately to update UI
+    setLetterFeedback(
+      `Refining letter to be ${refinementType.toLowerCase()}...`
+    );
+    setIsLoading(true);
+    // isTyping should be false here, so the condition (isLoading && !isTyping) for the loader will be met.
+    setIsTyping(false); // Ensure typing state is reset
+
+    // In a real app, this would call an API to refine the letter
+    try {
+      if (!activeCoverLetterRootId) {
+        toast.error("Cannot refine: No active cover letter session found.");
+        setIsLoading(false);
+        setLetterFeedback(null);
+        return;
+      }
+      // TODO: Change the API URL to the production one which has AI and not the dummy one as it is now.
+      // const response = await fetch(
+      //   "/api/cover-letter/refine",
+      const response = await fetch(
+        "http://localhost:8000/api/cover-letter/refine",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            rootId: activeCoverLetterRootId, // Use the stored rootId
+            date: localDate,
+            refinementType,
+            coverLetter: editableLetter, // Send the current content of the editor
+            resumeText, // Make sure this is up-to-date if it can change
+            jobDescription: watchedJobDescription, // Use watched value from react-hook-form
+            name: getValues("name"),
+            email: getValues("email"),
+            phoneNumber: getValues("phone"),
+            portfolioUrl: getValues("portfolioUrl"),
+            language: getValues("language") || "English",
+            userId: session?.user.id, // Include if your API uses it
+          }),
+        }
+      );
+      setIsLoading(false); // Set loading to false after API call
+
+      if (!response.ok) {
+        const errorData = await response
+          .json()
+          .catch(() => ({ message: response.statusText }));
+        toast.error(
+          `Refinement failed: ${errorData.message || "Unknown error"}`
+        );
+        console.error(`API REFINEMENT ERROR: ${response.status}`, errorData);
+        // letterFeedback is already "Refining...", isLoading will be set to false in finally
+        toast.error("An error occurred while refining the letter.");
+        setLetterFeedback(null);
+        return; // Exit if API call fails
+      }
+      const refinedData = await response.json();
+      let refinedCoverLetter = refinedData.coverLetter || editableLetter;
+      refinedCoverLetter = refinedCoverLetter.trim().replace(/\n/g, "<br/>");
+
+      if (refinedCoverLetter) {
+        setLetterFeedback(null); // Clear "Refining..." message
+        setIsTyping(true); // Start typing animation for refined text
+        setGeneratedLetter(""); // Clear the editor before typing new content
+
+        const tokens: Token[] = refinedCoverLetter
+          .split(/(\n+|\s+|\S+)/g)
+          .filter((token: string) => token && token.length > 0);
+
+        let currentText = "";
+        for (const token of tokens) {
+          currentText += token;
+          setGeneratedLetter(currentText);
+          await new Promise((resolve) =>
+            setTimeout(resolve, TYPING_ANIMATION_DELAY_MS)
+          );
+        }
+        setIsTyping(false);
+        // setGeneratedLetter(currentText); // Final text is in generatedLetter
+
+        // Add as a new version, discarding subsequent versions if any
+        const newVersions = [
+          ...letterVersions.slice(0, currentVersionIndex + 1),
+          currentText, // The fully typed refined letter
+        ];
+        setLetterVersions(newVersions);
+        setCurrentVersionIndex(newVersions.length - 1);
+        toast.success("Letter refined!");
+      } else {
+        toast.info("Refinement resulted in empty content. Reverting.");
+        // Optionally, revert to editableLetter or handle as an error
+        // setGeneratedLetter(editableLetter);
+      }
+    } catch (error) {
+      console.error("Failed to refine cover letter (handleRefinement):", error);
+      toast.error("An unexpected error occurred during refinement.");
+      // letterFeedback will still show the "Refining..." message or the error toast will be more prominent
+      setLetterFeedback(null); // Clear "Refining..." message
+      setIsLoading(false); // Ensure loading state is reset
+    } finally {
+      // 2. Always set isLoading to false after the operation completes (success or error)
+      setIsLoading(false);
+      setIsTyping(false); // End typing animation
+      // Optionally, clear the specific letterFeedback after a few seconds
+      // setTimeout(() => setLetterFeedback(null), 3000);
+      setLetterFeedback(null); // Clear feedback after refinement
+    }
+  };
+
+  const editorReadOnly = isTyping || isLoading;
+  const editorKey = editorReadOnly ? "editor-readonly" : "editor-editable";
 
   return (
     <div className="pt-28 pb-16">
@@ -493,7 +605,7 @@ const GeneratorPage: React.FC = () => {
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}
-                        defaultValue="English"
+                        defaultValue={getValues("language")}
                       >
                         <SelectTrigger className="w-full rounded border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
                           <SelectValue placeholder="Select Language" />
@@ -640,7 +752,48 @@ const GeneratorPage: React.FC = () => {
                 {step === 2 &&
                   !isTyping &&
                   generatedLetter !== "" && ( // Show buttons after typing
-                    <div className="flex space-x-2">
+                    <div className="flex items-center space-x-2">
+                      {letterVersions.length > 1 && !isTyping && (
+                        <div className="flex items-center space-x-1">
+                          <Button
+                            variant="link"
+                            className={`${
+                              currentVersionIndex === 0
+                                ? "cursor-not-allowed"
+                                : ""
+                            } underline-none hover:underline-none`}
+                            size="sm"
+                            onClick={() =>
+                              setCurrentVersionIndex(currentVersionIndex - 1)
+                            }
+                            disabled={currentVersionIndex === 0}
+                            aria-label="Previous version"
+                          >
+                            &lt;
+                          </Button>
+                          <span className="text-sm text-gray-600 p-1">
+                            {currentVersionIndex + 1} / {letterVersions.length}
+                          </span>
+                          <Button
+                            variant="link"
+                            size="sm"
+                            className={`${
+                              currentVersionIndex === letterVersions.length - 1
+                                ? "cursor-not-allowed"
+                                : ""
+                            } underline-none hover:underline-none`}
+                            onClick={() =>
+                              setCurrentVersionIndex(currentVersionIndex + 1)
+                            }
+                            disabled={
+                              currentVersionIndex === letterVersions.length - 1
+                            }
+                            aria-label="Next version"
+                          >
+                            &gt;
+                          </Button>
+                        </div>
+                      )}
                       <button
                         className="btn btn-outline py-1 px-3"
                         onClick={() => {
@@ -649,6 +802,7 @@ const GeneratorPage: React.FC = () => {
                             /<br\s*\/?>/gi,
                             "\n"
                           );
+                          toast.success("Cover letter copied to clipboard!");
                           // const cover=generatedLetter.replace()
                           navigator.clipboard.writeText(cover);
                         }}
@@ -656,11 +810,34 @@ const GeneratorPage: React.FC = () => {
                         <Clipboard className="h-4 w-4 mr-1" />
                         Copy
                       </button>
-                      {/* TODO: Add download funcitionality as a pdf or docx */}
-                      <button className="btn btn-outline py-1 px-3">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger className="btn btn-outline py-1 px-3">
+                          <FileDown className="h-4 w-4 mr-1" />
+                          Download
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          <DropdownMenuLabel>
+                            Download Options
+                          </DropdownMenuLabel>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem onClick={() => handleDownloadPDF()}>
+                            PDF
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => handleDownloadDOCX()}
+                          >
+                            DOCX
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDownloadTXT()}>
+                            TXT
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+
+                      {/* <button className="btn btn-outline py-1 px-3">
                         <FileDown className="h-4 w-4 mr-1" />
                         Download
-                      </button>
+                      </button> */}
                     </div>
                   )}
               </div>
@@ -710,15 +887,35 @@ const GeneratorPage: React.FC = () => {
                 ) : (
                   // Displaying generated letter (or typing animation)
                   <div
-                    className="prose prose-blue max-w-none h-full overflow-y-auto"
+                    className="max-w-none h-full overflow-y-auto"
                     // style={{ whiteSpace: "pre-wrap" }} // Add this style
                   >
-                    <ReactMarkdown
+                    {/* <ReactMarkdown
                       remarkPlugins={[remarkGfm]}
                       rehypePlugins={[rehypeRaw]}
                     >
                       {generatedLetter}
-                    </ReactMarkdown>
+                    </ReactMarkdown> */}
+                    {/* <SimpleMdeReact
+                      className="h-full flex-1"
+                      // getLineAndCursor={getLineAndCursorCallback}
+                      value={generatedLetter.replace(/<br\s*\/?>/gi, "\n")}
+                      onChange={(value) => setEditableLetter(value)}
+                      options={{
+                        spellChecker: false,
+                        placeholder: "Edit your cover letter...",
+                      }}
+                    /> */}
+                    <Editor
+                      key={editorKey} // Add key here
+                      value={editableLetter}
+                      className={"h-full flex-1 border-none "}
+                      readOnly={editorReadOnly} // Use the derived variable
+                      style={{ fontSize: "16px", border: "none" }}
+                      showHeader={false}
+                      // onChange={(value) => setEditableLetter(value)}
+                      onTextChange={handleEditorTextChange}
+                    />
                     {/* {isTyping && (
                       <span className="blinking-cursor inline">▋</span>
                     )} */}
@@ -728,6 +925,7 @@ const GeneratorPage: React.FC = () => {
             </div>
           </motion.div>
 
+          {/* TODO: Implement the logic for refinement */}
           {/* Right Column - Refinement Panel (Only visible in step 2) */}
           {step === 2 &&
             !isLoading &&

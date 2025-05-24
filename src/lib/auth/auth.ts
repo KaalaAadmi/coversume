@@ -57,6 +57,21 @@ export const auth = betterAuth({
         defaultValue: false,
       },
     },
+    coverLetterCountPerMonth: {
+      type: "number",
+      required: true,
+      defaultValue: 0,
+    },
+    monthlyCountLastReset: {
+      type: "date",
+      required: false,
+      defaultValue: null,
+    },
+    coverLetterCount: {
+      type: "number",
+      required: true,
+      defaultValue: 0,
+    },
   },
   socialProviders: {
     linkedin: {

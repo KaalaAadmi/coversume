@@ -25,6 +25,10 @@ model User {
   sessions      Session[]
   accounts      Account[]
   isPro         Boolean   @default(false)
+  coverLetterRoots CoverLetterRoot[] // Relation to the user's cover letter roots
+  coverLetterCount Int    @default(0) // Total count since beginning
+  coverLetterCountPerMonth Int @default(0) // Count for the current month
+  monthlyCountLastReset DateTime? // Timestamp of when coverLetterCountPerMonth was last reset
 
   @@unique([email])
   @@map("user")
@@ -75,24 +79,42 @@ model Verification {
   @@map("verification")
 }
 
-model CoverLetter {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt      DateTime @default(now())
+// Represents a single "cover letter generation instance" which can have multiple versions
+model CoverLetterRoot {
+  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId              String?  @db.ObjectId // Link to the user who created it
+  user                User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt // Tracks the last update to this root or its versions
 
-  resumeText     String
-  resumeFileUrl  String?   // only for file uploads
+  // Store initial inputs that led to the first version.
+  // These are useful for context or if the user wants to re-generate from original inputs.
+  originalResumeText      String
+  originalJobDescription  String
+  originalName            String?
+  originalEmail           String?
+  originalPhoneNumber     String?
+  originalPortfolioUrl    String?
+  originalLanguage        String?
+  originalDate            String? // The 'localDate' from frontend
 
-  jobDescription String
-  coverLetter    String
+  // Metadata extracted from the first generation, can be updated if a "primary" version changes.
+  // These are useful for displaying in history.
+  currentJobRole          String?
+  currentCompany          String?
 
-  name           String?
-  email          String?
-  phoneNumber    String?
-  portfolioUrl   String?
-  language       String?
+  versions            CoverLetterVersion[] // One-to-many relation to its versions
+}
 
-  jobRole        String?   // AI extracted
-  company        String?   // AI extracted
+// Represents a specific version of a cover letter
+model CoverLetterVersion {
+  id                  String    @id @default(auto()) @map("_id") @db.ObjectId
+  rootId              String    @db.ObjectId     // Foreign key to CoverLetterRoot
+  root                CoverLetterRoot @relation(fields: [rootId], references: [id], onDelete: Cascade)
 
-  userId         String?   // optional for now
+  content             String    // The actual HTML/markdown content of this version
+  versionNumber       Int       // Sequential number for this root (e.g., 1, 2, 3...)
+  createdAt           DateTime  @default(now())
+  refinementTypeUsed  String?   // e.g., "initial", "More Concise", "More Formal"
+                                // (captures how this version was created/refined)
 }

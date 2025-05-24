@@ -70,4 +70,18 @@ Generate Cover letter:
   - id
   -
 
+GENERATOR:
+
+- ~~Make markdown editable~~
+- ~~Download resume~~
+- Refinement
+  - ~~Frontend~~
+  - ~~API~~
+- Save letter
+- ~~versioning of cover letter~~
+
+- Update the monthlyCountLastReset in /subscribe endpoint that will be used for becoming pro member.
+
+- View page for the cover letter
+
 TEST:
