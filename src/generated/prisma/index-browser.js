@@ -189,6 +189,23 @@ exports.Prisma.CoverLetterVersionScalarFieldEnum = {
   refinementTypeUsed: 'refinementTypeUsed'
 };
 
+exports.Prisma.BlogPostScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  content: 'content',
+  excerpt: 'excerpt',
+  author: 'author',
+  category: 'category',
+  image: 'image',
+  readTime: 'readTime',
+  keywords: 'keywords',
+  published: 'published',
+  publishedAt: 'publishedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -206,7 +223,8 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Verification: 'Verification',
   CoverLetterRoot: 'CoverLetterRoot',
-  CoverLetterVersion: 'CoverLetterVersion'
+  CoverLetterVersion: 'CoverLetterVersion',
+  BlogPost: 'BlogPost'
 };
 
 /**

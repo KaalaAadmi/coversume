@@ -26,60 +26,131 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { User, Tag, Image, Upload } from "lucide-react";
+import { User, Tag, Image, Upload, ImageIcon, Tags } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   author: z.string().min(2, "Author name must be at least 2 characters"),
-  tag: z.string().min(2, "Tag must be at least 2 characters"),
+  category: z.string().min(2, "Category must be at least 2 characters"), // Changed from 'tag'
+  image: z.string().url("Invalid image URL").optional().nullable(),
   title: z.string().min(5, "Title must be at least 5 characters"),
   excerpt: z.string().min(10, "Excerpt must be at least 10 characters"),
   content: z.string().min(50, "Blog content must be at least 50 characters"),
+  readTime: z.string().optional(), // Add readTime if you want to capture it in the form
+  keywords: z.string().optional(), // Input as a string, will be split into an array
 });
 
 const CreateBlogPost = () => {
   const router = useRouter();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       author: "",
-      tag: "",
+      category: "", // Changed from 'tag'
+      image: null, // Optional image URL
       title: "",
       excerpt: "",
       content: "",
+      readTime: "5 min read", // Example default
+      keywords: "", // Input as a string, will be split into an array later
     },
   });
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setSelectedImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    setIsUploadingImage(true);
+    setSelectedImage(null); // Clear previous selection
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch("/api/upload-image", {
+        // Call your new backend endpoint
+        method: "POST",
+        body: formData, // FormData sets its own Content-Type
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSelectedImage(data.imageUrl); // Store the Cloudinary URL
+        // Optionally, if 'image' is a form field you want to validate with react-hook-form:
+        // form.setValue("image", data.imageUrl, { shouldValidate: true });
+        toast.success("Image uploaded successfully!");
+      } else {
+        const errorData = await response
+          .json()
+          .catch(() => ({ message: "Failed to upload image." }));
+        toast.error(errorData.message || "Failed to upload image.");
+        console.error("Image Upload API Error:", errorData);
+      }
+    } catch (error) {
+      console.error("Image upload submission error:", error);
+      toast.error("An error occurred while uploading the image.");
+    } finally {
+      setIsUploadingImage(false);
+      // Reset file input to allow re-uploading the same file if needed
+      if (e.target) {
+        e.target.value = "";
+      }
     }
   };
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // In a real application, this would send the data to an API
-    // Including the selectedImage state value
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    // If image is mandatory and not selected, show an error
+    // This check depends on how you define 'image' in your formSchema (optional or required)
+    // For example, if formSchema.image is not optional:
+    // if (!selectedImage && !formSchema.shape.image.isOptional()) {
+    //   toast.error("Please upload a featured image.");
+    //   return;
+    // }
 
-    console.log({
-      ...values,
-      image: selectedImage,
-      slug: values.title.toLowerCase().replace(/\s+/g, "-"),
-      date: new Date().toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }),
-    });
+    setIsSubmitting(true);
+    try {
+      const keywordsArray = values.keywords
+        ? values.keywords
+            .split(",")
+            .map((kw) => kw.trim())
+            .filter((kw) => kw.length > 0)
+        : [];
 
-    toast.success("Blog post created successfully!");
-    router.push("/blog");
+      const payload = {
+        ...values,
+        image: selectedImage, // Send the Cloudinary URL from the state
+        keywords: keywordsArray, // Convert string to array
+      };
+
+      const response = await fetch("/api/blog-posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        const newPost = await response.json();
+        toast.success("Blog post created successfully!");
+        router.push(`/blog/${newPost.slug}`);
+      } else {
+        const errorData = await response
+          .json()
+          .catch(() => ({ message: "Failed to create blog post." }));
+        toast.error(errorData.message || "Failed to create blog post.");
+        console.error("API Error:", errorData);
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      toast.error("An error occurred while creating the post.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -105,7 +176,7 @@ const CreateBlogPost = () => {
                 community
               </CardDescription>
             </CardHeader> */}
-            <CardContent>
+            <CardContent className="pt-6">
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
@@ -131,7 +202,7 @@ const CreateBlogPost = () => {
 
                     <FormField
                       control={form.control}
-                      name="tag"
+                      name="category"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="flex items-center gap-2">
@@ -149,6 +220,29 @@ const CreateBlogPost = () => {
                       )}
                     />
                   </div>
+
+                  <FormField
+                    control={form.control}
+                    name="keywords"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center gap-2">
+                          <Tags size={16} /> {/* Icon for keywords */}
+                          Keywords (comma-separated)
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g., cover letter tips, job search, resume"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                        <p className="text-xs text-gray-500 mt-1">
+                          Enter relevant keywords separated by commas.
+                        </p>
+                      </FormItem>
+                    )}
+                  />
 
                   <FormField
                     control={form.control}
@@ -185,17 +279,41 @@ const CreateBlogPost = () => {
                     )}
                   />
 
+                  <FormField
+                    control={form.control}
+                    name="readTime"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center gap-2">
+                          {/* <Clock size={16} /> Optional icon */}
+                          Read Time
+                        </FormLabel>
+                        <FormControl>
+                          <Input placeholder="e.g., 5 min read" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
                   <div className="space-y-2">
                     <Label className="flex items-center gap-2">
-                      <Image size={16} />
+                      <ImageIcon size={16} /> {/* Aliased import */}
                       Featured Image
                     </Label>
                     <div className="flex flex-col space-y-4">
                       <div className="flex items-center justify-center border-2 border-dashed rounded-lg border-gray-300 p-6 bg-gray-50">
-                        {selectedImage ? (
+                        {isUploadingImage ? (
+                          <div className="text-center">
+                            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary-600 mx-auto mb-2"></div>
+                            <p className="text-sm text-gray-600">
+                              Uploading image...
+                            </p>
+                          </div>
+                        ) : selectedImage ? (
                           <div className="relative w-full">
                             <img
-                              src={selectedImage}
+                              src={selectedImage} // This is now the Cloudinary URL
                               alt="Preview"
                               className="mx-auto max-h-64 rounded-lg object-cover"
                             />
@@ -205,6 +323,7 @@ const CreateBlogPost = () => {
                               className="absolute top-2 right-2"
                               onClick={() => setSelectedImage(null)}
                               type="button"
+                              disabled={isUploadingImage}
                             >
                               Remove
                             </Button>
@@ -221,6 +340,7 @@ const CreateBlogPost = () => {
                               onClick={() =>
                                 document.getElementById("image-upload")?.click()
                               }
+                              disabled={isUploadingImage}
                             >
                               Upload Image
                             </Button>
@@ -230,10 +350,13 @@ const CreateBlogPost = () => {
                               accept="image/*"
                               className="hidden"
                               onChange={handleImageUpload}
+                              disabled={isUploadingImage}
                             />
                           </div>
                         )}
                       </div>
+                      {/* Optional: Display form error for image if using react-hook-form validation for it */}
+                      {/* <FormMessage>{form.formState.errors.image?.message}</FormMessage> */}
                     </div>
                   </div>
 

@@ -91,16 +91,21 @@ GENERATOR:
   - ~~Frontend~~
   - ~~API~~
 
-endpoint for application tracker.
-display application tracker most recent in dashboard
-add see more in dashboard for application tracker
-create page for application tracker
 ~~display the versions in history beside every row in generated cover letters~~
+
+Application Tracker(Later):
+
+- endpoint for application tracker.
+- display application tracker most recent in dashboard
+- add see more in dashboard for application tracker
+- create page for application tracker
 
 ~~create page for history with full list of all the generated cover letters and versions~~
 
-Add a create blog post page
-
+- ~~Add a create blog post page~~
+- ~~Add a create blog post page route to add blogposts to db~~
+- ~~fetch data from db for blog posts in blogs and blogs/[id]~~
+  TODO:
 - **Make the register button disabled if the tos are not accepted.**
 
 - **Upon deleting a coverletter, the count for the month gets reduced, this should not happen.** --> Check and confirm, apparrently this is not happening.

@@ -120,3 +120,26 @@ model CoverLetterVersion {
   refinementTypeUsed String? // e.g., "initial", "More Concise", "More Formal"
   // (captures how this version was created/refined)
 }
+
+model BlogPost {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  slug      String   @unique // e.g., "how-to-write-a-cover-letter"
+  title     String
+  content   String   // Markdown content of the blog post
+  excerpt   String   // A short summary for list views
+  author    String
+  category  String   // e.g., "Writing Tips", "Industry Trends" (from your 'tag' field)
+  image     String?  // URL of the featured image
+  readTime  String?  // e.g., "5 min read"
+  keywords  String[] @default([]) // New field for keywords as an array of strings
+
+  published   Boolean  @default(false) // Allows for drafts
+  publishedAt DateTime? // Set when the post is actually published
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Optional: If you want to link blog posts to a User model (assuming User model exists)
+  // userId    String?  
+  // user      User?    @relation(fields: [userId], references: [id])
+}

@@ -1,265 +1,185 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import { useParams, Link } from 'react-router-dom';
-import { Calendar, Clock, User, ArrowLeft } from "lucide-react";
-import { useParams } from "next/navigation";
+import { Calendar, Clock, User, ArrowLeft, UserIcon } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import ReactMarkdown from "react-markdown"; // For rendering Markdown content
+import rehypeRaw from "rehype-raw"; // To allow HTML in Markdown (use with caution)
+import remarkGfm from "remark-gfm"; // For GitHub Flavored Markdown (tables, strikethrough, etc.)
+import Head from "next/head";
 
-// This would typically come from an API or database
-const blogPosts = {
-  1: {
-    title: "How to Write a Cover Letter That Gets You Noticed",
-    content: `
-# How to Write a Cover Letter That Gets You Noticed
-
-A well-crafted cover letter can be the difference between landing your dream job and getting lost in a sea of applications. In this comprehensive guide, we'll walk you through the essential elements of writing a compelling cover letter that will catch the attention of hiring managers.
-
-## Start with a Strong Opening
-
-Your opening paragraph should immediately grab the reader's attention and clearly state which position you're applying for. Mention where you found the job posting and briefly explain why you're excited about the opportunity.
-
-## Highlight Relevant Experience
-
-In the body paragraphs, focus on your most relevant experiences and achievements. Use specific examples to demonstrate how your skills align with the job requirements. Remember to:
-
-- Use concrete numbers and metrics when possible
-- Focus on achievements rather than just responsibilities
-- Connect your experience directly to the company's needs
-
-## Show Company Knowledge
-
-Demonstrate that you've done your research by mentioning specific things about the company that appeal to you. This could include:
-
-- Recent company achievements or news
-- Company culture and values
-- Specific projects or initiatives
-
-## End with a Strong Call to Action
-
-Your closing paragraph should:
-- Reiterate your interest in the position
-- Thank the reader for their time
-- Include a clear call to action
-- Provide your contact information
-
-## Professional Formatting
-
-Always maintain professional formatting:
-- Use a clean, readable font
-- Include proper spacing
-- Keep it to one page
-- Use consistent margins
-
-Remember, your cover letter is often your first impression on a potential employer. Make it count by being concise, specific, and professional.
-    `,
-    author: "Sarah Johnson",
-    date: "March 15, 2025",
-    readTime: "5 min read",
-    category: "Writing Tips",
-    image:
-      "https://images.pexels.com/photos/3759098/pexels-photo-3759098.jpeg?auto=compress&cs=tinysrgb&w=1280",
-  },
-  2: {
-    title: "The Future of Job Applications: AI and Automation",
-    content: `
-# The Future of Job Applications: AI and Automation
-
-Artificial Intelligence is revolutionizing the way we apply for jobs and how companies handle recruitment. This article explores the current trends and future predictions for AI in the job application process.
-
-## The Rise of AI in Recruitment
-
-Artificial Intelligence is transforming recruitment in several ways:
-
-- Resume screening automation
-- Predictive analytics for candidate success
-- Automated initial interviews
-- Personalized job recommendations
-
-## Benefits of AI-Powered Applications
-
-The integration of AI into the job application process brings numerous benefits:
-
-### For Job Seekers:
-- More personalized job recommendations
-- Faster application processes
-- Better feedback on applications
-- Improved matching with suitable positions
-
-### For Employers:
-- Reduced time-to-hire
-- Lower recruitment costs
-- Better candidate matching
-- Reduced bias in hiring
-
-## Challenges and Considerations
-
-While AI brings many benefits, there are also challenges to consider:
-
-- Potential for algorithmic bias
-- Privacy concerns
-- The need for human oversight
-- Technical limitations
-
-## Preparing for the Future
-
-To succeed in an AI-driven job market, candidates should:
-
-1. Optimize their resumes for ATS systems
-2. Develop digital interview skills
-3. Understand AI-powered application platforms
-4. Focus on unique human qualities
-
-## The Human Element
-
-Despite automation, human interaction remains crucial in hiring. The best approaches combine AI efficiency with human judgment.
-    `,
-    author: "Michael Chen",
-    date: "March 10, 2025",
-    readTime: "7 min read",
-    category: "Industry Trends",
-    image:
-      "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1280",
-  },
-  3: {
-    title: "5 Common Cover Letter Mistakes to Avoid",
-    content: `
-# 5 Common Cover Letter Mistakes to Avoid
-
-Even the most qualified candidates can hurt their chances of landing an interview with a poorly written cover letter. Here are the five most common mistakes to avoid.
-
-## 1. Generic, One-Size-Fits-All Approach
-
-The biggest mistake is using the same cover letter for every application. Each letter should be:
-
-- Tailored to the specific job
-- Customized for the company
-- Aligned with the job requirements
-
-## 2. Focusing Too Much on Yourself
-
-While a cover letter is about you, it should focus on what you can offer the employer:
-
-- Highlight relevant skills
-- Demonstrate value
-- Show how you can solve their problems
-
-## 3. Poor Opening and Closing
-
-Many candidates start and end their cover letters weakly:
-
-### Common Opening Mistakes:
-- "To Whom It May Concern"
-- "Dear Sir/Madam"
-- Generic introductions
-
-### Common Closing Mistakes:
-- Weak call to action
-- No follow-up plan
-- Missing contact information
-
-## 4. Length and Formatting Issues
-
-Keep your cover letter professional and readable:
-
-- Stick to one page
-- Use consistent formatting
-- Include proper spacing
-- Choose a professional font
-
-## 5. Grammar and Spelling Errors
-
-Nothing undermines your professionalism faster than:
-
-- Typos
-- Grammar mistakes
-- Punctuation errors
-- Inconsistent capitalization
-
-## How to Avoid These Mistakes
-
-Follow these best practices:
-
-1. Customize each letter
-2. Proofread carefully
-3. Get feedback from others
-4. Use professional formatting
-5. Focus on the employer's needs
-    `,
-    author: "Emily Rodriguez",
-    date: "March 5, 2025",
-    readTime: "4 min read",
-    category: "Writing Tips",
-    image:
-      "https://images.pexels.com/photos/4240505/pexels-photo-4240505.jpeg?auto=compress&cs=tinysrgb&w=1280",
-  },
-};
+interface BlogPostData {
+  id: string;
+  slug: string;
+  title: string;
+  content: string;
+  excerpt: string;
+  author: string;
+  category: string;
+  image: string | null;
+  readTime: string | null;
+  published: boolean;
+  publishedAt: string | null; // Or Date
+  createdAt: string; // Or Date
+  updatedAt: string; // Or Date
+  keywords: string[];
+}
 
 const BlogPost: React.FC = () => {
-  const { slug } = useParams<{ slug: string }>();
-  const post =
-    slug && Number(slug) in blogPosts
-      ? blogPosts[Number(slug) as keyof typeof blogPosts]
-      : null;
+  const params = useParams<{ slug: string }>();
+  const router = useRouter();
+  const slug = params?.slug;
+  const [post, setPost] = useState<BlogPostData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (post) {
-      document.title = `${post.title} - CoverSumé Blog`;
-      window.scrollTo(0, 0);
+    if (slug) {
+      const fetchPost = async () => {
+        setIsLoading(true);
+        try {
+          const response = await fetch(`/api/blog-posts/${slug}`);
+          if (response.status === 404) {
+            setPost(null); // Explicitly set to null if not found
+            toast.error("Blog post not found.");
+            // Optionally redirect: router.push('/blog');
+            return;
+          }
+          if (!response.ok) {
+            throw new Error("Failed to fetch blog post");
+          }
+          const data: BlogPostData = await response.json();
+          setPost(data);
+          document.title = `${data.title} - CoverSumé Blog`;
+        } catch (error) {
+          console.error("Error fetching blog post:", error);
+          toast.error("Could not load the blog post.");
+          setPost(null);
+        } finally {
+          setIsLoading(false);
+          window.scrollTo(0, 0);
+        }
+      };
+      fetchPost();
+    } else {
+      setIsLoading(false); // No slug, nothing to load
     }
-  }, [post]);
+  }, [slug, router]);
 
-  if (!post) {
+  if (isLoading) {
     return (
-      <div className="pt-28 pb-16">
-        <div className="container-custom">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold mb-4">Blog Post Not Found</h1>
-            <Link
-              href="/blog"
-              className="text-primary-600 hover:text-primary-700"
-            >
-              Return to Blog
-            </Link>
-          </div>
+      <div className="pt-28 pb-16 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">
+            Loading post...
+          </p>
         </div>
       </div>
     );
   }
 
-  return (
-    <div className="pt-28 pb-16">
-      <div className="container-custom">
-        <div className="max-w-4xl mx-auto">
-          <Link
-            href="/blog"
-            className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-8"
-          >
+  if (!post) {
+    return (
+      <div className="pt-28 pb-16 min-h-screen flex flex-col items-center justify-center text-center">
+        <h1 className="text-3xl font-bold mb-4">Blog Post Not Found</h1>
+        <p className="text-gray-600 dark:text-gray-400 mb-6">
+          The blog post you are looking for does not exist or may have been
+          moved.
+        </p>
+        <Button asChild variant="outline">
+          <Link href="/blog">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Blog
+            Return to Blog
           </Link>
+        </Button>
+      </div>
+    );
+  }
 
-          <img
-            src={post.image}
-            alt={post.title}
-            className="w-full h-64 object-cover rounded-2xl mb-8"
-          />
+  return (
+    <>
+      <Head>
+        <title>{`${post.title} - CoverSumé Blog`}</title>
+        <meta name="description" content={post.excerpt} />
+        {post.keywords && post.keywords.length > 0 && (
+          <meta name="keywords" content={post.keywords.join(", ")} />
+        )}
+        {/* Add other meta tags like Open Graph, Twitter Cards if needed */}
+      </Head>
+      <div className="pt-28 pb-16">
+        <div className="container-custom">
+          <div className="max-w-4xl mx-auto">
+            <Link
+              href="/blog"
+              className="inline-flex items-center text-muted-foreground hover:text-primary mb-8 group"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2 transition-transform group-hover:-translate-x-1" />
+              Back to Blog
+            </Link>
+            <h1 className="text-3xl sm:text-4xl font-bold mb-4 leading-tight">
+              {post.title}
+            </h1>
 
-          <div className="flex items-center space-x-4 text-sm text-gray-500 mb-8">
-            <span className="inline-flex items-center">
-              <Calendar className="h-4 w-4 mr-1" />
-              {post.date}
-            </span>
-            <span className="inline-flex items-center">
-              <Clock className="h-4 w-4 mr-1" />
-              {post.readTime}
-            </span>
-            <span className="inline-flex items-center">
-              <User className="h-4 w-4 mr-1" />
-              {post.author}
-            </span>
-          </div>
+            {post.keywords && post.keywords.length > 0 && (
+              <div className="mb-6 flex flex-wrap items-center gap-2">
+                <span className="text-sm font-medium text-muted-foreground">
+                  Keywords:
+                </span>
+                {post.keywords.map((keyword, index) => (
+                  <span
+                    key={index}
+                    className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-muted text-muted-foreground hover:bg-muted/80"
+                  >
+                    {/* <TagIcon className="h-3 w-3 mr-1" /> Optional icon */}
+                    {keyword}
+                  </span>
+                ))}
+              </div>
+            )}
 
-          <article className="prose prose-lg max-w-none">
+            {post.image && (
+              <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-8 shadow-md">
+                <Image
+                  src={post.image}
+                  alt={post.title}
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </div>
+            )}
+
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground mb-8">
+              {post.publishedAt && (
+                <span className="inline-flex items-center">
+                  <Calendar className="h-4 w-4 mr-1.5" />
+                  Published on{" "}
+                  {new Date(post.publishedAt).toLocaleDateString(undefined, {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </span>
+              )}
+              {post.readTime && (
+                <span className="inline-flex items-center">
+                  <Clock className="h-4 w-4 mr-1.5" />
+                  {post.readTime}
+                </span>
+              )}
+              <span className="inline-flex items-center">
+                <UserIcon className="h-4 w-4 mr-1.5" />
+                By {post.author}
+              </span>
+              <span className="inline-flex items-center bg-secondary text-secondary-foreground px-2 py-0.5 rounded-full text-xs font-medium">
+                {post.category}
+              </span>
+            </div>
+
+            {/* <article className="prose prose-lg max-w-none">
             {post.content.split("\n").map((paragraph, index) => {
               if (paragraph.startsWith("#")) {
                 const match = paragraph?.match(/^#+/);
@@ -280,19 +200,36 @@ const BlogPost: React.FC = () => {
               }
               return <p key={index}>{paragraph}</p>;
             })}
-          </article>
+          </article> */}
+            <article className="prose prose-lg dark:prose-invert max-w-none">
+              {/* Using ReactMarkdown to render content */}
+              <ReactMarkdown
+                rehypePlugins={[rehypeRaw]} // Allows HTML if present in your markdown
+                remarkPlugins={[remarkGfm]} // For GitHub Flavored Markdown features
+              >
+                {post.content}
+              </ReactMarkdown>
+            </article>
 
-          <div className="mt-12 pt-8 border-t border-gray-200">
-            <h3 className="text-lg font-semibold mb-4">Share this article</h3>
-            <div className="flex space-x-4">
-              <button className="btn btn-outline py-2 px-4">Twitter</button>
-              <button className="btn btn-outline py-2 px-4">LinkedIn</button>
-              <button className="btn btn-outline py-2 px-4">Facebook</button>
+            <div className="mt-12 pt-8 border-t border-border">
+              <h3 className="text-lg font-semibold mb-4">Share this article</h3>
+              <div className="flex space-x-4">
+                {/* Replace with actual sharing links/buttons */}
+                <Button variant="outline" size="sm">
+                  Twitter
+                </Button>
+                <Button variant="outline" size="sm">
+                  LinkedIn
+                </Button>
+                <Button variant="outline" size="sm">
+                  Facebook
+                </Button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
