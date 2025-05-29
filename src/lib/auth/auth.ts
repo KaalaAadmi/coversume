@@ -5,13 +5,18 @@ import { nextCookies } from "better-auth/next-js";
 import { verificationSendEmail } from "../verification-emailer";
 import { openAPI } from "better-auth/plugins";
 import { resetSendEmail } from "../resetpass-emailer";
+// import { MongoClient } from "mongodb";
+// import { mongodbAdapter } from "better-auth/adapters/mongodb";
 
+// const client = new MongoClient(process.env.DATABASE_URL as string);
+// const db = client.db();
 // If your Prisma file is located elsewhere, you can change the path
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "mongodb", // or "mysql", "postgresql", ...etc
   }),
+  // database: mongodbAdapter(db),
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true, // Require email verification for new users
@@ -56,21 +61,21 @@ export const auth = betterAuth({
         required: true,
         defaultValue: false,
       },
-    },
-    coverLetterCountPerMonth: {
-      type: "number",
-      required: true,
-      defaultValue: 0,
-    },
-    monthlyCountLastReset: {
-      type: "date",
-      required: false,
-      defaultValue: null,
-    },
-    coverLetterCount: {
-      type: "number",
-      required: true,
-      defaultValue: 0,
+      coverLetterCountPerMonth: {
+        type: "number",
+        required: true,
+        defaultValue: 0,
+      },
+      monthlyCountLastReset: {
+        type: "date",
+        required: false,
+        defaultValue: null,
+      },
+      coverLetterCount: {
+        type: "number",
+        required: true,
+        defaultValue: 0,
+      },
     },
   },
   socialProviders: {

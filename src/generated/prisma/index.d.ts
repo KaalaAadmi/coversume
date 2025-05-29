@@ -1280,13 +1280,13 @@ export namespace Prisma {
   export type UserCountOutputType = {
     sessions: number
     accounts: number
-    coverLetterRoots: number
+    CoverLetterRoot: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
-    coverLetterRoots?: boolean | UserCountOutputTypeCountCoverLetterRootsArgs
+    CoverLetterRoot?: boolean | UserCountOutputTypeCountCoverLetterRootArgs
   }
 
   // Custom InputTypes
@@ -1317,7 +1317,7 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountCoverLetterRootsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountCoverLetterRootArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CoverLetterRootWhereInput
   }
 
@@ -1370,13 +1370,13 @@ export namespace Prisma {
   }
 
   export type UserAvgAggregateOutputType = {
-    coverLetterCount: number | null
     coverLetterCountPerMonth: number | null
+    coverLetterCount: number | null
   }
 
   export type UserSumAggregateOutputType = {
-    coverLetterCount: number | null
     coverLetterCountPerMonth: number | null
+    coverLetterCount: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -1388,9 +1388,9 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     isPro: boolean | null
-    coverLetterCount: number | null
     coverLetterCountPerMonth: number | null
     monthlyCountLastReset: Date | null
+    coverLetterCount: number | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1402,9 +1402,9 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     isPro: boolean | null
-    coverLetterCount: number | null
     coverLetterCountPerMonth: number | null
     monthlyCountLastReset: Date | null
+    coverLetterCount: number | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1416,21 +1416,21 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     isPro: number
-    coverLetterCount: number
     coverLetterCountPerMonth: number
     monthlyCountLastReset: number
+    coverLetterCount: number
     _all: number
   }
 
 
   export type UserAvgAggregateInputType = {
-    coverLetterCount?: true
     coverLetterCountPerMonth?: true
+    coverLetterCount?: true
   }
 
   export type UserSumAggregateInputType = {
-    coverLetterCount?: true
     coverLetterCountPerMonth?: true
+    coverLetterCount?: true
   }
 
   export type UserMinAggregateInputType = {
@@ -1442,9 +1442,9 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     isPro?: true
-    coverLetterCount?: true
     coverLetterCountPerMonth?: true
     monthlyCountLastReset?: true
+    coverLetterCount?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1456,9 +1456,9 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     isPro?: true
-    coverLetterCount?: true
     coverLetterCountPerMonth?: true
     monthlyCountLastReset?: true
+    coverLetterCount?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1470,9 +1470,9 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     isPro?: true
-    coverLetterCount?: true
     coverLetterCountPerMonth?: true
     monthlyCountLastReset?: true
+    coverLetterCount?: true
     _all?: true
   }
 
@@ -1571,9 +1571,9 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     isPro: boolean
-    coverLetterCount: number
     coverLetterCountPerMonth: number
     monthlyCountLastReset: Date | null
+    coverLetterCount: number
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1604,12 +1604,12 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     isPro?: boolean
-    coverLetterCount?: boolean
     coverLetterCountPerMonth?: boolean
     monthlyCountLastReset?: boolean
+    coverLetterCount?: boolean
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
-    coverLetterRoots?: boolean | User$coverLetterRootsArgs<ExtArgs>
+    CoverLetterRoot?: boolean | User$CoverLetterRootArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1624,16 +1624,16 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     isPro?: boolean
-    coverLetterCount?: boolean
     coverLetterCountPerMonth?: boolean
     monthlyCountLastReset?: boolean
+    coverLetterCount?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "isPro" | "coverLetterCount" | "coverLetterCountPerMonth" | "monthlyCountLastReset", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "isPro" | "coverLetterCountPerMonth" | "monthlyCountLastReset" | "coverLetterCount", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
-    coverLetterRoots?: boolean | User$coverLetterRootsArgs<ExtArgs>
+    CoverLetterRoot?: boolean | User$CoverLetterRootArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -1642,7 +1642,7 @@ export namespace Prisma {
     objects: {
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       accounts: Prisma.$AccountPayload<ExtArgs>[]
-      coverLetterRoots: Prisma.$CoverLetterRootPayload<ExtArgs>[]
+      CoverLetterRoot: Prisma.$CoverLetterRootPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1653,9 +1653,9 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       isPro: boolean
-      coverLetterCount: number
       coverLetterCountPerMonth: number
       monthlyCountLastReset: Date | null
+      coverLetterCount: number
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2021,7 +2021,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    coverLetterRoots<T extends User$coverLetterRootsArgs<ExtArgs> = {}>(args?: Subset<T, User$coverLetterRootsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoverLetterRootPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    CoverLetterRoot<T extends User$CoverLetterRootArgs<ExtArgs> = {}>(args?: Subset<T, User$CoverLetterRootArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoverLetterRootPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2059,9 +2059,9 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly isPro: FieldRef<"User", 'Boolean'>
-    readonly coverLetterCount: FieldRef<"User", 'Int'>
     readonly coverLetterCountPerMonth: FieldRef<"User", 'Int'>
     readonly monthlyCountLastReset: FieldRef<"User", 'DateTime'>
+    readonly coverLetterCount: FieldRef<"User", 'Int'>
   }
     
 
@@ -2480,9 +2480,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.coverLetterRoots
+   * User.CoverLetterRoot
    */
-  export type User$coverLetterRootsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$CoverLetterRootArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the CoverLetterRoot
      */
@@ -7708,9 +7708,9 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     isPro: 'isPro',
-    coverLetterCount: 'coverLetterCount',
     coverLetterCountPerMonth: 'coverLetterCountPerMonth',
-    monthlyCountLastReset: 'monthlyCountLastReset'
+    monthlyCountLastReset: 'monthlyCountLastReset',
+    coverLetterCount: 'coverLetterCount'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -7892,12 +7892,12 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     isPro?: BoolFilter<"User"> | boolean
-    coverLetterCount?: IntFilter<"User"> | number
     coverLetterCountPerMonth?: IntFilter<"User"> | number
     monthlyCountLastReset?: DateTimeNullableFilter<"User"> | Date | string | null
+    coverLetterCount?: IntFilter<"User"> | number
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
-    coverLetterRoots?: CoverLetterRootListRelationFilter
+    CoverLetterRoot?: CoverLetterRootListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -7909,12 +7909,12 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     isPro?: SortOrder
-    coverLetterCount?: SortOrder
     coverLetterCountPerMonth?: SortOrder
     monthlyCountLastReset?: SortOrder
+    coverLetterCount?: SortOrder
     sessions?: SessionOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
-    coverLetterRoots?: CoverLetterRootOrderByRelationAggregateInput
+    CoverLetterRoot?: CoverLetterRootOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -7929,12 +7929,12 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     isPro?: BoolFilter<"User"> | boolean
-    coverLetterCount?: IntFilter<"User"> | number
     coverLetterCountPerMonth?: IntFilter<"User"> | number
     monthlyCountLastReset?: DateTimeNullableFilter<"User"> | Date | string | null
+    coverLetterCount?: IntFilter<"User"> | number
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
-    coverLetterRoots?: CoverLetterRootListRelationFilter
+    CoverLetterRoot?: CoverLetterRootListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -7946,9 +7946,9 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     isPro?: SortOrder
-    coverLetterCount?: SortOrder
     coverLetterCountPerMonth?: SortOrder
     monthlyCountLastReset?: SortOrder
+    coverLetterCount?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -7968,9 +7968,9 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     isPro?: BoolWithAggregatesFilter<"User"> | boolean
-    coverLetterCount?: IntWithAggregatesFilter<"User"> | number
     coverLetterCountPerMonth?: IntWithAggregatesFilter<"User"> | number
     monthlyCountLastReset?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    coverLetterCount?: IntWithAggregatesFilter<"User"> | number
   }
 
   export type SessionWhereInput = {
@@ -8368,13 +8368,13 @@ export namespace Prisma {
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
-    isPro?: boolean
-    coverLetterCount?: number
-    coverLetterCountPerMonth?: number
+    isPro: boolean
+    coverLetterCountPerMonth: number
     monthlyCountLastReset?: Date | string | null
+    coverLetterCount: number
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    coverLetterRoots?: CoverLetterRootCreateNestedManyWithoutUserInput
+    CoverLetterRoot?: CoverLetterRootCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -8385,13 +8385,13 @@ export namespace Prisma {
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
-    isPro?: boolean
-    coverLetterCount?: number
-    coverLetterCountPerMonth?: number
+    isPro: boolean
+    coverLetterCountPerMonth: number
     monthlyCountLastReset?: Date | string | null
+    coverLetterCount: number
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    coverLetterRoots?: CoverLetterRootUncheckedCreateNestedManyWithoutUserInput
+    CoverLetterRoot?: CoverLetterRootUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -8402,12 +8402,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    coverLetterCount?: IntFieldUpdateOperationsInput | number
     coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
     monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    coverLetterRoots?: CoverLetterRootUpdateManyWithoutUserNestedInput
+    CoverLetterRoot?: CoverLetterRootUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -8418,12 +8418,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    coverLetterCount?: IntFieldUpdateOperationsInput | number
     coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
     monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    coverLetterRoots?: CoverLetterRootUncheckedUpdateManyWithoutUserNestedInput
+    CoverLetterRoot?: CoverLetterRootUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -8434,10 +8434,10 @@ export namespace Prisma {
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
-    isPro?: boolean
-    coverLetterCount?: number
-    coverLetterCountPerMonth?: number
+    isPro: boolean
+    coverLetterCountPerMonth: number
     monthlyCountLastReset?: Date | string | null
+    coverLetterCount: number
   }
 
   export type UserUpdateManyMutationInput = {
@@ -8448,9 +8448,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    coverLetterCount?: IntFieldUpdateOperationsInput | number
     coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
     monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -8461,9 +8461,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    coverLetterCount?: IntFieldUpdateOperationsInput | number
     coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
     monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
   }
 
   export type SessionCreateInput = {
@@ -8718,7 +8718,7 @@ export namespace Prisma {
     originalDate?: string | null
     currentJobRole?: string | null
     currentCompany?: string | null
-    user?: UserCreateNestedOneWithoutCoverLetterRootsInput
+    user?: UserCreateNestedOneWithoutCoverLetterRootInput
     versions?: CoverLetterVersionCreateNestedManyWithoutRootInput
   }
 
@@ -8753,7 +8753,7 @@ export namespace Prisma {
     originalDate?: NullableStringFieldUpdateOperationsInput | string | null
     currentJobRole?: NullableStringFieldUpdateOperationsInput | string | null
     currentCompany?: NullableStringFieldUpdateOperationsInput | string | null
-    user?: UserUpdateOneWithoutCoverLetterRootsNestedInput
+    user?: UserUpdateOneWithoutCoverLetterRootNestedInput
     versions?: CoverLetterVersionUpdateManyWithoutRootNestedInput
   }
 
@@ -8989,14 +8989,14 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     isPro?: SortOrder
-    coverLetterCount?: SortOrder
     coverLetterCountPerMonth?: SortOrder
     monthlyCountLastReset?: SortOrder
+    coverLetterCount?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
-    coverLetterCount?: SortOrder
     coverLetterCountPerMonth?: SortOrder
+    coverLetterCount?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -9008,9 +9008,9 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     isPro?: SortOrder
-    coverLetterCount?: SortOrder
     coverLetterCountPerMonth?: SortOrder
     monthlyCountLastReset?: SortOrder
+    coverLetterCount?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -9022,14 +9022,14 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     isPro?: SortOrder
-    coverLetterCount?: SortOrder
     coverLetterCountPerMonth?: SortOrder
     monthlyCountLastReset?: SortOrder
+    coverLetterCount?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
-    coverLetterCount?: SortOrder
     coverLetterCountPerMonth?: SortOrder
+    coverLetterCount?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -9525,9 +9525,9 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAccountsInput, UserUpdateWithoutAccountsInput>, UserUncheckedUpdateWithoutAccountsInput>
   }
 
-  export type UserCreateNestedOneWithoutCoverLetterRootsInput = {
-    create?: XOR<UserCreateWithoutCoverLetterRootsInput, UserUncheckedCreateWithoutCoverLetterRootsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutCoverLetterRootsInput
+  export type UserCreateNestedOneWithoutCoverLetterRootInput = {
+    create?: XOR<UserCreateWithoutCoverLetterRootInput, UserUncheckedCreateWithoutCoverLetterRootInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCoverLetterRootInput
     connect?: UserWhereUniqueInput
   }
 
@@ -9545,14 +9545,14 @@ export namespace Prisma {
     connect?: CoverLetterVersionWhereUniqueInput | CoverLetterVersionWhereUniqueInput[]
   }
 
-  export type UserUpdateOneWithoutCoverLetterRootsNestedInput = {
-    create?: XOR<UserCreateWithoutCoverLetterRootsInput, UserUncheckedCreateWithoutCoverLetterRootsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutCoverLetterRootsInput
-    upsert?: UserUpsertWithoutCoverLetterRootsInput
+  export type UserUpdateOneWithoutCoverLetterRootNestedInput = {
+    create?: XOR<UserCreateWithoutCoverLetterRootInput, UserUncheckedCreateWithoutCoverLetterRootInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCoverLetterRootInput
+    upsert?: UserUpsertWithoutCoverLetterRootInput
     disconnect?: boolean
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCoverLetterRootsInput, UserUpdateWithoutCoverLetterRootsInput>, UserUncheckedUpdateWithoutCoverLetterRootsInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCoverLetterRootInput, UserUpdateWithoutCoverLetterRootInput>, UserUncheckedUpdateWithoutCoverLetterRootInput>
   }
 
   export type CoverLetterVersionUpdateManyWithoutRootNestedInput = {
@@ -9996,12 +9996,12 @@ export namespace Prisma {
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
-    isPro?: boolean
-    coverLetterCount?: number
-    coverLetterCountPerMonth?: number
+    isPro: boolean
+    coverLetterCountPerMonth: number
     monthlyCountLastReset?: Date | string | null
+    coverLetterCount: number
     accounts?: AccountCreateNestedManyWithoutUserInput
-    coverLetterRoots?: CoverLetterRootCreateNestedManyWithoutUserInput
+    CoverLetterRoot?: CoverLetterRootCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -10012,12 +10012,12 @@ export namespace Prisma {
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
-    isPro?: boolean
-    coverLetterCount?: number
-    coverLetterCountPerMonth?: number
+    isPro: boolean
+    coverLetterCountPerMonth: number
     monthlyCountLastReset?: Date | string | null
+    coverLetterCount: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    coverLetterRoots?: CoverLetterRootUncheckedCreateNestedManyWithoutUserInput
+    CoverLetterRoot?: CoverLetterRootUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -10044,11 +10044,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    coverLetterCount?: IntFieldUpdateOperationsInput | number
     coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
     monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    coverLetterRoots?: CoverLetterRootUpdateManyWithoutUserNestedInput
+    CoverLetterRoot?: CoverLetterRootUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -10059,11 +10059,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    coverLetterCount?: IntFieldUpdateOperationsInput | number
     coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
     monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    coverLetterRoots?: CoverLetterRootUncheckedUpdateManyWithoutUserNestedInput
+    CoverLetterRoot?: CoverLetterRootUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -10074,12 +10074,12 @@ export namespace Prisma {
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
-    isPro?: boolean
-    coverLetterCount?: number
-    coverLetterCountPerMonth?: number
+    isPro: boolean
+    coverLetterCountPerMonth: number
     monthlyCountLastReset?: Date | string | null
+    coverLetterCount: number
     sessions?: SessionCreateNestedManyWithoutUserInput
-    coverLetterRoots?: CoverLetterRootCreateNestedManyWithoutUserInput
+    CoverLetterRoot?: CoverLetterRootCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -10090,12 +10090,12 @@ export namespace Prisma {
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
-    isPro?: boolean
-    coverLetterCount?: number
-    coverLetterCountPerMonth?: number
+    isPro: boolean
+    coverLetterCountPerMonth: number
     monthlyCountLastReset?: Date | string | null
+    coverLetterCount: number
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    coverLetterRoots?: CoverLetterRootUncheckedCreateNestedManyWithoutUserInput
+    CoverLetterRoot?: CoverLetterRootUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -10122,11 +10122,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    coverLetterCount?: IntFieldUpdateOperationsInput | number
     coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
     monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    coverLetterRoots?: CoverLetterRootUpdateManyWithoutUserNestedInput
+    CoverLetterRoot?: CoverLetterRootUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -10137,14 +10137,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    coverLetterCount?: IntFieldUpdateOperationsInput | number
     coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
     monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    coverLetterRoots?: CoverLetterRootUncheckedUpdateManyWithoutUserNestedInput
+    CoverLetterRoot?: CoverLetterRootUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type UserCreateWithoutCoverLetterRootsInput = {
+  export type UserCreateWithoutCoverLetterRootInput = {
     id: string
     name: string
     email: string
@@ -10152,15 +10152,15 @@ export namespace Prisma {
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
-    isPro?: boolean
-    coverLetterCount?: number
-    coverLetterCountPerMonth?: number
+    isPro: boolean
+    coverLetterCountPerMonth: number
     monthlyCountLastReset?: Date | string | null
+    coverLetterCount: number
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutCoverLetterRootsInput = {
+  export type UserUncheckedCreateWithoutCoverLetterRootInput = {
     id: string
     name: string
     email: string
@@ -10168,17 +10168,17 @@ export namespace Prisma {
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
-    isPro?: boolean
-    coverLetterCount?: number
-    coverLetterCountPerMonth?: number
+    isPro: boolean
+    coverLetterCountPerMonth: number
     monthlyCountLastReset?: Date | string | null
+    coverLetterCount: number
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutCoverLetterRootsInput = {
+  export type UserCreateOrConnectWithoutCoverLetterRootInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutCoverLetterRootsInput, UserUncheckedCreateWithoutCoverLetterRootsInput>
+    create: XOR<UserCreateWithoutCoverLetterRootInput, UserUncheckedCreateWithoutCoverLetterRootInput>
   }
 
   export type CoverLetterVersionCreateWithoutRootInput = {
@@ -10206,18 +10206,18 @@ export namespace Prisma {
     data: CoverLetterVersionCreateManyRootInput | CoverLetterVersionCreateManyRootInput[]
   }
 
-  export type UserUpsertWithoutCoverLetterRootsInput = {
-    update: XOR<UserUpdateWithoutCoverLetterRootsInput, UserUncheckedUpdateWithoutCoverLetterRootsInput>
-    create: XOR<UserCreateWithoutCoverLetterRootsInput, UserUncheckedCreateWithoutCoverLetterRootsInput>
+  export type UserUpsertWithoutCoverLetterRootInput = {
+    update: XOR<UserUpdateWithoutCoverLetterRootInput, UserUncheckedUpdateWithoutCoverLetterRootInput>
+    create: XOR<UserCreateWithoutCoverLetterRootInput, UserUncheckedCreateWithoutCoverLetterRootInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutCoverLetterRootsInput = {
+  export type UserUpdateToOneWithWhereWithoutCoverLetterRootInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutCoverLetterRootsInput, UserUncheckedUpdateWithoutCoverLetterRootsInput>
+    data: XOR<UserUpdateWithoutCoverLetterRootInput, UserUncheckedUpdateWithoutCoverLetterRootInput>
   }
 
-  export type UserUpdateWithoutCoverLetterRootsInput = {
+  export type UserUpdateWithoutCoverLetterRootInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -10225,14 +10225,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    coverLetterCount?: IntFieldUpdateOperationsInput | number
     coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
     monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutCoverLetterRootsInput = {
+  export type UserUncheckedUpdateWithoutCoverLetterRootInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -10240,9 +10240,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    coverLetterCount?: IntFieldUpdateOperationsInput | number
     coverLetterCountPerMonth?: IntFieldUpdateOperationsInput | number
     monthlyCountLastReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    coverLetterCount?: IntFieldUpdateOperationsInput | number
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -10289,7 +10289,7 @@ export namespace Prisma {
     originalDate?: string | null
     currentJobRole?: string | null
     currentCompany?: string | null
-    user?: UserCreateNestedOneWithoutCoverLetterRootsInput
+    user?: UserCreateNestedOneWithoutCoverLetterRootInput
   }
 
   export type CoverLetterRootUncheckedCreateWithoutVersionsInput = {
@@ -10338,7 +10338,7 @@ export namespace Prisma {
     originalDate?: NullableStringFieldUpdateOperationsInput | string | null
     currentJobRole?: NullableStringFieldUpdateOperationsInput | string | null
     currentCompany?: NullableStringFieldUpdateOperationsInput | string | null
-    user?: UserUpdateOneWithoutCoverLetterRootsNestedInput
+    user?: UserUpdateOneWithoutCoverLetterRootNestedInput
   }
 
   export type CoverLetterRootUncheckedUpdateWithoutVersionsInput = {

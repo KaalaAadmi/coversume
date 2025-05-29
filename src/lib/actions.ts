@@ -19,6 +19,14 @@ export async function signUp(prevState: State, formData: FormData) {
     confirmPassword: formData.get("confirmPassword") as string,
     isPro: false,
   };
+  console.log(
+    formData.get("firstname"),
+    formData.get("lastname"),
+    formData.get("email"),
+    formData.get("password"),
+    formData.get("confirmPassword"),
+    false
+  );
   const { email, password, firstname, lastname, confirmPassword, isPro } =
     rawFormData;
   if (!email || !password || !firstname || !lastname || !confirmPassword) {
@@ -31,12 +39,16 @@ export async function signUp(prevState: State, formData: FormData) {
     return { errorMessage: "Password must be at least 8 characters long." };
   }
   try {
+    // console.log(firstname, lastname, email.trim(), password, isPro);
     await auth.api.signUpEmail({
       body: {
         name: `${firstname} ${lastname}`,
         email,
         password,
         isPro,
+        coverLetterCountPerMonth: 0,
+        monthlyCountLastReset: null,
+        coverLetterCount: 0,
       },
     });
     return {
@@ -47,8 +59,10 @@ export async function signUp(prevState: State, formData: FormData) {
     if (error instanceof APIError) {
       switch (error.status) {
         case "UNPROCESSABLE_ENTITY":
+          // console.log(error);
           return { errorMessage: "User already exists." };
         case "BAD_REQUEST":
+          // console.log(error);
           return { errorMessage: "Invalid email." };
         default:
           return { errorMessage: "An unexpected error occurred." };

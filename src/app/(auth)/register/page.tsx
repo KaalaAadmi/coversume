@@ -312,10 +312,14 @@ export default function Page() {
   const router = useRouter();
   const {
     register,
+    // watch,
+    // getValues,
     // handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-
+  // const watchTos = watch("tos", false); // Watch the Terms of Service checkbox
+  // console.log(watchTos);
+  // console.log(getValues("tos"));
   const initialState: State = { errorMessage: "", message: "" };
   const [state, formAction, pending] = useActionState(signUp, initialState);
   useEffect(() => {
@@ -526,7 +530,7 @@ export default function Page() {
                 )}
               </Label>
             </div>
-            <Button className="w-full" disabled={pending}>
+            <Button className="w-full" disabled={pending} type="submit">
               {pending ? (
                 <div className="flex items-center">
                   <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2"></div>

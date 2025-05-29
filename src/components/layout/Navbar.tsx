@@ -8,6 +8,12 @@ import { Menu, X, FileText, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import SignOutButton from "../sign-out-button";
 import { useSession } from "@/lib/auth/auth-client";
+import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
+import {
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 const Navbar: React.FC = () => {
   // console.log(data, "session in navbar");
@@ -123,6 +129,48 @@ const Navbar: React.FC = () => {
           {/* Auth Buttons or User Menu */}
           <div className="hidden md:flex items-center space-x-4">
             {session !== null ? (
+              // <DropdownMenu>
+              //   <DropdownMenuTrigger>
+              //     <span>{session.user?.name}</span>
+              //     <ChevronDown className="h-4 w-4 ml-1" />
+              //   </DropdownMenuTrigger>
+              //   <DropdownMenuContent>
+              //     <DropdownMenuItem>
+              //       <Link
+              //       href="/dashboard"
+              //       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              //     >
+              //       Dashboard
+              //     </Link>
+              //     </DropdownMenuItem>
+              //     <DropdownMenuItem>
+
+              //     <Link
+              //       href="/generator"
+              //       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              //     >
+              //       Generate Letter
+              //     </Link>
+              //     </DropdownMenuItem>
+              //     <DropdownMenuItem>
+
+              //     <Link
+              //       href="/history"
+              //       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              //     >
+              //       Saved Letters
+              //     </Link>
+              //     </DropdownMenuItem>
+              //     <DropdownMenuItem>
+              //     <Link
+              //       href="/profile"
+              //       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              //     >
+              //       Profile
+              //     </Link>
+              //     </DropdownMenuItem>
+              //   </DropdownMenuContent>
+              // </DropdownMenu>
               <div className="relative group">
                 <button className="btn btn-outline flex items-center space-x-1 pr-8">
                   <span>{session.user?.name}</span>
@@ -158,7 +206,7 @@ const Navbar: React.FC = () => {
                     className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     Sign out
-                  </button> */}
+                  </button>  */}
                   <SignOutButton />
                 </div>
               </div>

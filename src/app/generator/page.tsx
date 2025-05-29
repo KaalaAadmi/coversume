@@ -11,6 +11,8 @@ import {
   CheckCircle,
   ThumbsUp,
   ThumbsDown,
+  Loader2,
+  Save,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { Label } from "@/components/ui/label";
@@ -63,6 +65,15 @@ interface CoverLetterResponse {
   coverLetter: string;
 }
 
+// Define a more detailed type for versions
+interface LetterVersion {
+  id: string;
+  content: string;
+  versionNumber: number;
+  // Add other relevant fields from CoverLetterVersion model if needed
+  // e.g., createdAt, refinementTypeUsed
+}
+
 type Token = string;
 
 const TYPING_ANIMATION_DELAY_MS = 25; // Adjust for typing speed (milliseconds per token)
@@ -92,7 +103,10 @@ const GeneratorPage: React.FC = () => {
   const [activeCoverLetterRootId, setActiveCoverLetterRootId] = useState<
     string | null
   >(null); // New state for rootId
+  const [isSaving, setIsSaving] = useState(false);
+  const [versionId, setVersionId] = useState<string | null>(null); // State to track the version ID being edited
 
+  console.log("SESSION:", session);
   // const [lineAndCursor, setLineAndCursor] = useState<Position | null>(null);
 
   // const getLineAndCursorCallback = useCallback((position: Position) => {
@@ -156,19 +170,35 @@ const GeneratorPage: React.FC = () => {
     } else {
       // When not typing (e.g., after animation is done, or when navigating versions),
       // set the editor's content from the current version in letterVersions.
+      // if (
+      //   currentVersionIndex >= 0 &&
+      //   letterVersions[currentVersionIndex] !== undefined
+      // ) {
+      //   const currentVersionContent = letterVersions[currentVersionIndex];
+      //   setEditableLetter(currentVersionContent);
+      //   // Also, ensure generatedLetter (used for UI conditions like button visibility)
+      //   // reflects the current complete version when not typing.
+      //   setGeneratedLetter(currentVersionContent);
+      // } else if (letterVersions.length === 0 && currentVersionIndex === -1) {
+      //   // If there are no versions (e.g., initial state or after a reset), clear both.
+      //   setEditableLetter("");
+      //   setGeneratedLetter("");
+      // }
       if (
+        letterVersions.length > 0 &&
         currentVersionIndex >= 0 &&
-        letterVersions[currentVersionIndex] !== undefined
+        currentVersionIndex < letterVersions.length
       ) {
-        const currentVersionContent = letterVersions[currentVersionIndex];
-        setEditableLetter(currentVersionContent);
-        // Also, ensure generatedLetter (used for UI conditions like button visibility)
-        // reflects the current complete version when not typing.
-        setGeneratedLetter(currentVersionContent);
-      } else if (letterVersions.length === 0 && currentVersionIndex === -1) {
-        // If there are no versions (e.g., initial state or after a reset), clear both.
+        const currentVersion = letterVersions[currentVersionIndex];
+        if (currentVersion) {
+          setEditableLetter(currentVersion);
+          setGeneratedLetter(currentVersion); // If used for display
+          // setActiveCoverLetterVersionId(currentVersionIndex); // Set the active version ID
+        }
+      } else if (letterVersions.length === 0) {
         setEditableLetter("");
         setGeneratedLetter("");
+        // setActiveCoverLetterVersionId(null);
       }
     }
   }, [generatedLetter, letterVersions, currentVersionIndex, isTyping]); // Add generatedLetter to dependencies
@@ -188,6 +218,9 @@ const GeneratorPage: React.FC = () => {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     console.log("Ready to generate cover letter with data:", data);
+    // console.log("Ready to generate cover letter with data:", data);
+    console.log("SESSION USER ID being sent:", session?.user.id); // <--- ADD THIS LOG
+
     setIsLoading(true);
     setIsTyping(false);
     setGeneratedLetter("");
@@ -202,14 +235,12 @@ const GeneratorPage: React.FC = () => {
     try {
       const { jobDescription, name, email, phone, portfolioUrl, language } =
         data;
-      // TODO: Change the API URL to the production one which has AI and not the dummy one as it is now.
       // const response = await fetch("/api/cover-letter/generate", {
-      const response = await fetch("http://localhost:8000/api/cover-letter", {
+      const response = await fetch("/api/cover-letter/generate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        // TODO: Get the date in user's timezone
 
         body: JSON.stringify({
           date: localDate,
@@ -250,7 +281,7 @@ const GeneratorPage: React.FC = () => {
       setActiveCoverLetterRootId(responseData.rootId); // Store the rootId
       setJobRole(responseData.jobRole);
       setCompany(responseData.company);
-
+      setVersionId(responseData.versionId);
       let fullCoverLetter = responseData.coverLetter || "";
 
       // Pre-process newlines for ReactMarkdown:
@@ -400,29 +431,26 @@ const GeneratorPage: React.FC = () => {
       // TODO: Change the API URL to the production one which has AI and not the dummy one as it is now.
       // const response = await fetch(
       //   "/api/cover-letter/refine",
-      const response = await fetch(
-        "http://localhost:8000/api/cover-letter/refine",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            rootId: activeCoverLetterRootId, // Use the stored rootId
-            date: localDate,
-            refinementType,
-            coverLetter: editableLetter, // Send the current content of the editor
-            resumeText, // Make sure this is up-to-date if it can change
-            jobDescription: watchedJobDescription, // Use watched value from react-hook-form
-            name: getValues("name"),
-            email: getValues("email"),
-            phoneNumber: getValues("phone"),
-            portfolioUrl: getValues("portfolioUrl"),
-            language: getValues("language") || "English",
-            userId: session?.user.id, // Include if your API uses it
-          }),
-        }
-      );
+      const response = await fetch("api/cover-letter/refine", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          rootId: activeCoverLetterRootId, // Use the stored rootId
+          date: localDate,
+          refinementType,
+          coverLetter: editableLetter, // Send the current content of the editor
+          resumeText, // Make sure this is up-to-date if it can change
+          jobDescription: watchedJobDescription, // Use watched value from react-hook-form
+          name: getValues("name"),
+          email: getValues("email"),
+          phoneNumber: getValues("phone"),
+          portfolioUrl: getValues("portfolioUrl"),
+          language: getValues("language") || "English",
+          userId: session?.user.id, // Include if your API uses it
+        }),
+      });
       setIsLoading(false); // Set loading to false after API call
 
       if (!response.ok) {
@@ -491,6 +519,72 @@ const GeneratorPage: React.FC = () => {
     }
   };
 
+  // --- New handleSaveChanges function ---
+  const handleSaveChanges = async () => {
+    const currentVersion = currentVersionIndex + 1;
+    console.log("CURRENT VERSION:", currentVersion);
+    if (!currentVersion || !currentVersion) {
+      toast.error("No active version selected to save changes to.");
+      return;
+    }
+    const versionIdToUpdate = currentVersion;
+
+    if (!editableLetter.trim()) {
+      toast.error("Cannot save empty content.");
+      return;
+    }
+    if (!session?.user?.id) {
+      toast.error("You must be logged in to save changes.");
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      // Note the API endpoint change to include versionId
+      const response = await fetch(
+        `/api/cover-letter/versions/${versionId}?userId=${session.user.id}`,
+        {
+          method: "PUT", // Changed to PUT
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            content: editableLetter, // Send the current content from the editor
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const updatedVersionData: LetterVersion = await response.json();
+        toast.success(
+          `Changes saved successfully to version ${updatedVersionData.versionNumber}!`
+        );
+
+        // Update the specific version in the local state
+        setLetterVersions((prevVersions) =>
+          prevVersions.map((version) =>
+            version === updatedVersionData.id
+              ? updatedVersionData.content // Replace with updated content
+              : version
+          )
+        );
+        // Ensure editableLetter and generatedLetter reflect the saved state if needed
+        setGeneratedLetter(updatedVersionData.content); // If generatedLetter is used for display
+        setEditableLetter(updatedVersionData.content);
+      } else {
+        const errorData = await response
+          .json()
+          .catch(() => ({ message: "Failed to save changes." }));
+        toast.error(errorData.message || "Failed to save changes.");
+      }
+    } catch (error) {
+      console.error("Error saving changes:", error);
+      toast.error("An error occurred while saving changes.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const editorReadOnly = isTyping || isLoading;
   const editorKey = editorReadOnly ? "editor-readonly" : "editor-editable";
 
@@ -554,14 +648,15 @@ const GeneratorPage: React.FC = () => {
                   <p className="text-sm text-gray-500 mt-2">
                     Or paste your resume text below:
                   </p>
+
                   <Textarea
                     id="resume-text"
                     rows={5}
-                    className="mt-1 w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    className="h-[100px] mt-1 w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     placeholder="Paste your resume content here..."
                     value={resumeText}
                     onChange={(e) => setResumeText(e.target.value)}
-                  ></Textarea>
+                  />
                 </div>
 
                 {/* Job Description */}
@@ -575,7 +670,7 @@ const GeneratorPage: React.FC = () => {
                   <Textarea
                     id="job-description"
                     rows={5}
-                    className="overflow-y-scroll w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    className="h-[100px] w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     placeholder="Paste the job description here..."
                     // value={jobDescription}
                     // onChange={(e) => setJobDescription(e.target.value)}
@@ -925,7 +1020,6 @@ const GeneratorPage: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* TODO: Implement the logic for refinement */}
           {/* Right Column - Refinement Panel (Only visible in step 2) */}
           {step === 2 &&
             !isLoading &&
@@ -991,11 +1085,30 @@ const GeneratorPage: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="mt-8 pt-6 border-t border-gray-200">
+                  {/* <div className="mt-8 pt-6 border-t border-gray-200">
                     <button className="btn btn-primary w-full justify-center py-2.5">
                       Save Cover Letter
                     </button>
-                  </div>
+                  </div> */}
+                  <Button
+                    onClick={handleSaveChanges}
+                    disabled={
+                      isLoading ||
+                      isTyping ||
+                      isSaving ||
+                      currentVersionIndex === -1 ||
+                      !editableLetter.trim()
+                    }
+                    variant="default"
+                    className="w-full justify-start"
+                  >
+                    {isSaving ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <Save className="mr-2 h-4 w-4" />
+                    )}
+                    Save Changes
+                  </Button>
                 </div>
               </motion.div>
             )}

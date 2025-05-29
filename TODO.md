@@ -1,12 +1,12 @@
+- Connect Stripe
+- Create logo
+- Remove Commented Code
 - ~~Make private routes for generator, profile, history, dashboard~~
 - ~~Make cards use shadcn components in /generator page~~
 - ~~Make contact form functional~~
 - ~~Make blog dynamic~~
 - ~~Add sentry~~
 - ~~Add sentry `report a bug`~~
-- Connect Stripe
-- Create logo
-- Remove Commented Code
 - ~~Fix img in testimonials to Image from next/image~~
 - ~~Make testimonials be a marquee like in weebwear~~
 - ~~Modify code to use App Router~~
@@ -74,14 +74,35 @@ GENERATOR:
 
 - ~~Make markdown editable~~
 - ~~Download resume~~
-- Refinement
+- ~~Refinement~~
   - ~~Frontend~~
   - ~~API~~
-- Save letter
+- ~~Save letter - happens automatically~~
 - ~~versioning of cover letter~~
+- ThumbsUp button should do something, if not remove it
+- ThumbsDown button should do something if not remove it
+- Copy and download button should also open up a modal asking the user: "Did you apply for the job?" if the user is a pro user.
 
 - Update the monthlyCountLastReset in /subscribe endpoint that will be used for becoming pro member.
 
-- View page for the cover letter
+- ~~View page for the cover letter~~
 
-TEST:
+- ~~Dashboard~~
+  - ~~Frontend~~
+  - ~~API~~
+
+endpoint for application tracker.
+display application tracker most recent in dashboard
+add see more in dashboard for application tracker
+create page for application tracker
+~~display the versions in history beside every row in generated cover letters~~
+
+~~create page for history with full list of all the generated cover letters and versions~~
+
+Add a create blog post page
+
+- **Make the register button disabled if the tos are not accepted.**
+
+- **Upon deleting a coverletter, the count for the month gets reduced, this should not happen.** --> Check and confirm, apparrently this is not happening.
+
+  TEST:

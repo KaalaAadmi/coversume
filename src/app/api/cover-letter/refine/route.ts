@@ -115,6 +115,10 @@ export async function POST(req: NextRequest) {
   const existingRoot = await prisma.coverLetterRoot.findUnique({
     where: { id: rootId },
     include: {
+      versions: {
+        orderBy: { versionNumber: "desc" }, // Get versions ordered by version number
+        select: { id: true, versionNumber: true }, // Only select necessary fields
+      },
       _count: {
         select: { versions: true },
       },
@@ -128,7 +132,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const nextVersionNumber = existingRoot._count.versions + 1;
+  const nextVersionNumber = existingRoot.versions.length + 1;
 
   const prompt = `You are an expert recruitment copywriter and editor.
 

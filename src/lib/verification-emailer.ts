@@ -48,8 +48,8 @@ export const verificationSendEmail = async ({
       .catch((err) => {
         console.log(err.statusCode);
       });
-    console.log("Email sent successfully");
-    console.log(request);
+    // console.log("Email sent successfully");
+    // console.log(request);
   } catch (error) {
     console.error("Error sending email:", error);
     throw new Error("Failed to send email");

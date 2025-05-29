@@ -21,6 +21,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
+import { useSession } from "@/lib/auth/auth-client";
 
 type ProfileData = {
   name: string;
@@ -45,7 +46,7 @@ const ProfilePage: React.FC = () => {
   // const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
-
+  const { data: session } = useSession();
   useEffect(() => {
     document.title = "Profile - CoverSumé";
     window.scrollTo(0, 0);
@@ -145,7 +146,12 @@ const ProfilePage: React.FC = () => {
                 >
                   <div className="space-y-3">
                     <Label htmlFor="name">Full Name</Label>
-                    <Input type="text" id="name" {...registerProfile("name")} />
+                    <Input
+                      defaultValue={session?.user?.name}
+                      type="text"
+                      id="name"
+                      {...registerProfile("name")}
+                    />
                     {/* <div className="flex items-center space-x-2">
                         <User className="h-5 w-5 text-gray-400" />
                       </div> */}
@@ -157,6 +163,8 @@ const ProfilePage: React.FC = () => {
                     <Input
                       type="email"
                       id="email"
+                      defaultValue={session?.user?.email}
+                      disabled
                       {...registerProfile("email")}
                     />
                     {errorsProfile.email && <span>This field is required</span>}

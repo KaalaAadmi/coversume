@@ -22,13 +22,13 @@ model User {
   image                    String?
   createdAt                DateTime
   updatedAt                DateTime
+  isPro                    Boolean
+  coverLetterCountPerMonth Int
+  monthlyCountLastReset    DateTime?
+  coverLetterCount         Int
   sessions                 Session[]
   accounts                 Account[]
-  isPro                    Boolean           @default(false)
-  coverLetterRoots         CoverLetterRoot[] // Relation to the user's cover letter roots
-  coverLetterCount         Int               @default(0) // Total count since beginning
-  coverLetterCountPerMonth Int               @default(0) // Count for the current month
-  monthlyCountLastReset    DateTime? // Timestamp of when coverLetterCountPerMonth was last reset
+  CoverLetterRoot          CoverLetterRoot[]
 
   @@unique([email])
   @@map("user")
@@ -80,9 +80,10 @@ model Verification {
 }
 
 // Represents a single "cover letter generation instance" which can have multiple versions
+
 model CoverLetterRoot {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String?  @db.ObjectId // Link to the user who created it
+  userId    String?
   user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt // Tracks the last update to this root or its versions
@@ -107,9 +108,10 @@ model CoverLetterRoot {
 }
 
 // Represents a specific version of a cover letter
+
 model CoverLetterVersion {
   id     String          @id @default(auto()) @map("_id") @db.ObjectId
-  rootId String          @db.ObjectId // Foreign key to CoverLetterRoot
+  rootId String
   root   CoverLetterRoot @relation(fields: [rootId], references: [id], onDelete: Cascade)
 
   content            String // The actual HTML/markdown content of this version

@@ -122,9 +122,9 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   isPro: 'isPro',
-  coverLetterCount: 'coverLetterCount',
   coverLetterCountPerMonth: 'coverLetterCountPerMonth',
-  monthlyCountLastReset: 'monthlyCountLastReset'
+  monthlyCountLastReset: 'monthlyCountLastReset',
+  coverLetterCount: 'coverLetterCount'
 };
 
 exports.Prisma.SessionScalarFieldEnum = {
