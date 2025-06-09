@@ -110,4 +110,32 @@ Application Tracker(Later):
 
 - **Upon deleting a coverletter, the count for the month gets reduced, this should not happen.** --> Check and confirm, apparrently this is not happening.
 
+- upgrade to pro button in dashboard needs to go to pricing page
+
   TEST:
+
+Resume generator:
+
+- use shadcn card component for the left column
+- ~~portfolio doesn't show up in preview~~
+- ~~summary is optional as it should be and doesn't show up in preview~~
+- ~~resume details and `update preview` button should be fixed to top and be always visible in the left column~~
+- ~~education should be before work in the left column as it is in the preview~~
+- ~~labels in education entry~~
+- ~~location doesn't show up in preview~~
+- ~~dates should be in the format MMM YYYY, meaning, if the user enters the date as June 2020, it should display as Jun 2020~~
+- ~~no grade field in left column~~
+- ~~relavant course work doesn't show up in preview~~
+- ~~if multiple education is added, then the order of the education in preview and the final file should be in descending order by the date~~
+- ~~the delete buttons for every field is not is correct position~~
+- ~~for key resp & achievements, there should be instruction to tell user to use new lines for next bullet point~~
+- if a bullet point content length is more than what can be fit in a line, the formatting of the continuation is a bit haywire and starts from the begining of the line.
+- ~~labels for work experience~~
+- ~~if multiple experience is added, then the order of the experience in preview and the final file should be in descending order by the date~~
+- ~~skills doesn't show up on preview~~
+- ~~projects don't show up in preview~~
+- ~~labels for project~~
+- page break should be mentioned in preview to let the user know that the length of the content is longer than 1 page
+- ~~Activities and leadership section is missing~~
+- Add `Generate` button
+- set values which are generated with ai and update preview
